@@ -197,7 +197,7 @@ class button(): #버튼객체
 test_cloud_image = 'assets/images/cloud.png'
 test_cloud_button = button(board_width,board_height, 0.12, 0.55, 0.235, 0.435, test_cloud_image)
 
-background_image = 'assets/images/earth.jpg'
+background_image = 'assets/images/background_image.png'
 '''    
     #버튼객체 생성 class Button에서 확인
 #def __init__(self, board_width, board_height, x_rate, y_rate, width_rate, height_rate, img='')
