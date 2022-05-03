@@ -17,6 +17,8 @@ framerate = 30 # Bigger -> Slower
 board_width = 800  # 전체 창의 가로 길이
 board_height = 450 # 전체 창의 세로 길이
 
+total_time = 60 # 타임 어택 시간
+
 pygame.init()
 
 clock = pygame.time.Clock()
@@ -287,6 +289,7 @@ def draw_block(x, y, color):
 # Draw game screen
 def draw_board(next, hold, score, level, goal):
     screen.fill(ui_variables.grey_1)
+    sidebar_width = int(board_width * 0.5312) #크기 비율 고정, 전체 board 가로길이에서 원하는 비율을 곱해줌#
 
     # Draw sidebar
     pygame.draw.rect(
@@ -337,6 +340,10 @@ def draw_board(next, hold, score, level, goal):
     level_value = ui_variables.h4.render(str(level), 1, ui_variables.black)
     text_goal = ui_variables.h5.render("GOAL", 1, ui_variables.black)
     goal_value = ui_variables.h4.render(str(goal), 1, ui_variables.black)
+    if time_attack:
+            time = total_time - elapsed_time
+            value = ui_variables.h5.render("TIME : "+str(int(time)), 1, ui_variables.real_white)
+            screen.blit(value, (int(board_width * -0.445) + sidebar_width, int(board_height * 0.015))) #각각 전체 board 가로길이, 세로길이에 대한 원하는 비율을 곱해줌#
 
     # Place texts
     screen.blit(text_hold, (215, 14))
@@ -616,6 +623,8 @@ while not done:
 
     # Game screen
     elif start:
+        if time_attack:
+            elapsed_time = (pygame.time.get_ticks() - start_ticks) / 1000 # 경과 시간 계산
         for event in pygame.event.get():
             pos = pygame.mouse.get_pos()
             if event.type == QUIT:
@@ -806,6 +815,13 @@ while not done:
                         dx += 1
                     draw_mino(dx, dy, mino, rotation)
                     draw_board(next_mino1, hold_mino, score, level, goal)
+        if time_attack and total_time - elapsed_time < 0: #타임어택 모드이면서, 60초가 지났으면
+            ui_variables.GameOver_sound.play()
+            start = False
+            game_status = 'start'
+            game_over = True
+            time_attack = False
+            pygame.time.set_timer(pygame.USEREVENT, 1)
 
         pygame.display.update()
 
@@ -849,6 +865,7 @@ while not done:
                     blink = True
 
                 pygame.display.update()
+
             elif event.type == KEYDOWN:
                 if event.key == K_RETURN:
                     ui_variables.click_sound.play()
