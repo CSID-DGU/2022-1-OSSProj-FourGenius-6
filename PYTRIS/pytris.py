@@ -1,6 +1,7 @@
 # -*-coding:utf-8-*-
 # PYTRIS™ Copyright (c) 2017 Jason Kim All Rights Reserved.
 
+from contextlib import nullcontext
 import pygame
 import operator
 from mino import *
@@ -56,10 +57,14 @@ class ui_variables:
 
     # Background colors
     black = (10, 10, 10) #rgb(10, 10, 10)
-    white = (255, 255, 255) #rgb(255, 255, 255)
+    black_pause = (0, 0, 0, 127)
+    real_white = (255, 255, 255) #rgb(255, 255, 255)
+    white = (211, 211, 211) #rgb(211, 211, 211) ##연회색
     grey_1 = (26, 26, 26) #rgb(26, 26, 26)
     grey_2 = (35, 35, 35) #rgb(35, 35, 35)
     grey_3 = (55, 55, 55) #rgb(55, 55, 55)
+
+    
 
     # Tetrimino colors
     cyan = (69, 206, 204) #rgb(69, 206, 204) # I
@@ -72,10 +77,16 @@ class ui_variables:
 
     t_color = [grey_2, cyan, blue, orange, yellow, green, pink, red, grey_3]
 
-'''
+
 #각 이미지 주소
+background_image = 'assets/images/background_image.png' #메뉴화면(첫 화면) 배경
+gamebackground_image_nyc = 'assets/images/background_nyc.png' #게임 배경화면 : 기본값 뉴욕
+setting_button_image = 'assets/vector/settings_button.png'
+pause_board_image = 'assets/vector/pause_board.png'
+
+'''
 background_image = 'assets/vector/kingdom.jpg' #홈 배경화면
-gamebackground_image = 'assets/vector/snowymountains.png' #게임 배경화면
+
 
 single_button_image = 'assets/images/cloud.png'
 clicked_single_button_image = 'assets/vector/clicked_single_button.png'
@@ -101,7 +112,6 @@ clicked_leaderboard_vector = 'assets/vector/clicked_leaderboard_vector.png'
 setting_vector = 'assets/vector/setting_vector.png'
 clicked_setting_vector = 'assets/vector/clicked_setting_vector.png'
 
-pause_board_image = 'assets/vector/pause_board.png'
 leader_board_image = 'assets/vector/leader_board.png'
 setting_board_image = 'assets/vector/setting_board.png'
 gameover_board_image = 'assets/vector/gameover_board.png'
@@ -122,7 +132,7 @@ clicked_resume_button_image = 'assets/vector/clicked_resume_button.png'
 restart_button_image = 'assets/vector/restart_button.png'
 clicked_restart_button_image = 'assets/vector/clicked_restart_button.png'
 
-setting_button_image = 'assets/vector/setting_button.png'
+
 clicked_setting_button_image = 'assets/vector/clicked_setting_button.png'
 
 back_button_image = 'assets/vector/back_button.png'
@@ -197,7 +207,7 @@ class button(): #버튼객체
 test_cloud_image = 'assets/images/cloud.png'
 test_cloud_button = button(board_width,board_height, 0.12, 0.55, 0.235, 0.435, test_cloud_image)
 
-background_image = 'assets/images/background_image.png'
+setting_button = button(board_width, board_height, 0.5, 0.63, 0.15, 0.35, setting_button_image)
 '''    
     #버튼객체 생성 class Button에서 확인
 #def __init__(self, board_width, board_height, x_rate, y_rate, width_rate, height_rate, img='')
@@ -217,7 +227,7 @@ leaderboard_icon = button(board_width, board_height, 0.77, 0.85, 0.15, 0.2, lead
 
 resume_button = button(board_width, board_height, 0.5, 0.23, 0.15, 0.35, resume_button_image)
 restart_button = button(board_width, board_height, 0.5, 0.43, 0.15, 0.35, restart_button_image)
-setting_button = button(board_width, board_height, 0.5, 0.63, 0.15, 0.35, setting_button_image)
+
 pause_quit_button = button(board_width, board_height, 0.5, 0.83, 0.15, 0.35, quit_button_image)
 
 back_button = button(board_width, board_height, 0.5, 0.85, 0.15, 0.35, back_button_image)
@@ -285,7 +295,7 @@ def draw_block(x, y, color):
     )
 
 # Draw game screen
-def draw_board(next, hold, score, level, goal):
+def draw_board(next, next2, hold, score, level, goal):
     screen.fill(ui_variables.grey_1)
 
     # Draw sidebar
@@ -354,6 +364,10 @@ def draw_board(next, hold, score, level, goal):
             dx = 17 + block_size * x
             dy = 17 + block_size * y
             draw_block(dx, dy, ui_variables.t_color[matrix[x][y + 1]])
+
+def draw_multiboard():
+    screen.fill(ui_variables.real_white)
+    # 22.05.04 pause화면 구현 위해 임시로 작성했습니다.
 
 # Draw a tetrimino
 def draw_mino(x, y, mino, r):
@@ -590,29 +604,93 @@ pygame.time.set_timer(pygame.USEREVENT, 10)
 while not done:
     # Pause screen
     if pause:
+        
+        if start:
+            screen.fill(ui_variables.real_white)
+            draw_image(screen, gamebackground_image_nyc , board_width * 0.5, board_height * 0.5, board_width, board_height) #(window, 이미지주소, x좌표, y좌표, 너비, 높이)
+            draw_board(next_mino1, next_mino2, hold_mino, score, level, goal)
+            #화면 회색으로 약간 불투명하게
+            pause_surface = screen.convert_alpha() #투명 가능하도록
+            pause_surface.fill((0, 0, 0, 0))  #투명한 검정색으로 덮기
+            pygame.draw.rect(pause_surface, (ui_variables.black_pause), [0, 0, int(board_width), int(board_height)])  #(screen, 색깔, 위치 x, y좌표, 너비, 높이)
+            screen.blit(pause_surface, (0, 0))
+
+        if pvp:
+            draw_multiboard(next_mino1, hold_mino, next_mino1_2P, hold_mino_2P, score, score_2P, level, level_2P, goal, goal_2P)
+            #화면 회색으로 약간 불투명하게
+            pause_surface = screen.convert_alpha() #투명 가능하도록
+            pause_surface.fill((0, 0, 0, 0)) #투명한 검정색으로 덮기
+            pygame.draw.rect(pause_surface, (ui_variables.black_pause), [0, 0, int(board_width), int(board_height)])  #(screen, 색깔, 위치 x, y좌표, 너비, 높이)
+            screen.blit(pause_surface, (0, 0))
+
+        draw_image(screen, pause_board_image, board_width * 0.5, board_height * 0.5, int(board_height * 0.7428), board_height) #(window, 이미지주소, x좌표, y좌표, 너비, 높이)
+        #resume_button.draw(screen, (0, 0, 0)) #rgb(0,0,0) = 검정색
+        #restart_button.draw(screen, (0, 0, 0))
+        setting_button.draw(screen, (0, 0, 0))
+        #pause_quit_button.draw(screen, (0, 0, 0))
+        
         for event in pygame.event.get():
             if event.type == QUIT:
                 done = True
+
             elif event.type == USEREVENT:
                 pygame.time.set_timer(pygame.USEREVENT, 300)
-                draw_board(next_mino1, hold_mino, score, level, goal)
-
-                pause_text = ui_variables.h2_b.render("PAUSED", 1, ui_variables.white)
-                pause_start = ui_variables.h5.render("Press esc to continue", 1, ui_variables.white)
-
-                screen.blit(pause_text, (43, 100))
-                if blink:
-                    screen.blit(pause_start, (40, 160))
-                    blink = False
-                else:
-                    blink = True
                 pygame.display.update()
             elif event.type == KEYDOWN:
                 erase_mino(dx, dy, mino, rotation)
                 if event.key == K_ESCAPE:
                     pause = False
                     ui_variables.click_sound.play()
+                    #pygame.mixer.music.unpause()
                     pygame.time.set_timer(pygame.USEREVENT, 1)
+                  
+            # elif event.type == pygame.MOUSEMOTION:
+            #     if resume_button.isOver_2(pos):
+            #         resume_button.image = clicked_resume_button_image
+            #     else:
+            #         resume_button.image = resume_button_image
+
+            #     if restart_button.isOver_2(pos):
+            #         restart_button.image = clicked_restart_button_image
+            #     else:
+            #         restart_button.image = restart_button_image
+
+            #     if setting_button.isOver_2(pos):
+            #         setting_button.image = clicked_setting_button_image
+            #     else:
+            #         setting_button.image = setting_button_image
+            #     if pause_quit_button.isOver_2(pos):
+            #         pause_quit_button.image = clicked_quit_button_image
+            #     else:
+            #         pause_quit_button.image = quit_button_image
+            #     pygame.display.update()
+            
+
+            elif event.type == pygame.MOUSEBUTTONDOWN:
+                '''
+                if pause_quit_button.isOver_2(pos):
+                   ui_variables.click_sound.play()
+                   done = True
+                '''
+                if setting_button.isOver_2(pos):
+                    ui_variables.click_sound.play()
+                    setting = True
+                '''
+                if restart_button.isOver_2(pos):
+                    ui_variables.click_sound.play()
+
+                    pause = False
+                    start = False
+
+                    if pvp:
+                        pvp = False
+                
+                if resume_button.isOver_2(pos):
+                    pygame.mixer.music.unpause()
+                    pause = False
+                    ui_variables.click_sound.play()
+                    pygame.time.set_timer(pygame.USEREVENT, 1) #0.001초
+                '''
 
     # Game screen
     elif start:
@@ -631,7 +709,7 @@ while not done:
 
                 # Draw a mino
                 draw_mino(dx, dy, mino, rotation)
-                draw_board(next_mino1, hold_mino, score, level, goal)
+                draw_board(next_mino1, next_mino2, hold_mino, score, level, goal)
 
                 # Erase a mino
                 if not game_over:
@@ -648,7 +726,7 @@ while not done:
                         bottom_count = 0
                         score += 10 * level
                         draw_mino(dx, dy, mino, rotation)
-                        draw_board(next_mino1, hold_mino, score, level, goal)
+                        draw_board(next_mino1, next_mino2, hold_mino, score, level, goal)
                         if is_stackable(next_mino1):
                             mino = next_mino1
                             next_mino1 = randint(1, 7)
@@ -709,7 +787,7 @@ while not done:
                     hard_drop = True
                     pygame.time.set_timer(pygame.USEREVENT, 1)
                     draw_mino(dx, dy, mino, rotation)
-                    draw_board(next_mino1, hold_mino, score, level, goal)
+                    draw_board(next_mino1, next_mino2, hold_mino, score, level, goal)
                 # Hold
                 elif event.key == K_LSHIFT or event.key == K_c:
                     if hold == False:
@@ -724,7 +802,7 @@ while not done:
                         rotation = 0
                         hold = True
                     draw_mino(dx, dy, mino, rotation)
-                    draw_board(next_mino1, hold_mino, score, level, goal)
+                    draw_board(next_mino1, next_mino2, hold_mino, score, level, goal)
                 # Turn right
                 elif event.key == K_UP or event.key == K_x:
                     if is_turnable_r(dx, dy, mino, rotation):
@@ -758,7 +836,7 @@ while not done:
                     if rotation == 4:
                         rotation = 0
                     draw_mino(dx, dy, mino, rotation)
-                    draw_board(next_mino1, hold_mino, score, level, goal)
+                    draw_board(next_mino1, next_mino2, hold_mino, score, level, goal)
                 # Turn left
                 elif event.key == K_z or event.key == K_LCTRL:
                     if is_turnable_l(dx, dy, mino, rotation):
@@ -791,21 +869,21 @@ while not done:
                     if rotation == -1:
                         rotation = 3
                     draw_mino(dx, dy, mino, rotation)
-                    draw_board(next_mino1, hold_mino, score, level, goal)
+                    draw_board(next_mino1, next_mino2, hold_mino, score, level, goal)
                 # Move left
                 elif event.key == K_LEFT:
                     if not is_leftedge(dx, dy, mino, rotation):
                         ui_variables.move_sound.play()
                         dx -= 1
                     draw_mino(dx, dy, mino, rotation)
-                    draw_board(next_mino1, hold_mino, score, level, goal)
+                    draw_board(next_mino1, next_mino2, hold_mino, score, level, goal)
                 # Move right
                 elif event.key == K_RIGHT:
                     if not is_rightedge(dx, dy, mino, rotation):
                         ui_variables.move_sound.play()
                         dx += 1
                     draw_mino(dx, dy, mino, rotation)
-                    draw_board(next_mino1, hold_mino, score, level, goal)
+                    draw_board(next_mino1, next_mino2, hold_mino, score, level, goal)
 
         pygame.display.update()
 
@@ -820,7 +898,7 @@ while not done:
                 over_text_2 = ui_variables.h2_b.render("OVER", 1, ui_variables.white)
                 over_start = ui_variables.h5.render("Press return to continue", 1, ui_variables.white)
 
-                draw_board(next_mino1, hold_mino, score, level, goal)
+                draw_board(next_mino1, next_mino2, hold_mino, score, level, goal)
                 screen.blit(over_text_1, (58, 75))
                 screen.blit(over_text_2, (62, 105))
 
