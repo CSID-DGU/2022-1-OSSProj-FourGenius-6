@@ -1,6 +1,7 @@
 # -*-coding:utf-8-*-
 # PYTRIS™ Copyright (c) 2017 Jason Kim All Rights Reserved.
 
+from contextlib import nullcontext
 import pygame
 import operator
 from mino import *
@@ -60,10 +61,14 @@ class ui_variables:
 
     # Background colors
     black = (10, 10, 10) #rgb(10, 10, 10)
-    white = (255, 255, 255) #rgb(255, 255, 255)
+    black_pause = (0, 0, 0, 127)
+    real_white = (255, 255, 255) #rgb(255, 255, 255)
+    white = (211, 211, 211) #rgb(211, 211, 211) ##연회색
     grey_1 = (26, 26, 26) #rgb(26, 26, 26)
     grey_2 = (35, 35, 35) #rgb(35, 35, 35)
     grey_3 = (55, 55, 55) #rgb(55, 55, 55)
+
+    
 
     # Tetrimino colors
     cyan = (69, 206, 204) #rgb(69, 206, 204) # I
@@ -76,37 +81,66 @@ class ui_variables:
 
     t_color = [grey_2, cyan, blue, orange, yellow, green, pink, red, grey_3]
 
-'''
+
 #각 이미지 주소
-background_image = 'assets/vector/kingdom.jpg' #홈 배경화면
-gamebackground_image = 'assets/vector/snowymountains.png' #게임 배경화면
+background_image = 'assets/images/background_image.png' #메뉴화면(첫 화면) 배경
+gamebackground_image_nyc = 'assets/images/background_nyc.png' #게임 배경화면 : 기본값 뉴욕
+pause_board_image = 'assets/vector/pause_board.png'
 
-single_button_image = 'assets/images/cloud.png'
-clicked_single_button_image = 'assets/vector/clicked_single_button.png'
+select_mode_button_image = 'assets/vector/select_mode_button.png'
+clicked_select_mode_button_image = 'assets/vector/clicked_select_mode_button.png'
 
-pvp_button_image = 'assets/vector/pvp_button.png'
-clicked_pvp_button_image = 'assets/vector/clicked_pvp_button.png'
+setting_button_image = 'assets/vector/settings_button.png'
+clicked_setting_button_image = 'assets/vector/clicked_settings_button.png'
 
-help_button_image = 'assets/vector/help_button.png'
-clicked_help_button_image = 'assets/vector/clicked_help_button.png'
+score_board_button_image = 'assets/vector/score_board_button.png'
+clicked_score_board_button_image = 'assets/vector/clicked_score_board_button.png'
 
 quit_button_image = 'assets/vector/quit_button.png'
 clicked_quit_button_image = 'assets/vector/clicked_quit_button.png'
 
+
+single_button_image = 'assets/vector/easy_button.png'
+clicked_single_button_image = 'assets/vector/clicked_easy_button.png'
+
+hard_button_image = 'assets/vector/hard_button.png'
+clicked_hard_button_image = 'assets/vector/clicked_hard_button.png'
+
+pvp_button_image = 'assets/vector/multi_button.png'
+clicked_pvp_button_image = 'assets/vector/clicked_multi_button.png'
+
+
+hard_tutorial_button_image = 'assets/vector/hard_tutorial_button.png'
+clicked_hard_tutorial_button_image = 'assets/vector/clicked_hard_tutorial_button.png'
+
+multi_tutorial_button_image = 'assets/vector/multi_tutorial_button.png'
+clicked_multi_tutorial_button_image = 'assets/vector/clicked_multi_tutorial_button.png'
+
+
+'''
+
+
+
+
+
+
+
+help_button_image = 'assets/vector/help_button.png'
+clicked_help_button_image = 'assets/vector/clicked_help_button.png'
+
+
+
 gravity_button_image = 'assets/vector/gravity_button.png'
 clicked_gravity_button_image = 'assets/vector/clicked_gravity_button.png'
 
-timeattack_button_image = 'assets/vector/timeattack_button.png'
-clicked_timeattack_button_image = 'assets/vector/clicked_timeattack_button.png'
 
-leaderboard_vector = 'assets/vector/leaderboard_vector.png'
-clicked_leaderboard_vector = 'assets/vector/clicked_leaderboard_vector.png'
+
+
 
 setting_vector = 'assets/vector/setting_vector.png'
 clicked_setting_vector = 'assets/vector/clicked_setting_vector.png'
 
-pause_board_image = 'assets/vector/pause_board.png'
-leader_board_image = 'assets/vector/leader_board.png'
+
 setting_board_image = 'assets/vector/setting_board.png'
 gameover_board_image = 'assets/vector/gameover_board.png'
 gameover_image = 'assets/vector/gameover.png'
@@ -126,8 +160,8 @@ clicked_resume_button_image = 'assets/vector/clicked_resume_button.png'
 restart_button_image = 'assets/vector/restart_button.png'
 clicked_restart_button_image = 'assets/vector/clicked_restart_button.png'
 
-setting_button_image = 'assets/vector/setting_button.png'
-clicked_setting_button_image = 'assets/vector/clicked_setting_button.png'
+
+
 
 back_button_image = 'assets/vector/back_button.png'
 clicked_back_button_image = 'assets/vector/clicked_back_button.png'
@@ -197,11 +231,20 @@ class button(): #버튼객체
                 return True
         return False
 
-# 메뉴 버튼 테스트용 (임시)
-test_cloud_image = 'assets/images/cloud.png'
-test_cloud_button = button(board_width,board_height, 0.12, 0.55, 0.235, 0.435, test_cloud_image)
+# 메뉴 버튼 테스트용
 
-background_image = 'assets/images/background_image.png'
+select_mode_button = button(board_width, board_height, 0.2, 0.2, 0.22, 0.2, select_mode_button_image)
+setting_button = button(board_width, board_height, 0.2, 0.8, 0.22, 0.2, setting_button_image)
+quit_button = button(board_width, board_height, 0.8, 0.8, 0.22, 0.2, quit_button_image)
+score_board_button = button(board_width, board_height, 0.8, 0.2, 0.22, 0.2, score_board_button_image)
+
+single_button = button(board_width,board_height, 0.3, 0.55, 0.235, 0.435, single_button_image)
+hard_button = button(board_width, board_height, 0.5, 0.55, 0.235, 0.435, hard_button_image)
+pvp_button = button(board_width, board_height, 0.7, 0.55, 0.235, 0.435, pvp_button_image)
+
+pause_quit_button = button(board_width, board_height, 0.5, 0.83, 0.17, 0.2, quit_button_image)
+pause_setting_button = button(board_width, board_height, 0.5, 0.63, 0.17, 0.2, setting_button_image)
+
 '''    
     #버튼객체 생성 class Button에서 확인
 #def __init__(self, board_width, board_height, x_rate, y_rate, width_rate, height_rate, img='')
@@ -210,10 +253,9 @@ background_image = 'assets/images/background_image.png'
 mute_button = button(board_width, board_height, 0.5, 0.27, 0.25, 0.45, mute_button_image)
 default_button = button(board_width, board_height, 0.5, 0.27, 0.25, 0.45, default_button_image)
 
-single_button = button(board_width,board_height, 0.12, 0.55, 0.235, 0.435, single_button_image)
-pvp_button = button(board_width, board_height, 0.35, 0.55, 0.235, 0.435, pvp_button_image)
+
 help_button = button(board_width, board_height, 0.12, 0.8, 0.235, 0.435, help_button_image)
-quit_button = button(board_width, board_height, 0.35, 0.8, 0.235, 0.435, quit_button_image)
+
 gravity_button = button(board_width, board_height, 0.58, 0.55, 0.235, 0.435, gravity_button_image)
 timeattack_button = button(board_width, board_height, 0.58, 0.8, 0.235, 0.435, timeattack_button_image)
 setting_icon = button(board_width, board_height, 0.9, 0.85, 0.10, 0.15, setting_vector)
@@ -221,8 +263,8 @@ leaderboard_icon = button(board_width, board_height, 0.77, 0.85, 0.15, 0.2, lead
 
 resume_button = button(board_width, board_height, 0.5, 0.23, 0.15, 0.35, resume_button_image)
 restart_button = button(board_width, board_height, 0.5, 0.43, 0.15, 0.35, restart_button_image)
-setting_button = button(board_width, board_height, 0.5, 0.63, 0.15, 0.35, setting_button_image)
-pause_quit_button = button(board_width, board_height, 0.5, 0.83, 0.15, 0.35, quit_button_image)
+
+
 
 back_button = button(board_width, board_height, 0.5, 0.85, 0.15, 0.35, back_button_image)
 volume_icon = button(board_width, board_height, 0.4, 0.5, 0.12, 0.23, volume_vector)
@@ -289,7 +331,7 @@ def draw_block(x, y, color):
     )
 
 # Draw game screen
-def draw_board(next, hold, score, level, goal):
+def draw_board(next, next2, hold, score, level, goal):
     screen.fill(ui_variables.grey_1)
     sidebar_width = int(board_width * 0.5312) #크기 비율 고정, 전체 board 가로길이에서 원하는 비율을 곱해줌#
 
@@ -363,6 +405,10 @@ def draw_board(next, hold, score, level, goal):
             dx = 17 + block_size * x
             dy = 17 + block_size * y
             draw_block(dx, dy, ui_variables.t_color[matrix[x][y + 1]])
+
+def draw_multiboard():
+    screen.fill(ui_variables.real_white)
+    # 22.05.04 pause화면 구현 위해 임시로 작성했습니다.
 
 # Draw a tetrimino
 def draw_mino(x, y, mino, r):
@@ -490,7 +536,7 @@ def is_stackable(mino):
 
 # Initial values
 def set_initial_values():
-    global combo_count, combo_count_2P, score, level, goal, score_2P, level_2P, goal_2P, bottom_count, bottom_count_2P, hard_drop, hard_drop_2P, attack_point, attack_point_2P, dx, dy, dx_2P, dy_2P, rotation, rotation_2P, mino, mino_2P, next_mino1, next_mino2, next_mino1_2P, hold, hold_2P, hold_mino, hold_mino_2P, framerate, framerate_2P, matrix, matrix_2P, Change_RATE, blink, start, pause, done, game_over, leader_board, setting, volume_setting, screen_setting, pvp, help, gravity_mode, debug, d, e, b, u, g, time_attack, start_ticks, textsize, CHANNELS, swidth, name_location, name, previous_time, current_time, pause_time, lines, leaders, volume, game_status, framerate_blockmove, framerate_2P_blockmove, game_speed, game_speed_2P
+    global combo_count, combo_count_2P, score, level, goal, score_2P, level_2P, goal_2P, bottom_count, bottom_count_2P, hard_drop, hard_drop_2P, attack_point, attack_point_2P, dx, dy, dx_2P, dy_2P, rotation, rotation_2P, mino, mino_2P, next_mino1, next_mino2, next_mino1_2P, hold, hold_2P, hold_mino, hold_mino_2P, framerate, framerate_2P, matrix, matrix_2P, Change_RATE, blink, start, pause, done, game_over, leader_board, setting, volume_setting, screen_setting, pvp, help, gravity_mode, debug, d, e, b, u, g, time_attack, start_ticks, textsize, CHANNELS, swidth, name_location, name, previous_time, current_time, pause_time, lines, leaders, volume, game_status, framerate_blockmove, framerate_2P_blockmove, game_speed, game_speed_2P, select_mode
     framerate = 30 # Bigger -> Slower  기본 블록 하강 속도, 2도 할만 함, 0 또는 음수 이상이어야 함
     framerate_blockmove = framerate * 3 # 블록 이동 시 속도
     game_speed = framerate * 20 # 게임 기본 속도
@@ -510,6 +556,7 @@ def set_initial_values():
     screen_setting = False
     pvp = False
     help = False
+    select_mode = False
     gravity_mode = False #이 코드가 없으면 중력모드 게임을 했다가 Restart해서 일반모드로 갈때 중력모드로 게임이 진행됨#
     debug = False
     d = False
@@ -599,29 +646,94 @@ pygame.time.set_timer(pygame.USEREVENT, 10)
 while not done:
     # Pause screen
     if pause:
+        
+        if start:
+            screen.fill(ui_variables.real_white)
+            draw_image(screen, gamebackground_image_nyc , board_width * 0.5, board_height * 0.5, board_width, board_height) #(window, 이미지주소, x좌표, y좌표, 너비, 높이)
+            draw_board(next_mino1, next_mino2, hold_mino, score, level, goal)
+            #화면 회색으로 약간 불투명하게
+            pause_surface = screen.convert_alpha() #투명 가능하도록
+            pause_surface.fill((0, 0, 0, 0))  #투명한 검정색으로 덮기
+            pygame.draw.rect(pause_surface, (ui_variables.black_pause), [0, 0, int(board_width), int(board_height)])  #(screen, 색깔, 위치 x, y좌표, 너비, 높이)
+            screen.blit(pause_surface, (0, 0))
+
+        if pvp:
+            draw_multiboard(next_mino1, hold_mino, next_mino1_2P, hold_mino_2P, score, score_2P, level, level_2P, goal, goal_2P)
+            #화면 회색으로 약간 불투명하게
+            pause_surface = screen.convert_alpha() #투명 가능하도록
+            pause_surface.fill((0, 0, 0, 0)) #투명한 검정색으로 덮기
+            pygame.draw.rect(pause_surface, (ui_variables.black_pause), [0, 0, int(board_width), int(board_height)])  #(screen, 색깔, 위치 x, y좌표, 너비, 높이)
+            screen.blit(pause_surface, (0, 0))
+
+        draw_image(screen, pause_board_image, board_width * 0.5, board_height * 0.5, int(board_height * 0.7428), board_height) #(window, 이미지주소, x좌표, y좌표, 너비, 높이)
+        #resume_button.draw(screen, (0, 0, 0)) #rgb(0,0,0) = 검정색
+        #restart_button.draw(screen, (0, 0, 0))
+        pause_setting_button.draw(screen, (0, 0, 0))
+        pause_quit_button.draw(screen, (0, 0, 0))
+        
         for event in pygame.event.get():
+            pos = pygame.mouse.get_pos()
             if event.type == QUIT:
                 done = True
+
             elif event.type == USEREVENT:
                 pygame.time.set_timer(pygame.USEREVENT, 300)
-                draw_board(next_mino1, hold_mino, score, level, goal)
-
-                pause_text = ui_variables.h2_b.render("PAUSED", 1, ui_variables.white)
-                pause_start = ui_variables.h5.render("Press esc to continue", 1, ui_variables.white)
-
-                screen.blit(pause_text, (43, 100))
-                if blink:
-                    screen.blit(pause_start, (40, 160))
-                    blink = False
-                else:
-                    blink = True
                 pygame.display.update()
             elif event.type == KEYDOWN:
                 erase_mino(dx, dy, mino, rotation)
                 if event.key == K_ESCAPE:
                     pause = False
                     ui_variables.click_sound.play()
+                    #pygame.mixer.music.unpause()
                     pygame.time.set_timer(pygame.USEREVENT, 1)
+                  
+            elif event.type == pygame.MOUSEMOTION:
+            #     if resume_button.isOver_2(pos):
+            #         resume_button.image = clicked_resume_button_image
+            #     else:
+            #         resume_button.image = resume_button_image
+
+            #     if restart_button.isOver_2(pos):
+            #         restart_button.image = clicked_restart_button_image
+            #     else:
+            #         restart_button.image = restart_button_image
+
+                if pause_setting_button.isOver_2(pos):
+                    pause_setting_button.image = clicked_setting_button_image
+                else:
+                    pause_setting_button.image = setting_button_image
+                if pause_quit_button.isOver_2(pos):
+                    pause_quit_button.image = clicked_quit_button_image
+                else:
+                    pause_quit_button.image = quit_button_image
+                pygame.display.update()
+            
+
+            elif event.type == pygame.MOUSEBUTTONDOWN:
+                
+                if pause_quit_button.isOver_2(pos):
+                   ui_variables.click_sound.play()
+                   done = True
+                
+                if pause_setting_button.isOver_2(pos):
+                    ui_variables.click_sound.play()
+                    setting = True
+                '''
+                if restart_button.isOver_2(pos):
+                    ui_variables.click_sound.play()
+
+                    pause = False
+                    start = False
+
+                    if pvp:
+                        pvp = False
+                
+                if resume_button.isOver_2(pos):
+                    pygame.mixer.music.unpause()
+                    pause = False
+                    ui_variables.click_sound.play()
+                    pygame.time.set_timer(pygame.USEREVENT, 1) #0.001초
+                '''
 
     # Game screen
     elif start:
@@ -642,7 +754,7 @@ while not done:
 
                 # Draw a mino
                 draw_mino(dx, dy, mino, rotation)
-                draw_board(next_mino1, hold_mino, score, level, goal)
+                draw_board(next_mino1, next_mino2, hold_mino, score, level, goal)
 
                 # Erase a mino
                 if not game_over:
@@ -659,7 +771,7 @@ while not done:
                         bottom_count = 0
                         score += 10 * level
                         draw_mino(dx, dy, mino, rotation)
-                        draw_board(next_mino1, hold_mino, score, level, goal)
+                        draw_board(next_mino1, next_mino2, hold_mino, score, level, goal)
                         if is_stackable(next_mino1):
                             mino = next_mino1
                             next_mino1 = randint(1, 7)
@@ -720,7 +832,7 @@ while not done:
                     hard_drop = True
                     pygame.time.set_timer(pygame.USEREVENT, 1)
                     draw_mino(dx, dy, mino, rotation)
-                    draw_board(next_mino1, hold_mino, score, level, goal)
+                    draw_board(next_mino1, next_mino2, hold_mino, score, level, goal)
                 # Hold
                 elif event.key == K_LSHIFT or event.key == K_c:
                     if hold == False:
@@ -735,7 +847,7 @@ while not done:
                         rotation = 0
                         hold = True
                     draw_mino(dx, dy, mino, rotation)
-                    draw_board(next_mino1, hold_mino, score, level, goal)
+                    draw_board(next_mino1, next_mino2, hold_mino, score, level, goal)
                 # Turn right
                 elif event.key == K_UP or event.key == K_x:
                     if is_turnable_r(dx, dy, mino, rotation):
@@ -769,7 +881,7 @@ while not done:
                     if rotation == 4:
                         rotation = 0
                     draw_mino(dx, dy, mino, rotation)
-                    draw_board(next_mino1, hold_mino, score, level, goal)
+                    draw_board(next_mino1, next_mino2, hold_mino, score, level, goal)
                 # Turn left
                 elif event.key == K_z or event.key == K_LCTRL:
                     if is_turnable_l(dx, dy, mino, rotation):
@@ -802,28 +914,21 @@ while not done:
                     if rotation == -1:
                         rotation = 3
                     draw_mino(dx, dy, mino, rotation)
-                    draw_board(next_mino1, hold_mino, score, level, goal)
+                    draw_board(next_mino1, next_mino2, hold_mino, score, level, goal)
                 # Move left
                 elif event.key == K_LEFT:
                     if not is_leftedge(dx, dy, mino, rotation):
                         ui_variables.move_sound.play()
                         dx -= 1
                     draw_mino(dx, dy, mino, rotation)
-                    draw_board(next_mino1, hold_mino, score, level, goal)
+                    draw_board(next_mino1, next_mino2, hold_mino, score, level, goal)
                 # Move right
                 elif event.key == K_RIGHT:
                     if not is_rightedge(dx, dy, mino, rotation):
                         ui_variables.move_sound.play()
                         dx += 1
                     draw_mino(dx, dy, mino, rotation)
-                    draw_board(next_mino1, hold_mino, score, level, goal)
-        if time_attack and total_time - elapsed_time < 0: #타임어택 모드이면서, 60초가 지났으면
-            ui_variables.GameOver_sound.play()
-            start = False
-            game_status = 'start'
-            game_over = True
-            time_attack = False
-            pygame.time.set_timer(pygame.USEREVENT, 1)
+
 
         pygame.display.update()
 
@@ -838,7 +943,7 @@ while not done:
                 over_text_2 = ui_variables.h2_b.render("OVER", 1, ui_variables.white)
                 over_start = ui_variables.h5.render("Press return to continue", 1, ui_variables.white)
 
-                draw_board(next_mino1, hold_mino, score, level, goal)
+                draw_board(next_mino1, next_mino2, hold_mino, score, level, goal)
                 screen.blit(over_text_1, (58, 75))
                 screen.blit(over_text_2, (62, 105))
 
@@ -930,16 +1035,30 @@ while not done:
                     else:
                         name[name_location] = 90
                     pygame.time.set_timer(pygame.USEREVENT, 1)
+    elif select_mode:
+        screen.fill(ui_variables.real_white)
+        draw_image(screen, background_image, board_width * 0.5, board_height * 0.5, board_width, board_height) #(window, 이미지주소, x좌표, y좌표, 너비, 높이)
+        pause_surface = screen.convert_alpha() #투명 가능하도록
+        pause_surface.fill((0, 0, 0, 0))  #투명한 검정색으로 덮기   
+        pygame.draw.rect(pause_surface, (ui_variables.black_pause), [0, 0, int(board_width), int(board_height)])  #(screen, 색깔, 위치 x, y좌표, 너비, 높이)
+        screen.blit(pause_surface, (0, 0))
 
+        single_button.draw(screen, (0,0,0))
+        pvp_button.draw(screen, (0,0,0))
+        hard_button.draw(screen, (0,0,0))
+    elif leader_board:
+        pass
+    elif setting:
+        pass
     # Start screen
     else:
         # 초기화
         
-        '''
+        
         if initialize:
             set_initial_values()
             initialize = False
-        '''
+        
 
         for event in pygame.event.get():
             pos = pygame.mouse.get_pos()
@@ -957,58 +1076,36 @@ while not done:
             
 
             elif event.type == pygame.MOUSEMOTION:
-                
-                '''
-                if single_button.isOver_2(pos):
-                    single_button.image = clicked_single_button_image
+                if select_mode_button.isOver_2(pos):
+                    select_mode_button.image = clicked_select_mode_button_image
                 else:
-                    single_button.image = single_button_image
-
-                if pvp_button.isOver_2(pos):
-                    pvp_button.image = clicked_pvp_button_image
-                else:
-                    pvp_button.image = pvp_button_image
-
-                if help_button.isOver_2(pos):
-                    help_button.image = clicked_help_button_image
-                else:
-                    help_button.image = help_button_image
+                    select_mode_button.image = select_mode_button_image
 
                 if quit_button.isOver_2(pos):
                     quit_button.image = clicked_quit_button_image
                 else:
                     quit_button.image = quit_button_image
 
-                if gravity_button.isOver_2(pos):
-                    gravity_button.image = clicked_gravity_button_image
+                if setting_button.isOver_2(pos):
+                    setting_button.image = clicked_setting_button_image
                 else:
-                    gravity_button.image = gravity_button_image
+                    setting_button.image = setting_button_image
 
-                if timeattack_button.isOver_2(pos):
-                    timeattack_button.image = clicked_timeattack_button_image
+                if score_board_button.isOver_2(pos):
+                    score_board_button.image = clicked_score_board_button_image
                 else:
-                    timeattack_button.image = timeattack_button_image
+                    score_board_button.image = score_board_button_image
 
-                if setting_icon.isOver(pos):
-                    setting_icon.image = clicked_setting_vector
-                else:
-                    setting_icon.image = setting_vector
-
-                if leaderboard_icon.isOver(pos):
-                    leaderboard_icon.image = clicked_leaderboard_vector
-                else:
-                    leaderboard_icon.image = leaderboard_vector
-                '''
 
             elif event.type == pygame.MOUSEBUTTONDOWN:
-                #테스트용
-                if test_cloud_button.isOver(pos):
+                if select_mode_button.isOver_2(pos):
+                    #select_mode = True
                     ui_variables.click_sound.play()
                     previous_time = pygame.time.get_ticks()
                     start = True
-                    initalize = True
+                    initialize = True
                     #pygame.mixer.music.play(-1) #play(-1) = 노래 반복재생
-                    #ui_variables.intro_sound.stop() 
+                    #ui_variables.intro_sound.stop()
                 '''
                 if single_button.isOver_2(pos):
                     ui_variables.click_sound.play()
@@ -1064,7 +1161,10 @@ while not done:
         draw_image(screen, background_image, board_width * 0.5, board_height * 0.5, board_width, board_height) #(window, 이미지주소, x좌표, y좌표, 너비, 높이)
         
         # 버튼그리기
-        test_cloud_button.draw(screen, (0,0,0))
+        select_mode_button.draw(screen, (0,0,0))
+        setting_button.draw(screen, (0,0,0))
+        score_board_button.draw(screen, (0,0,0))
+        quit_button.draw(screen, (0,0,0))
 
         '''
         # 리더보드 
