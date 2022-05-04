@@ -227,7 +227,7 @@ class button(): #버튼객체
                 return True
         return False
 
-# 메뉴 버튼 테스트용 (임시)
+# 메뉴 버튼 테스트용
 
 select_mode_button = button(board_width, board_height, 0.2, 0.2, 0.22, 0.2, select_mode_button_image)
 setting_button = button(board_width, board_height, 0.2, 0.8, 0.22, 0.2, setting_button_image)
@@ -1034,6 +1034,10 @@ while not done:
         single_button.draw(screen, (0,0,0))
         pvp_button.draw(screen, (0,0,0))
         hard_button.draw(screen, (0,0,0))
+    elif leader_board:
+        pass
+    elif setting:
+        pass
     # Start screen
     else:
         # 초기화
@@ -1083,7 +1087,13 @@ while not done:
 
             elif event.type == pygame.MOUSEBUTTONDOWN:
                 if select_mode_button.isOver_2(pos):
-                    select_mode = True
+                    #select_mode = True
+                    ui_variables.click_sound.play()
+                    previous_time = pygame.time.get_ticks()
+                    start = True
+                    initialize = True
+                    #pygame.mixer.music.play(-1) #play(-1) = 노래 반복재생
+                    #ui_variables.intro_sound.stop()
                 '''
                 if single_button.isOver_2(pos):
                     ui_variables.click_sound.play()
