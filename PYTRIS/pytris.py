@@ -14,6 +14,8 @@ width = 10 # Board에 가로로 들어갈 블럭의 개수
 height = 20 # Board에 세로로 들어갈 블럭의 개수
 framerate = 30 # Bigger -> Slower
 
+speed_change = 2 # 레벨별 블록 하강 속도 상승 정도
+
 board_width = 800  # 전체 창의 가로 길이
 board_height = 450 # 전체 창의 세로 길이
 
