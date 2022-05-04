@@ -234,9 +234,11 @@ setting_button = button(board_width, board_height, 0.2, 0.8, 0.22, 0.2, setting_
 quit_button = button(board_width, board_height, 0.8, 0.8, 0.22, 0.2, quit_button_image)
 score_board_button = button(board_width, board_height, 0.8, 0.2, 0.22, 0.2, score_board_button_image)
 
-single_button = button(board_width,board_height, 0.3, 0.55, 0.22, 0.2, single_button_image)
-hard_button = button(board_width, board_height, 0.5, 0.55, 0.22, 0.2, hard_button_image)
-pvp_button = button(board_width, board_height, 0.7, 0.55, 0.22, 0.2, pvp_button_image)
+single_button = button(board_width,board_height, 0.25, 0.35, 0.22, 0.2, single_button_image)
+hard_button = button(board_width, board_height, 0.5, 0.35, 0.22, 0.2, hard_button_image)
+pvp_button = button(board_width, board_height, 0.75, 0.35, 0.22, 0.2, pvp_button_image)
+hard_tutorial_button = button(board_width, board_height, 0.37, 0.65, 0.22, 0.2, hard_tutorial_button_image)
+multi_tutorial_button = button(board_width, board_height, 0.63, 0.65, 0.22, 0.2, multi_tutorial_button_image)
 
 pause_quit_button = button(board_width, board_height, 0.5, 0.83, 0.17, 0.2, quit_button_image)
 pause_setting_button = button(board_width, board_height, 0.5, 0.63, 0.17, 0.2, setting_button_image)
@@ -527,7 +529,7 @@ def is_stackable(mino):
 
 # Initial values
 def set_initial_values():
-    global combo_count, combo_count_2P, score, level, goal, score_2P, level_2P, goal_2P, bottom_count, bottom_count_2P, hard_drop, hard_drop_2P, attack_point, attack_point_2P, dx, dy, dx_2P, dy_2P, rotation, rotation_2P, mino, mino_2P, next_mino1, next_mino2, next_mino1_2P, hold, hold_2P, hold_mino, hold_mino_2P, framerate, framerate_2P, matrix, matrix_2P, Change_RATE, blink, start, pause, done, game_over, leader_board, setting, volume_setting, screen_setting, pvp, help, gravity_mode, debug, d, e, b, u, g, time_attack, start_ticks, textsize, CHANNELS, swidth, name_location, name, previous_time, current_time, pause_time, lines, leaders, volume, game_status, framerate_blockmove, framerate_2P_blockmove, game_speed, game_speed_2P, select_mode, hard
+    global combo_count, combo_count_2P, score, level, goal, score_2P, level_2P, goal_2P, bottom_count, bottom_count_2P, hard_drop, hard_drop_2P, attack_point, attack_point_2P, dx, dy, dx_2P, dy_2P, rotation, rotation_2P, mino, mino_2P, next_mino1, next_mino2, next_mino1_2P, hold, hold_2P, hold_mino, hold_mino_2P, framerate, framerate_2P, matrix, matrix_2P, Change_RATE, blink, start, pause, done, game_over, leader_board, setting, volume_setting, screen_setting, pvp, help, gravity_mode, debug, d, e, b, u, g, time_attack, start_ticks, textsize, CHANNELS, swidth, name_location, name, previous_time, current_time, pause_time, lines, leaders, volume, game_status, framerate_blockmove, framerate_2P_blockmove, game_speed, game_speed_2P, select_mode, hard, hard_tutorial, multi_tutorial
     framerate = 30 # Bigger -> Slower  기본 블록 하강 속도, 2도 할만 함, 0 또는 음수 이상이어야 함
     framerate_blockmove = framerate * 3 # 블록 이동 시 속도
     game_speed = framerate * 20 # 게임 기본 속도
@@ -547,6 +549,8 @@ def set_initial_values():
     screen_setting = False
     pvp = False
     hard = False # 하드모드 변수 추가
+    hard_tutorial = False # 하드 튜토리얼 변수 추가
+    multi_tutorial = False # 멀티 튜토리얼 변수 추가
     help = False
     select_mode = False
     gravity_mode = False #이 코드가 없으면 중력모드 게임을 했다가 Restart해서 일반모드로 갈때 중력모드로 게임이 진행됨#
@@ -1035,7 +1039,9 @@ while not done:
         single_button.draw(screen, (0,0,0))
         pvp_button.draw(screen, (0,0,0))
         hard_button.draw(screen, (0,0,0))
-        
+        hard_tutorial_button.draw(screen, (0,0,0))
+        multi_tutorial_button.draw(screen, (0,0,0))
+
         pygame.display.update()  # select mode 화면으로 넘어가도록 전체 화면 업데이트
 
         for event in pygame.event.get():
@@ -1067,7 +1073,16 @@ while not done:
                     hard_button.image = clicked_hard_button_image
                 else:
                     hard_button.image = hard_button_image
-            
+
+                if hard_tutorial_button.isOver_2(pos):
+                    hard_tutorial_button.image = clicked_hard_tutorial_button_image
+                else:
+                    hard_tutorial_button.image = hard_tutorial_button_image
+
+                if multi_tutorial_button.isOver_2(pos):
+                    multi_tutorial_button.image = clicked_multi_tutorial_button_image
+                else:
+                    multi_tutorial_button.image = multi_tutorial_button_image
 
             elif event.type == pygame.MOUSEBUTTONDOWN:
                 if single_button.isOver_2(pos):
@@ -1086,6 +1101,18 @@ while not done:
                 if hard_button.isOver_2(pos):
                     ui_variables.click_sound.play()
                     hard = True
+                    initalize = True
+                    # pygame.mixer.music.play(-1)
+                    # ui_variables.intro_sound.stop()
+                if hard_tutorial_button.isOver_2(pos):
+                    ui_variables.click_sound.play()
+                    hard_tutorial = True
+                    initalize = True
+                    # pygame.mixer.music.play(-1)
+                    # ui_variables.intro_sound.stop()
+                if multi_tutorial_button.isOver_2(pos):
+                    ui_variables.click_sound.play()
+                    multi_tutorial = True
                     initalize = True
                     # pygame.mixer.music.play(-1)
                     # ui_variables.intro_sound.stop()
