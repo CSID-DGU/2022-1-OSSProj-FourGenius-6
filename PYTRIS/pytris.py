@@ -81,38 +81,62 @@ class ui_variables:
 #각 이미지 주소
 background_image = 'assets/images/background_image.png' #메뉴화면(첫 화면) 배경
 gamebackground_image_nyc = 'assets/images/background_nyc.png' #게임 배경화면 : 기본값 뉴욕
-setting_button_image = 'assets/vector/settings_button.png'
 pause_board_image = 'assets/vector/pause_board.png'
 
-'''
-background_image = 'assets/vector/kingdom.jpg' #홈 배경화면
+select_mode_button_image = 'assets/vector/select_mode_button.png'
+clicked_select_mode_button_image = 'assets/vector/clicked_select_mode_button.png'
 
+setting_button_image = 'assets/vector/settings_button.png'
+clicked_setting_button_image = 'assets/vector/clicked_settings_button.png'
 
-single_button_image = 'assets/images/cloud.png'
-clicked_single_button_image = 'assets/vector/clicked_single_button.png'
-
-pvp_button_image = 'assets/vector/pvp_button.png'
-clicked_pvp_button_image = 'assets/vector/clicked_pvp_button.png'
-
-help_button_image = 'assets/vector/help_button.png'
-clicked_help_button_image = 'assets/vector/clicked_help_button.png'
+score_board_button_image = 'assets/vector/score_board_button.png'
+clicked_score_board_image = 'assets/vector/clicked_score_board_button.png'
 
 quit_button_image = 'assets/vector/quit_button.png'
 clicked_quit_button_image = 'assets/vector/clicked_quit_button.png'
 
+
+single_button_image = 'assets/vector/easy_button.png'
+clicked_single_button_image = 'assets/vector/clicked_easy_button.png'
+
+hard_button_image = 'assets/vector/hard_button.png'
+clicked_hard_button_image = 'assets/vector/clicked_hard_button.png'
+
+pvp_button_image = 'assets/vector/multi_button.png'
+clicked_pvp_button_image = 'assets/vector/clicked_multi_button.png'
+
+
+hard_tutorial_button_image = 'assets/vector/hard_tutorial_button.png'
+clicked_hard_tutorial_button_image = 'assets/vector/clicked_hard_tutorial_button.png'
+
+multi_tutorial_button_image = 'assets/vector/multi_tutorial_button.png'
+clicked_multi_tutorial_button_image = 'assets/vector/clicked_multi_tutorial_button.png'
+
+
+'''
+
+
+
+
+
+
+
+help_button_image = 'assets/vector/help_button.png'
+clicked_help_button_image = 'assets/vector/clicked_help_button.png'
+
+
+
 gravity_button_image = 'assets/vector/gravity_button.png'
 clicked_gravity_button_image = 'assets/vector/clicked_gravity_button.png'
 
-timeattack_button_image = 'assets/vector/timeattack_button.png'
-clicked_timeattack_button_image = 'assets/vector/clicked_timeattack_button.png'
 
-leaderboard_vector = 'assets/vector/leaderboard_vector.png'
-clicked_leaderboard_vector = 'assets/vector/clicked_leaderboard_vector.png'
+
+
 
 setting_vector = 'assets/vector/setting_vector.png'
 clicked_setting_vector = 'assets/vector/clicked_setting_vector.png'
 
-leader_board_image = 'assets/vector/leader_board.png'
+
 setting_board_image = 'assets/vector/setting_board.png'
 gameover_board_image = 'assets/vector/gameover_board.png'
 gameover_image = 'assets/vector/gameover.png'
@@ -133,7 +157,7 @@ restart_button_image = 'assets/vector/restart_button.png'
 clicked_restart_button_image = 'assets/vector/clicked_restart_button.png'
 
 
-clicked_setting_button_image = 'assets/vector/clicked_setting_button.png'
+
 
 back_button_image = 'assets/vector/back_button.png'
 clicked_back_button_image = 'assets/vector/clicked_back_button.png'
@@ -207,7 +231,17 @@ class button(): #버튼객체
 test_cloud_image = 'assets/images/cloud.png'
 test_cloud_button = button(board_width,board_height, 0.12, 0.55, 0.235, 0.435, test_cloud_image)
 
-setting_button = button(board_width, board_height, 0.5, 0.63, 0.15, 0.35, setting_button_image)
+select_mode_button = button(board_width, board_height, 0.1, 0.1, 0.22, 0.2, select_mode_button_image)
+setting_button = button(board_width, board_height, 0.5, 0.85, 0.22, 0.2, setting_button_image)
+quit_button = button(board_width, board_height, 0.8, 0.8, 0.22, 0.435, quit_button_image)
+
+single_button = button(board_width,board_height, 0.3, 0.55, 0.235, 0.435, single_button_image)
+hard_button = button(board_width, board_height, 0.5, 0.55, 0.235, 0.435, hard_button_image)
+pvp_button = button(board_width, board_height, 0.7, 0.55, 0.235, 0.435, pvp_button_image)
+
+pause_quit_button = button(board_width, board_height, 0.5, 0.83, 0.17, 0.2, quit_button_image)
+pause_setting_button = button(board_width, board_height, 0.5, 0.63, 0.17, 0.2, setting_button_image)
+
 '''    
     #버튼객체 생성 class Button에서 확인
 #def __init__(self, board_width, board_height, x_rate, y_rate, width_rate, height_rate, img='')
@@ -216,10 +250,9 @@ setting_button = button(board_width, board_height, 0.5, 0.63, 0.15, 0.35, settin
 mute_button = button(board_width, board_height, 0.5, 0.27, 0.25, 0.45, mute_button_image)
 default_button = button(board_width, board_height, 0.5, 0.27, 0.25, 0.45, default_button_image)
 
-single_button = button(board_width,board_height, 0.12, 0.55, 0.235, 0.435, single_button_image)
-pvp_button = button(board_width, board_height, 0.35, 0.55, 0.235, 0.435, pvp_button_image)
+
 help_button = button(board_width, board_height, 0.12, 0.8, 0.235, 0.435, help_button_image)
-quit_button = button(board_width, board_height, 0.35, 0.8, 0.235, 0.435, quit_button_image)
+
 gravity_button = button(board_width, board_height, 0.58, 0.55, 0.235, 0.435, gravity_button_image)
 timeattack_button = button(board_width, board_height, 0.58, 0.8, 0.235, 0.435, timeattack_button_image)
 setting_icon = button(board_width, board_height, 0.9, 0.85, 0.10, 0.15, setting_vector)
@@ -228,7 +261,7 @@ leaderboard_icon = button(board_width, board_height, 0.77, 0.85, 0.15, 0.2, lead
 resume_button = button(board_width, board_height, 0.5, 0.23, 0.15, 0.35, resume_button_image)
 restart_button = button(board_width, board_height, 0.5, 0.43, 0.15, 0.35, restart_button_image)
 
-pause_quit_button = button(board_width, board_height, 0.5, 0.83, 0.15, 0.35, quit_button_image)
+
 
 back_button = button(board_width, board_height, 0.5, 0.85, 0.15, 0.35, back_button_image)
 volume_icon = button(board_width, board_height, 0.4, 0.5, 0.12, 0.23, volume_vector)
@@ -626,10 +659,11 @@ while not done:
         draw_image(screen, pause_board_image, board_width * 0.5, board_height * 0.5, int(board_height * 0.7428), board_height) #(window, 이미지주소, x좌표, y좌표, 너비, 높이)
         #resume_button.draw(screen, (0, 0, 0)) #rgb(0,0,0) = 검정색
         #restart_button.draw(screen, (0, 0, 0))
-        setting_button.draw(screen, (0, 0, 0))
-        #pause_quit_button.draw(screen, (0, 0, 0))
+        pause_setting_button.draw(screen, (0, 0, 0))
+        pause_quit_button.draw(screen, (0, 0, 0))
         
         for event in pygame.event.get():
+            pos = pygame.mouse.get_pos()
             if event.type == QUIT:
                 done = True
 
@@ -644,7 +678,7 @@ while not done:
                     #pygame.mixer.music.unpause()
                     pygame.time.set_timer(pygame.USEREVENT, 1)
                   
-            # elif event.type == pygame.MOUSEMOTION:
+            elif event.type == pygame.MOUSEMOTION:
             #     if resume_button.isOver_2(pos):
             #         resume_button.image = clicked_resume_button_image
             #     else:
@@ -655,24 +689,24 @@ while not done:
             #     else:
             #         restart_button.image = restart_button_image
 
-            #     if setting_button.isOver_2(pos):
-            #         setting_button.image = clicked_setting_button_image
-            #     else:
-            #         setting_button.image = setting_button_image
-            #     if pause_quit_button.isOver_2(pos):
-            #         pause_quit_button.image = clicked_quit_button_image
-            #     else:
-            #         pause_quit_button.image = quit_button_image
-            #     pygame.display.update()
+                if pause_setting_button.isOver_2(pos):
+                    pause_setting_button.image = clicked_setting_button_image
+                else:
+                    pause_setting_button.image = setting_button_image
+                if pause_quit_button.isOver_2(pos):
+                    pause_quit_button.image = clicked_quit_button_image
+                else:
+                    pause_quit_button.image = quit_button_image
+                pygame.display.update()
             
 
             elif event.type == pygame.MOUSEBUTTONDOWN:
-                '''
+                
                 if pause_quit_button.isOver_2(pos):
                    ui_variables.click_sound.play()
                    done = True
-                '''
-                if setting_button.isOver_2(pos):
+                
+                if pause_setting_button.isOver_2(pos):
                     ui_variables.click_sound.play()
                     setting = True
                 '''
