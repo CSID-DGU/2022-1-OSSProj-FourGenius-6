@@ -23,6 +23,9 @@ min_width = 400
 min_height = 225
 mid_width = 1200
 
+# 기본 볼륨
+music_volume = 5
+effect_volume = 5
 
 pygame.init()
 
@@ -53,13 +56,20 @@ class ui_variables:
     h5_i = pygame.font.Font(font_path_i, 13)
 
     # Sounds
-    click_sound = pygame.mixer.Sound("assets/sounds/SFX_ButtonUp.wav")
+    pygame.mixer.music.load("assets/sounds/BGM1.wav") #음악 불러옴
+    pygame.mixer.music.set_volume(0.5) # 이 부분도 필요 없음, set_volume에 추가해야 함
+    intro_sound = pygame.mixer.Sound("assets/sounds/BGM1.wav")
+    fall_sound = pygame.mixer.Sound("assets/sounds/SFX_Fall.wav")
+    break_sound = pygame.mixer.Sound("assets/sounds/SFX_Break.wav")
+    click_sound = pygame.mixer.Sound("assets/sounds/SFX_ButtonUp.wav") #여기부터
     move_sound = pygame.mixer.Sound("assets/sounds/SFX_PieceMoveLR.wav")
     drop_sound = pygame.mixer.Sound("assets/sounds/SFX_PieceHardDrop.wav")
     single_sound = pygame.mixer.Sound("assets/sounds/SFX_SpecialLineClearSingle.wav")
     double_sound = pygame.mixer.Sound("assets/sounds/SFX_SpecialLineClearDouble.wav")
-    triple_sound = pygame.mixer.Sound("assets/sounds/SFX_SpecialLineClearTriple.wav")
+    triple_sound = pygame.mixer.Sound("assets/sounds/SFX_SpecialLineClearTriple.wav") #여기까지는 기존코드
     tetris_sound = pygame.mixer.Sound("assets/sounds/SFX_SpecialTetris.wav")
+    LevelUp_sound = pygame.mixer.Sound("assets/sounds/SFX_LevelUp.wav")
+    GameOver_sound = pygame.mixer.Sound("assets/sounds/SFX_GameOver.wav")
 
     # Background colors
     black = (10, 10, 10) #rgb(10, 10, 10)
@@ -69,7 +79,7 @@ class ui_variables:
     grey_1 = (26, 26, 26) #rgb(26, 26, 26)
     grey_2 = (35, 35, 35) #rgb(35, 35, 35)
     grey_3 = (55, 55, 55) #rgb(55, 55, 55)
-
+    pinkpurple = (250, 165, 255) #rgb(250, 165, 255) 핑크+보라#
     
 
     # Tetrimino colors
@@ -163,86 +173,6 @@ clicked_check_button_image = 'assets/vector/clicked_checkbox_button.png'
 leaderboard_vector = 'assets/vector/leaderboard_vector.png'
 clicked_leaderboard_vector = 'assets/vector/clicked_leaderboard_vector.png'
 
-'''
-
-
-
-
-
-
-
-help_button_image = 'assets/vector/help_button.png'
-clicked_help_button_image = 'assets/vector/clicked_help_button.png'
-
-
-
-gravity_button_image = 'assets/vector/gravity_button.png'
-clicked_gravity_button_image = 'assets/vector/clicked_gravity_button.png'
-
-
-
-
-
-setting_vector = 'assets/vector/setting_vector.png'
-clicked_setting_vector = 'assets/vector/clicked_setting_vector.png'
-
-
-setting_board_image = 'assets/vector/setting_board.png'
-gameover_board_image = 'assets/vector/gameover_board.png'
-gameover_image = 'assets/vector/gameover.png'
-
-smallsize_board = 'assets/vector/screensize1.png'
-midiumsize_board = 'assets/vector/screensize2.png'
-bigsize_board = 'assets/vector/screensize3.png'
-
-mute_button_image = 'assets/vector/allmute_button.png'
-default_button_image = 'assets/vector/default_button.png'
-
-number_board = 'assets/vector/number_board.png'
-
-resume_button_image = 'assets/vector/resume_button.png'
-clicked_resume_button_image = 'assets/vector/clicked_resume_button.png'
-
-restart_button_image = 'assets/vector/restart_button.png'
-clicked_restart_button_image = 'assets/vector/clicked_restart_button.png'
-
-
-
-
-back_button_image = 'assets/vector/back_button.png'
-clicked_back_button_image = 'assets/vector/clicked_back_button.png'
-
-volume_vector = 'assets/vector/volume_vector.png'
-clicked_volume_vector = 'assets/vector/clicked_volume_vector.png'
-
-keyboard_vector = 'assets/vector/keyboard_vector.png'
-clicked_keyboard_vector = 'assets/vector/clicked_keyboard_vector.png'
-
-screen_vector = 'assets/vector/screen_vector.png'
-clicked_screen_vector = 'assets/vector/clicked_screen_vector.png'
-
-menu_button_image = 'assets/vector/menu_button.png'
-clicked_menu_button_image = 'assets/vector/clicked_menu_button.png'
-
-ok_button_image = 'assets/vector/ok_button.png'
-clicked_ok_button_image = 'assets/vector/clicked_ok_button.png'
-
-plus_button_image = 'assets/vector/plus_button.png'
-clicked_plus_button_image = 'assets/vector/clicked_plus_button.png'
-
-minus_button_image = 'assets/vector/minus_button.png'
-clicked_minus_button_image = 'assets/vector/clicked_minus_button.png'
-#음소거 추가#
-sound_off_button_image = 'assets/vector/sound_off_button.png'
-sound_on_button_image = 'assets/vector/sound_on_button.png'
-
-check_button_image = 'assets/vector/checkbox_button.png'
-clicked_check_button_image = 'assets/vector/clicked_checkbox_button.png'
-
-pvp_win_image = 'assets/vector/pvp_win.png'
-pvp_lose_image = 'assets/vector/pvp_lose.png'
-'''
-
 class button(): #버튼객체
     def __init__(self, board_width, board_height, x_rate, y_rate, width_rate, height_rate, img=''): #버튼생성
         self.x = board_width * x_rate #버튼 x좌표 (버튼이미지의 정중앙)
@@ -277,7 +207,7 @@ class button(): #버튼객체
                 return True
         return False
 
-# 메뉴 버튼 테스트용
+# 메뉴 버튼
 
 select_mode_button = button(board_width, board_height, 0.2, 0.2, 0.22, 0.2, select_mode_button_image)
 setting_button = button(board_width, board_height, 0.2, 0.8, 0.22, 0.2, setting_button_image)
@@ -320,7 +250,8 @@ bigsize_check_button = button(board_width, board_height, 0.5, 0.65, 0.1875, 0.14
 
 volume_icon = button(board_width, board_height, 0.4, 0.5, 0.12, 0.23, volume_vector)
 screen_icon = button(board_width, board_height, 0.6, 0.5, 0.12, 0.23, screen_vector)
-'''    
+
+'''
     #버튼객체 생성 class Button에서 확인
 #def __init__(self, board_width, board_height, x_rate, y_rate, width_rate, height_rate, img='')
 #(현재 보드너비, 현재보드높이, 버튼의 x좌표 위치비율, 버튼의 y좌표 위치비율, 버튼의 너비 길이비율, 버튼의 높이 길이비율) - 전체화면 크기에 대한 비율
@@ -338,7 +269,7 @@ leaderboard_icon = button(board_width, board_height, 0.77, 0.85, 0.15, 0.2, lead
 
 resume_button = button(board_width, board_height, 0.5, 0.23, 0.15, 0.35, resume_button_image)
 restart_button = button(board_width, board_height, 0.5, 0.43, 0.15, 0.35, restart_button_image)
-
+'''
 
 
 back_button = button(board_width, board_height, 0.5, 0.85, 0.15, 0.35, back_button_image)
@@ -358,10 +289,7 @@ sound_plus_button = button(board_width, board_height, 0.37, 0.53, 0.0625, 0.1111
 sound_minus_button = button(board_width, board_height, 0.52, 0.53, 0.0625, 0.1111, minus_button_image)
 level_plus_button = button(board_width, board_height, 0.63, 0.7719, 0.0625, 0.1111, plus_button_image)
 level_minus_button = button(board_width, board_height, 0.56, 0.7719, 0.0625, 0.1111, minus_button_image)
-combo_plus_button = button(board_width, board_height, 0.63, 0.9419, 0.0625, 0.1111, plus_button_image)
-combo_minus_button =button(board_width, board_height, 0.56, 0.9419, 0.0625, 0.1111, minus_button_image)
-speed_plus_button = button(board_width, board_height, 0.18, 0.12, 0.055, 0.09, plus_button_image)
-speed_minus_button =button(board_width, board_height, 0.035, 0.12, 0.055, 0.09, minus_button_image)
+
 
 #음소거 추가#
 effect_sound_off_button = button(board_width, board_height, 0.65, 0.73, 0.08, 0.15, sound_off_button_image)
@@ -373,7 +301,7 @@ mute_check_button = button(board_width, board_height, 0.2, 0.4, 0.0625, 0.1111, 
 smallsize_check_button = button(board_width, board_height, 0.5, 0.25, 0.1875, 0.1444, smallsize_board)
 midiumsize_check_button = button(board_width, board_height, 0.5, 0.45, 0.1875, 0.1444, midiumsize_board)
 bigsize_check_button = button(board_width, board_height, 0.5, 0.65, 0.1875, 0.1444, bigsize_board)
-
+'''
 #게임 중 버튼 생성하기위한 버튼객체 리스트 (버튼 전체)
 button_list = [mute_button, default_button, single_button, pvp_button, help_button, quit_button, gravity_button, timeattack_button, resume_button, restart_button, setting_button, pause_quit_button, back_button,
         ok_button, menu_button, gameover_quit_button, effect_plus_button, effect_minus_button, sound_plus_button, sound_minus_button, level_plus_button,
@@ -395,8 +323,7 @@ def set_volume():
     ui_variables.GameOver_sound.set_volume(music_volume / 10)
     ui_variables.intro_sound.set_volume(music_volume / 10)
     pygame.mixer.music.set_volume(music_volume / 10)
-    for i in range(1, 10): #10가지의 combo 사운드를 한번에 조절함
-        ui_variables.combos_sound[i - 1].set_volume(effect_volume / 10)
+
 
 # 이미지 화면에 띄우기 (매개변수 x, y가 이미지의 정중앙 좌표)
 def draw_image(window, img_path, x, y, width, height):
@@ -621,6 +548,11 @@ def is_stackable(mino):
 
     return True
 
+def set_vol(val):
+    volume = int(val) / 100 #set_volume argenment로 넣기 위해서(소수점을 만들어주기 위해서) 100으로 나눠줌
+    print(volume)
+    ui_variables.click_sound.set_volume(volume)
+
 # Initial values
 def set_initial_values():
     global combo_count, combo_count_2P, score, level, goal, score_2P, level_2P, goal_2P, bottom_count, bottom_count_2P, hard_drop, hard_drop_2P, attack_point, attack_point_2P, dx, dy, dx_2P, dy_2P, rotation, rotation_2P, mino, mino_2P, next_mino1, next_mino2, next_mino1_2P, hold, hold_2P, hold_mino, hold_mino_2P, framerate, framerate_2P, matrix, matrix_2P, Change_RATE, blink, start, pause, done, game_over, leader_board, setting, volume_setting, screen_setting, pvp, help, gravity_mode, debug, d, e, b, u, g, time_attack, start_ticks, textsize, CHANNELS, swidth, name_location, name, previous_time, current_time, pause_time, lines, leaders, volume, game_status, framerate_blockmove, framerate_2P_blockmove, game_speed, game_speed_2P, select_mode, hard, hard_tutorial, multi_tutorial
@@ -663,8 +595,6 @@ def set_initial_values():
     swidth = 2
     Change_RATE = 2
 
-    combo_count = 0
-    combo_count_2P = 0
     score = 0
     level = 1
     goal = level * 5
@@ -715,15 +645,11 @@ def set_initial_values():
     volume = 1.0 # 필요 없는 코드, effect_volume으로 대체 가능
     ui_variables.click_sound.set_volume(volume) # 필요 없는 코드, 전체 코드에서 click_sound를 effect_volume로 설정하는 코드 하나만 있으면 됨
     pygame.mixer.init()
-    '''
     ui_variables.intro_sound.set_volume(music_volume / 10)
     ui_variables.break_sound.set_volume(effect_volume / 10) # 소리 설정 부분도 set_volume 함수에 넣으면 됨
     ui_variables.intro_sound.play()
-    '''
     game_status = ''
-    '''
     pygame.mixer.music.load("assets/sounds/SFX_BattleMusic.wav")
-    '''
 
 set_initial_values()
 pygame.time.set_timer(pygame.USEREVENT, 10)
@@ -1297,11 +1223,11 @@ while not done:
                         block_size = int(board_height * 0.045) #블록 크기 비율 고정
                         screen = pygame.display.set_mode((board_width, board_height), pygame.RESIZABLE)
                         textsize=False
-                        '''
-                        for i in range(len(button_list)):
-                            button_list[i].change(board_width, board_height)
+                        
+                        #for i in range(len(button_list):
+                        #    button_list[i].change(board_width, board_height)
                         pygame.display.update()
-                        '''
+                        
 
                     if midiumsize_check_button.isOver(pos):
                         ui_variables.click_sound.play()
@@ -1310,10 +1236,10 @@ while not done:
                         block_size = int(board_height * 0.045) #블록 크기 비율 고정
                         screen = pygame.display.set_mode((board_width, board_height), pygame.RESIZABLE)
                         textsize=True
-                        '''
-                        for i in range(len(button_list)):
-                            button_list[i].change(board_width, board_height)
-                        '''
+                        
+                        #for i in range(len(button_list)):
+                        #    button_list[i].change(board_width, board_height)
+                        
                         pygame.display.update()
 
                     if bigsize_check_button.isOver(pos):
@@ -1323,11 +1249,11 @@ while not done:
                         block_size = int(board_height * 0.045) #블록 크기 비율 고정
                         screen = pygame.display.set_mode((board_width, board_height), pygame.RESIZABLE)
                         textsize=True
-                        '''
-                        for i in range(len(button_list)):
-                            button_list[i].change(board_width, board_height)
+                        
+                        #for i in range(len(button_list)):
+                        #    button_list[i].change(board_width, board_height)
                         pygame.display.update()
-                        '''
+                        
     elif volume_setting:
         #배경 약간 어둡게
         leaderboard_icon.draw(screen, (0, 0, 0)) #rgb(0,0,0) = 검정색#
