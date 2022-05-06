@@ -374,29 +374,35 @@ def draw_block_image(x, y, image):
 
 
 # Draw game screen
-def draw_board(next, next2, hold, score, level, goal):
-    screen.fill(ui_variables.grey_1)
+def draw_board(next1, next2, hold, score, level, goal):
+    sidebar_width = int(board_width * 0.5312) #크기 비율 고정, 전체 board 가로길이에서 원하는 비율을 곱해줌
+    # screen.fill(ui_variables.grey_1)
 
     # Draw sidebar
     pygame.draw.rect(
         screen,
-        ui_variables.white,
-        Rect(204, 0, 96, 374)
+        ui_variables.grey_1,
+        Rect(sidebar_width, 0, int(board_width * 0.2375), board_height) #크기 비율 고정
     )
 
-    # Draw next mino
-    grid_n = tetrimino.mino_map[next - 1][0]
+    # Draw 2 next minos
+    grid_n1 = tetrimino.mino_map[next1 - 1][0]
+    grid_n2 = tetrimino.mino_map[next2 - 1][0]
 
-    for i in range(4):
-        for j in range(4):
-            dx = 220 + block_size * j
-            dy = 140 + block_size * i
-            if grid_n[i][j] != 0:
-                pygame.draw.rect(
-                    screen,
-                    ui_variables.t_color[grid_n[i][j]],
-                    Rect(dx, dy, block_size, block_size)
-                )
+
+    for i in range(mino_matrix_y):
+        for j in range(mino_matrix_x):
+            dx1 = int(board_width * 0.025) + sidebar_width + block_size * j #위치 비율 고정, 전체 board 가로 길이에서 원하는 비율을 곱해줌
+            dy1 = int(board_height * 0.3743) + block_size * i #위치 비율 고정, 전체 board 세로 길이에서 원하는 비율을 곱해줌#
+            if grid_n1[i][j] != 0:
+                draw_block_image(dx1, dy1, ui_variables.t_block[grid_n1[i][j]])
+    
+    for i in range(mino_matrix_y):
+        for j in range(mino_matrix_x):
+            dx2 = int(board_width * 0.145) + sidebar_width + block_size * j #위치 비율 고정, 전체 board 가로길이에서 원하는 비율을 곱해줌#
+            dy2 = int(board_height * 0.3743) + block_size * i #위치 비율 고정, 전체 board 세로길이에서 원하는 비율을 곱해줌#
+            if grid_n2[i][j] != 0:
+                draw_block_image(dx2, dy2, ui_variables.t_block[grid_n2[i][j]])
 
     # Draw hold mino
     grid_h = tetrimino.mino_map[hold - 1][0]
@@ -407,46 +413,40 @@ def draw_board(next, next2, hold, score, level, goal):
                 dx = 220 + block_size * j
                 dy = 50 + block_size * i
                 if grid_h[i][j] != 0:
-                    pygame.draw.rect(
-                        screen,
-                        ui_variables.t_color[grid_h[i][j]],
-                        Rect(dx, dy, block_size, block_size)
-                    )
+                    draw_block_image(dx, dy, ui_variables.t_block[grid_h[i][j]]) #hold 블록 출력
+
 
     # Set max score
     if score > 999999:
         score = 999999
 
     # Draw texts
-    text_hold = ui_variables.h5.render("HOLD", 1, ui_variables.black)
-    text_next = ui_variables.h5.render("NEXT", 1, ui_variables.black)
-    text_score = ui_variables.h5.render("SCORE", 1, ui_variables.black)
-    score_value = ui_variables.h4.render(str(score), 1, ui_variables.black)
-    text_level = ui_variables.h5.render("LEVEL", 1, ui_variables.black)
-    level_value = ui_variables.h4.render(str(level), 1, ui_variables.black)
-    text_goal = ui_variables.h5.render("GOAL", 1, ui_variables.black)
-    goal_value = ui_variables.h4.render(str(goal), 1, ui_variables.black)
+    text_hold = ui_variables.h5.render("HOLD", 1, ui_variables.real_white)
+    text_next = ui_variables.h5.render("NEXT", 1, ui_variables.real_white)
+    text_score = ui_variables.h5.render("SCORE", 1, ui_variables.real_white)
+    score_value = ui_variables.h4.render(str(score), 1, ui_variables.real_white)
+    text_level = ui_variables.h5.render("LEVEL", 1, ui_variables.real_white)
+    level_value = ui_variables.h4.render(str(level), 1, ui_variables.real_white)
+    text_goal = ui_variables.h5.render("GOAL", 1, ui_variables.real_white)
+    goal_value = ui_variables.h4.render(str(goal), 1, ui_variables.real_white)
 
     # Place texts
-    screen.blit(text_hold, (215, 14))
-    screen.blit(text_next, (215, 104))
-    screen.blit(text_score, (215, 194))
-    screen.blit(score_value, (220, 210))
-    screen.blit(text_level, (215, 254))
-    screen.blit(level_value, (220, 270))
-    screen.blit(text_goal, (215, 314))
-    screen.blit(goal_value, (220, 330))
+    screen.blit(text_hold, (int(board_width * 0.045) + sidebar_width, int(board_height * 0.0374)))
+    screen.blit(text_next, (int(board_width * 0.045) + sidebar_width, int(board_height * 0.2780)))
+    screen.blit(text_score, (int(board_width * 0.045) + sidebar_width, int(board_height * 0.5187)))
+    screen.blit(score_value, (int(board_width * 0.055) + sidebar_width, int(board_height * 0.5614)))
+    screen.blit(text_level, (int(board_width * 0.045) + sidebar_width, int(board_height * 0.6791)))
+    screen.blit(level_value, (int(board_width * 0.055) + sidebar_width, int(board_height * 0.7219)))
+    screen.blit(text_goal, (int(board_width * 0.045) + sidebar_width, int(board_height * 0.8400)))
+    screen.blit(goal_value, (int(board_width * 0.055) + sidebar_width, int(board_height * 0.8823)))
 
     # Draw board
     for x in range(width):
         for y in range(height):
-            dx = 17 + block_size * x
-            dy = 17 + block_size * y
-            draw_block(dx, dy, ui_variables.t_color[matrix[x][y + 1]])
+            dx = int(board_width * 0.25) + block_size * x  #위치비율 고정, board 가로길이에 원하는 비율을 곱해줌#
+            dy = int(board_height * 0.055) + block_size * y #위치비율 고정, board 세로길이에 원하는 비율을 곱해줌#
+            draw_block_image(dx, dy, ui_variables.t_block[matrix[x][y + 1]])
 
-def draw_multiboard():
-    screen.fill(ui_variables.real_white)
-    # 22.05.04 pause화면 구현 위해 임시로 작성했습니다.
 
 def draw_1Pboard(next, hold, score, level, goal):
     sidebar_width = int(board_width * 0.31) #위치비율 고정, board 가로길이에 원하는 비율을 곱해줌#
@@ -1078,6 +1078,7 @@ while not done:
 
                 # Draw a mino
                 draw_mino(dx, dy, mino, rotation,matrix)
+                draw_image(screen, gamebackground_image , board_width * 0.5, board_height * 0.5, board_width, board_height) #(window, 이미지주소, x좌표, y좌표, 너비, 높이)
                 draw_board(next_mino1, next_mino2, hold_mino, score, level, goal)
 
                 # Erase a mino
@@ -1095,15 +1096,20 @@ while not done:
                         bottom_count = 0
                         score += 10 * level
                         draw_mino(dx, dy, mino, rotation,matrix)
+                        screen.fill(ui_variables.real_white)
+                        draw_image(screen, gamebackground_image, board_width * 0.5, board_height * 0.5, board_width, board_height)
                         draw_board(next_mino1, next_mino2, hold_mino, score, level, goal)
+                        pygame.display.update()
                         if is_stackable(next_mino1, matrix):
                             mino = next_mino1
-                            next_mino1 = randint(1, 7)
+                            next_mino1 = next_mino2
+                            next_mino2 = randint(1, 7)
                             dx, dy = 3, 0
                             rotation = 0
                             hold = False
                         else:
                             start = False
+                            game_status = 'start'
                             game_over = True
                             pygame.time.set_timer(pygame.USEREVENT, 1)
                     else:
@@ -1164,7 +1170,8 @@ while not done:
                         if hold_mino == -1:
                             hold_mino = mino
                             mino = next_mino1
-                            next_mino1 = randint(1, 7)
+                            next_mino1 = next_mino2
+                            next_mino2 = randint(1, 7)
                         else:
                             hold_mino, mino = mino, hold_mino
                         dx, dy = 3, 0
