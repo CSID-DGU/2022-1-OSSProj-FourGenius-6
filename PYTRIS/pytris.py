@@ -301,7 +301,7 @@ resume_button = button(board_width, board_height, 0.5, 0.23, 0.15, 0.35, resume_
 restart_button = button(board_width, board_height, 0.5, 0.43, 0.15, 0.35, restart_button_image)
 
 '''
-
+'''
 back_button = button(board_width, board_height, 0.5, 0.85, 0.15, 0.35, back_button_image)
 volume_icon = button(board_width, board_height, 0.4, 0.5, 0.12, 0.23, volume_vector)
 screen_icon = button(board_width, board_height, 0.6, 0.5, 0.12, 0.23, screen_vector)
@@ -320,16 +320,7 @@ combo_plus_button = button(board_width, board_height, 0.63, 0.9419, 0.0625, 0.11
 combo_minus_button =button(board_width, board_height, 0.56, 0.9419, 0.0625, 0.1111, minus_button_image)
 speed_plus_button = button(board_width, board_height, 0.18, 0.12, 0.055, 0.09, plus_button_image)
 speed_minus_button =button(board_width, board_height, 0.035, 0.12, 0.055, 0.09, minus_button_image)
-
-#음소거 추가#
-effect_sound_off_button = button(board_width, board_height, 0.65, 0.73, 0.08, 0.15, sound_off_button_image)
-music_sound_off_button = button(board_width, board_height, 0.65, 0.53, 0.08, 0.15, sound_off_button_image)
-effect_sound_on_button = button(board_width, board_height, 0.65, 0.73, 0.08, 0.15, sound_on_button_image)
-music_sound_on_button = button(board_width, board_height, 0.65, 0.53, 0.08, 0.15, sound_on_button_image)
-mute_check_button = button(board_width, board_height, 0.2, 0.4, 0.0625, 0.1111, check_button_image)
-smallsize_check_button = button(board_width, board_height, 0.5, 0.25, 0.1875, 0.1444, smallsize_board)
-midiumsize_check_button = button(board_width, board_height, 0.5, 0.45, 0.1875, 0.1444, midiumsize_board)
-bigsize_check_button = button(board_width, board_height, 0.5, 0.65, 0.1875, 0.1444, bigsize_board)
+'''
 
 '''
 
@@ -699,7 +690,7 @@ def is_rightedge(x, y, mino, r, matrix):
 
     return False
   
-  def is_turnable_r(x, y, mino, r, matrix):
+def is_turnable_r(x, y, mino, r, matrix):
     if r != 3:  #회전모양 총 0, 1, 2, 3번째 총 4가지 있음
         grid = tetrimino.mino_map[mino - 1][r + 1] #3이 아니면 그 다음 모양
     else:
@@ -1084,8 +1075,6 @@ while not done:
 
     # Game screen
     elif start:
-        if time_attack:
-            elapsed_time = (pygame.time.get_ticks() - start_ticks) / 1000 # 경과 시간 계산
         for event in pygame.event.get():
             pos = pygame.mouse.get_pos()
             if event.type == QUIT:
