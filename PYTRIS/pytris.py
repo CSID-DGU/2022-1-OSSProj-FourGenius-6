@@ -98,7 +98,7 @@ class ui_variables:
 
 #각 이미지 주소
 background_image = 'assets/images/background_image.png' #메뉴화면(첫 화면) 배경
-gamebackground_image_nyc = 'assets/images/background_nyc.png' #게임 배경화면 : 기본값 뉴욕
+gamebackground_image = 'assets/images/background_nyc.png' #게임 배경화면 : 기본값 뉴욕
 pause_board_image = 'assets/vector/pause_board.png'
 
 select_mode_button_image = 'assets/vector/select_mode_button.png'
@@ -578,7 +578,7 @@ def draw_2Pboard(next, hold, score, level, goal):
 
 def draw_multiboard(next_1P, hold_1P, next_2P, hold_2P, score1P, score2P, level1P, level2P, goal1P, goal2P):
     screen.fill(ui_variables.real_white)
-    draw_image(screen, gamebackground_image_nyc , board_width * 0.5, board_height * 0.5, board_width, board_height) #(window, 이미지주소, x좌표, y좌표, 너비, 높이)
+    draw_image(screen, gamebackground_image , board_width * 0.5, board_height * 0.5, board_width, board_height) #(window, 이미지주소, x좌표, y좌표, 너비, 높이)
     draw_1Pboard(next_1P, hold_1P, score1P, level1P, goal1P)
     draw_2Pboard(next_2P, hold_2P, score2P, level2P, goal2P)
 
@@ -954,7 +954,7 @@ while not done:
         
         if start:
             screen.fill(ui_variables.real_white)
-            draw_image(screen, gamebackground_image_nyc , board_width * 0.5, board_height * 0.5, board_width, board_height) #(window, 이미지주소, x좌표, y좌표, 너비, 높이)
+            draw_image(screen, gamebackground_image, board_width * 0.5, board_height * 0.5, board_width, board_height) #(window, 이미지주소, x좌표, y좌표, 너비, 높이)
             draw_board(next_mino1, next_mino2, hold_mino, score, level, goal)
             #화면 회색으로 약간 불투명하게
             pause_surface = screen.convert_alpha() #투명 가능하도록
@@ -1075,7 +1075,7 @@ while not done:
                         score += 10 * level
                         draw_mino(dx, dy, mino, rotation,matrix)
                         draw_board(next_mino1, next_mino2, hold_mino, score, level, goal)
-                        if is_stackable(next_mino1):
+                        if is_stackable(next_mino1, matrix):
                             mino = next_mino1
                             next_mino1 = randint(1, 7)
                             dx, dy = 3, 0
