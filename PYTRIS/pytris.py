@@ -31,6 +31,8 @@ mino_matrix_y = 4 #mino는 4*4 배열이어서 이를 for문에 사용
 board_x = 10
 board_y = 20
 
+total_time = 60 # 타임 어택 시간
+
 pygame.init()
 
 clock = pygame.time.Clock()
@@ -313,6 +315,7 @@ def draw_block_image(x, y, image):
 # Draw game screen
 def draw_board(next, next2, hold, score, level, goal):
     screen.fill(ui_variables.grey_1)
+    sidebar_width = int(board_width * 0.5312) #크기 비율 고정, 전체 board 가로길이에서 원하는 비율을 곱해줌#
 
     # Draw sidebar
     pygame.draw.rect(
@@ -363,6 +366,10 @@ def draw_board(next, next2, hold, score, level, goal):
     level_value = ui_variables.h4.render(str(level), 1, ui_variables.black)
     text_goal = ui_variables.h5.render("GOAL", 1, ui_variables.black)
     goal_value = ui_variables.h4.render(str(goal), 1, ui_variables.black)
+    if time_attack:
+            time = total_time - elapsed_time
+            value = ui_variables.h5.render("TIME : "+str(int(time)), 1, ui_variables.real_white)
+            screen.blit(value, (int(board_width * -0.445) + sidebar_width, int(board_height * 0.015))) #각각 전체 board 가로길이, 세로길이에 대한 원하는 비율을 곱해줌#
 
     # Place texts
     screen.blit(text_hold, (215, 14))
@@ -983,6 +990,8 @@ while not done:
 
     # Game screen
     elif start:
+        if time_attack:
+            elapsed_time = (pygame.time.get_ticks() - start_ticks) / 1000 # 경과 시간 계산
         for event in pygame.event.get():
             pos = pygame.mouse.get_pos()
             if event.type == QUIT:
@@ -1171,6 +1180,7 @@ while not done:
                     if not is_rightedge(dx, dy, mino, rotation,matrix):
                         ui_variables.move_sound.play()
                         dx += 1
+                        
                     draw_mino(dx, dy, mino, rotation,matrix)
                     draw_board(next_mino1, next_mino2, hold_mino, score, level, goal)
 
@@ -2167,6 +2177,7 @@ while not done:
                     blink = True
 
                 pygame.display.update()
+
             elif event.type == KEYDOWN:
                 if event.key == K_RETURN:
                     ui_variables.click_sound.play()
