@@ -648,8 +648,8 @@ while not done:
 
                 # Move mino down
                 if not is_bottom(dx, dy, mino, rotation):
-                    dy += 1
-
+                    dy += 1 
+                
                 # Create new mino
                 else:
                     if hard_drop or bottom_count == 6:
@@ -821,6 +821,456 @@ while not done:
             game_status = 'start'
             game_over = True
             time_attack = False
+            pygame.time.set_timer(pygame.USEREVENT, 1)
+
+        pygame.display.update()
+
+    elif hard_mode:
+        elapsed_time = (pygame.time.get_ticks() - start_ticks) / 1000 # 경과 시간 계산
+
+        for event in pygame.event.get():
+            pos = pygame.mouse.get_pos()
+            if event.type == QUIT:
+                done = True
+            elif event.type == USEREVENT:
+                # Set speed
+                if not game_over:
+                    keys_pressed = pygame.key.get_pressed()
+                    if keys_pressed[K_DOWN]:
+                        pygame.time.set_timer(pygame.USEREVENT, framerate) #프레임 시간만큼 빠르게 소프트드롭
+                    else:
+                        pygame.time.set_timer(pygame.USEREVENT, game_speed)
+
+                # Draw a mino
+                draw_mino(dx, dy, mino, rotation, matrix)
+                screen.fill(ui_variables.real_white)
+                draw_image(screen, gamebackground_image , board_width * 0.5, board_height * 0.5, board_width, board_height) #(window, 이미지주소, x좌표, y좌표, 너비, 높이)
+                draw_board(next_mino1, next_mino2, hold_mino, score, level, goal)
+                pygame.display.update()
+
+                current_time = pygame.time.get_ticks()
+                # Erase a mino
+                if not game_over:
+                    erase_mino(dx, dy, mino, rotation, matrix)
+
+                # Move mino down
+                if not is_bottom(dx, dy, mino, rotation, matrix):
+                    dy += 1
+
+                
+                # # Create new mino: 중력 모드
+                # elif gravity_mode:
+                #     if hard_drop or bottom_count == 6:
+                #         if gravity(dx, dy, mino, rotation, matrix):
+                #             erase_mino(dx, dy, mino, rotation, matrix)
+                #         hard_drop = False
+                #         bottom_count = 0
+                #         score += 10 * level
+                #         screen.fill(ui_variables.real_white)
+                #         draw_image(screen, background_image , board_width * 0.5, board_height * 0.5, board_width, board_height) #(window, 이미지주소, x좌표, y좌표, 너비, 높이)
+                #         draw_board(next_mino1, next_mino2, hold_mino, score, level, goal)
+                #         pygame.display.update()
+                #         if is_stackable(next_mino1, matrix):
+                #             mino = next_mino1
+                #             next_mino1 = next_mino2
+                #             next_mino2 = randint(1, 7)
+                #             dx, dy = 3, 0
+                #             rotation = 0
+                #             hold = False
+                #         else:
+                #             ui_variables.GameOver_sound.play()
+                #             start = False
+                #             game_status = 'start'
+                #             game_over = True
+                #             gravity_mode = False
+                #             pygame.time.set_timer(pygame.USEREVENT, 1) #0.001초
+                #     else:
+                #         bottom_count += 1
+                
+                # Create new mino: 일반 모드
+                else:
+                    if hard_drop or bottom_count == 6:
+                        hard_drop = False
+                        bottom_count = 0
+                        score += 10 * level
+                        draw_mino(dx, dy, mino, rotation, matrix)
+                        screen.fill(ui_variables.real_white)
+                        draw_image(screen, gamebackground_image , board_width * 0.5, board_height * 0.5, board_width, board_height) #(window, 이미지주소, x좌표, y좌표, 너비, 높이)
+                        draw_board(next_mino1, next_mino2, hold_mino, score, level, goal)
+                        pygame.display.update()
+
+                        if is_stackable(next_mino1, matrix):
+                            mino = next_mino1
+                            next_mino1 = next_mino2
+                            next_mino2 = randint(1, 7)
+                            dx, dy = 3, 0
+                            rotation = 0
+                            hold = False
+                        else:
+                            ui_variables.GameOver_sound.play()
+                            start = False
+                            game_status = 'start'
+                            game_over = True
+                            pygame.time.set_timer(pygame.USEREVENT, 1) #0.001초
+                    else:
+                        bottom_count += 1
+
+                # Erase line
+                erase_count = 0
+                rainbow_count = 0
+                matrix_contents = []
+                combo_value = 0
+
+                for j in range(board_y+1):
+                    is_full = True
+                    for i in range(board_x):
+                        if matrix[i][j] == 0 or matrix[i][j] == 9 : #빈 공간이거나, 장애물블록
+                            is_full = False
+                    if is_full: # 한 줄 꽉 찼을 때
+                        erase_count += 1
+                        k = j
+                        combo_value += 1
+
+                        # #rainbow보너스 점수
+                        # rainbow = [1,2,3,4,5,6,7] #각 mino에 해당하는 숫자
+
+                        for i in range(board_x):
+                            matrix_contents.append(matrix[i][j]) #현재 클리어된 줄에 있는 mino 종류들 저장
+                            
+                        # rainbow_check = list(set(matrix_contents).intersection(rainbow)) #현재 클리어된 줄에 있는 mino와 mino의 종류중 겹치는 것 저장
+                        # if rainbow == rainbow_check: #현재 클리어된 줄에 모든 종류 mino 있다면
+                        #     rainbow_count += 1
+
+                        while k > 0:
+                            for i in range(board_x):
+                                matrix[i][k] = matrix[i][k - 1]  # 남아있는 블록 한 줄씩 내리기(덮어쓰기)
+                            k -= 1
+                if erase_count >= 1:
+
+                    # if rainbow_count >= 1:
+                    #     score += 500 * rainbow_count #임의로 rainbow는 한 줄당 500점으로 잡음
+                    #     rainbow_count = 0 #다시 초기화
+                    #     screen.blit(ui_variables.rainbow_vector, (board_width * 0.28, board_height * 0.1)) #blit(이미지, 위치)
+                    #     pygame.display.update()
+                    #     pygame.time.delay(400) #0.4초
+
+                    # previous_time = current_time
+                    # combo_count += 1
+
+                    #점수 계산
+                    if erase_count == 1:
+                        ui_variables.break_sound.play()
+                        ui_variables.single_sound.play()
+                        score += 50 * level * erase_count + combo_count
+                    elif erase_count == 2:
+                        ui_variables.break_sound.play()
+                        ui_variables.double_sound.play()
+                        ui_variables.double_sound.play()
+                        score += 150 * level * erase_count + 2 * combo_count
+                    elif erase_count == 3:
+                        ui_variables.break_sound.play()
+                        ui_variables.triple_sound.play()
+                        ui_variables.triple_sound.play()
+                        ui_variables.triple_sound.play()
+                        score += 350 * level * erase_count + 3 * combo_count
+                    elif erase_count == 4:
+                        ui_variables.break_sound.play()
+                        ui_variables.tetris_sound.play()
+                        ui_variables.tetris_sound.play()
+                        ui_variables.tetris_sound.play()
+                        ui_variables.tetris_sound.play()
+                        score += 1000 * level * erase_count + 4 * combo_count
+                        screen.blit(ui_variables.combo_4ring, (250, 160)) #blit(이미지, 위치)
+                    total_time += 5 # 콤보 시 시간 5초 연장
+
+                    for i in range(1, 11):
+                        if combo_count == i:  # 1 ~ 10 콤보 이미지
+                            screen.blit(ui_variables.large_combos[i - 1], (board_width * 0.27, board_height * 0.35)) #각 콤보 이미지에 대해 blit(이미지, 위치)
+                            pygame.display.update()
+                            pygame.time.delay(500)
+                        elif combo_count > 10:  # 11 이상 콤보 이미지
+                            pygame.display.update()
+                            pygame.time.delay(300)
+
+                    for i in range(1, 9): # 1~8의 콤보 사운드
+                        if combo_count == i + 2:  # 3 ~ 11 콤보 사운드
+                            ui_variables.combos_sound[i - 1].play()
+                        if combo_count > 11:
+                            ui_variables.combos_sound[8].play()
+                if current_time - previous_time > 10000: #10초가 지나면
+                    previous_time = current_time #현재 시간을 과거시간으로 하고
+                    combo_count = 0 #콤보 수 초기화
+
+
+                # Increase level
+                goal -= erase_count
+                if goal < 1 and level < 15:
+                    level += 1
+                    ui_variables.LevelUp_sound.play()
+                    goal += level * 5
+                    framerate = int(framerate-speed_change)
+                    Change_RATE += 1
+                    set_music_playing_speed(CHANNELS, swidth, Change_RATE)
+
+            elif event.type == KEYDOWN:
+                erase_mino(dx, dy, mino, rotation, matrix)
+                if event.key == K_ESCAPE:
+                    ui_variables.click_sound.play()
+                    pause = True
+                # Hard drop
+                elif event.key == K_SPACE:
+                    ui_variables.fall_sound.play()
+                    ui_variables.drop_sound.play()
+                    while not is_bottom(dx, dy, mino, rotation, matrix):
+                        dy += 1
+                    hard_drop = True
+                    pygame.time.set_timer(pygame.USEREVENT, framerate)
+                    draw_mino(dx, dy, mino, rotation, matrix)
+                    screen.fill(ui_variables.real_white)
+                    draw_image(screen, gamebackground_image , board_width * 0.5, board_height * 0.5, board_width, board_height) #(window, 이미지주소, x좌표, y좌표, 너비, 높이)
+                    draw_board(next_mino1, next_mino2, hold_mino, score, level, goal)
+                    pygame.display.update()
+                elif event.key == K_j :
+                    framerate = int(framerate-speed_change)
+                    print(framerate)
+
+                # Hold
+                elif event.key == K_RSHIFT : #keyboard 변경하기
+                    if hold == False:
+                        ui_variables.move_sound.play()
+                        if hold_mino == -1:
+                            hold_mino = mino
+                            mino = next_mino1
+                            next_mino1 = next_mino2
+                            next_mino2 = randint(1, 7)
+                        else:
+                            hold_mino, mino = mino, hold_mino
+                        dx, dy = 3, 0
+                        rotation = 0
+                        hold = True
+                    draw_mino(dx, dy, mino, rotation, matrix)
+                    screen.fill(ui_variables.real_white)
+                    draw_image(screen, gamebackground_image , board_width * 0.5, board_height * 0.5, board_width, board_height) #(window, 이미지주소, x좌표, y좌표, 너비, 높이)
+                    draw_board(next_mino1, next_mino2, hold_mino, score, level, goal)
+
+                #dx, dy는 각각 좌표위치 이동에 해당하며, rotation은 mino.py의 테트리스 블록 회전에 해당함
+                # Turn right
+                elif event.key == K_UP:
+                    if is_turnable_r(dx, dy, mino, rotation, matrix):
+                        ui_variables.move_sound.play()
+                        rotation += 1
+                    # Kick
+                    elif is_turnable_r(dx, dy - 1, mino, rotation, matrix):
+                        ui_variables.move_sound.play()
+                        dy -= 1
+                        rotation += 1
+                    elif is_turnable_r(dx + 1, dy, mino, rotation, matrix):
+                        ui_variables.move_sound.play()
+                        dx += 1
+                        rotation += 1
+                    elif is_turnable_r(dx - 1, dy, mino, rotation, matrix):
+                        ui_variables.move_sound.play()
+                        dx -= 1
+                        rotation += 1
+                    elif is_turnable_r(dx, dy - 2, mino, rotation, matrix):
+                        ui_variables.move_sound.play()
+                        dy -= 2
+                        rotation += 1
+                    elif is_turnable_r(dx + 2, dy, mino, rotation, matrix):
+                        ui_variables.move_sound.play()
+                        dx += 2
+                        rotation += 1
+                    elif is_turnable_r(dx - 2, dy, mino, rotation, matrix):
+                        ui_variables.move_sound.play()
+                        dx -= 2
+                        rotation += 1
+                    if rotation == 4:
+                        rotation = 0
+                    draw_mino(dx, dy, mino, rotation, matrix)
+                    screen.fill(ui_variables.real_white)
+                    draw_image(screen, gamebackground_image , board_width * 0.5, board_height * 0.5, board_width, board_height) #(window, 이미지주소, x좌표, y좌표, 너비, 높이)
+                    draw_board(next_mino1, next_mino2, hold_mino, score, level, goal)
+                # Turn left
+                elif event.key == K_m:
+                    if is_turnable_l(dx, dy, mino, rotation, matrix):
+                        ui_variables.move_sound.play()
+                        rotation -= 1
+                    # Kick
+                    elif is_turnable_l(dx, dy - 1, mino, rotation, matrix):
+                        ui_variables.move_sound.play()
+                        dy -= 1
+                        rotation -= 1
+                    elif is_turnable_l(dx + 1, dy, mino, rotation, matrix):
+                        ui_variables.move_sound.play()
+                        dx += 1
+                        rotation -= 1
+                    elif is_turnable_l(dx - 1, dy, mino, rotation, matrix):
+                        ui_variables.move_sound.play()
+                        dx -= 1
+                        rotation -= 1
+                    elif is_turnable_l(dx, dy - 2, mino, rotation, matrix):
+                        ui_variables.move_sound.play()
+                        dy -= 2
+                        rotation += 1
+                    elif is_turnable_l(dx + 2, dy, mino, rotation, matrix):
+                        ui_variables.move_sound.play()
+                        dx += 2
+                        rotation += 1
+                    elif is_turnable_l(dx - 2, dy, mino, rotation, matrix):
+                        ui_variables.move_sound.play()
+                        dx -= 2
+                    if rotation == -1:
+                        rotation = 3
+                    draw_mino(dx, dy, mino, rotation, matrix)
+                    screen.fill(ui_variables.real_white)
+                    draw_image(screen, gamebackground_image , board_width * 0.5, board_height * 0.5, board_width, board_height) #(window, 이미지주소, x좌표, y좌표, 너비, 높이)
+                    draw_board(next_mino1, next_mino2, hold_mino, score, level, goal)
+
+                # Move left
+                elif event.key == K_LEFT:
+                    if not is_leftedge(dx, dy, mino, rotation, matrix):
+                        ui_variables.move_sound.play()
+                        dx -= 1
+                    draw_mino(dx, dy, mino, rotation, matrix)
+                    screen.fill(ui_variables.real_white)
+                    draw_image(screen, gamebackground_image , board_width * 0.5, board_height * 0.5, board_width, board_height) #(window, 이미지주소, x좌표, y좌표, 너비, 높이)
+                    draw_board(next_mino1, next_mino2, hold_mino, score, level, goal)
+                # Move right
+                elif event.key == K_RIGHT:
+                    if not is_rightedge(dx, dy, mino, rotation, matrix):
+                        ui_variables.move_sound.play()
+                        dx += 1
+                    draw_mino(dx, dy, mino, rotation, matrix)
+                    screen.fill(ui_variables.real_white)
+                    draw_image(screen, gamebackground_image , board_width * 0.5, board_height * 0.5, board_width, board_height) #(window, 이미지주소, x좌표, y좌표, 너비, 높이)
+                    draw_board(next_mino1, next_mino2, hold_mino, score, level, goal)
+
+                # # rainbow test
+                # elif event.key == K_F1:
+                #     ui_variables.click_sound.play()
+                #     matrix[0][20] = 7 #빨
+                #     matrix[1][20] = 7 #빨
+                #     matrix[2][20] = 3#주
+                #     matrix[3][20] = 3#주
+                #     matrix[4][20] = 4#노
+                #     matrix[5][20] = 5#초
+                #     matrix[6][20] = 5#초
+                #     matrix[7][20] = 1#하
+                #     matrix[8][20] = 2#파
+                #     mino = 6
+                # debug mode block change
+
+                elif debug:
+                    if event.key == K_1:
+                        ui_variables.click_sound.play()
+                        mino = 1 #빨
+                    if event.key == K_2:
+                        ui_variables.click_sound.play()
+                        mino = 2 #빨
+                    if event.key == K_3:
+                        ui_variables.click_sound.play()
+                        mino = 3 #빨
+                    if event.key == K_4:
+                        ui_variables.click_sound.play()
+                        mino = 4 #빨
+                    if event.key == K_5:
+                        ui_variables.click_sound.play()
+                        mino = 5 #빨
+                    if event.key == K_6:
+                        ui_variables.click_sound.play()
+                        mino = 6 #빨
+                    if event.key == K_7:
+                        ui_variables.click_sound.play()
+                        mino = 7 #빨
+
+            elif event.type == VIDEORESIZE:
+                board_width = event.w
+                board_height = event.h
+                if board_width < min_width or board_height < min_height: #최소 너비 또는 높이를 설정하려는 경우
+                    board_width = min_width
+                    board_height = min_height
+                if not ((board_rate-0.1) < (board_height/board_width) < (board_rate+0.05)): #높이 또는 너비가 비율의 일정수준 이상을 넘어서게 되면
+                    board_width = int(board_height / board_rate) #너비를 적정 비율로 바꿔줌
+                    board_height = int(board_width*board_rate) #높이를 적정 비율로 바꿔줌
+                if board_width>= mid_width: #화면 사이즈가 큰 경우
+                    textsize=True #큰 글자크기 사용
+                if board_width < mid_width: #화면 사이즈가 작은 경우
+                    textsize=False #작은 글자크기 사용
+
+                block_size = int(board_height * 0.045)
+                screen = pygame.display.set_mode((board_width, board_height), pygame.RESIZABLE)
+
+                for i in range(len(button_list)):
+                        button_list[i].change(board_width, board_height)
+
+            elif event.type == pygame.MOUSEMOTION:
+                if debug:
+                    if level_plus_button.isOver(pos):
+                        level_plus_button.image = clicked_plus_button_image
+                    else:
+                        level_plus_button.image = plus_button_image
+                    if level_minus_button.isOver(pos):
+                        level_minus_button.image = clicked_minus_button_image
+                    else:
+                        level_minus_button.image = minus_button_image
+                    if combo_plus_button.isOver(pos):
+                        combo_plus_button.image = clicked_plus_button_image
+                    else:
+                        combo_plus_button.image = plus_button_image
+                    if combo_minus_button.isOver(pos):
+                        combo_minus_button.image = clicked_minus_button_image
+                    else:
+                        combo_minus_button.image = minus_button_image
+                    if speed_plus_button.isOver(pos):
+                        speed_plus_button.image = clicked_plus_button_image
+                    else:
+                        speed_plus_button.image = plus_button_image
+                    if speed_minus_button.isOver(pos):
+                        speed_minus_button.image = clicked_minus_button_image
+                    else:
+                        speed_minus_button.image = minus_button_image
+
+                    pygame.display.update()
+
+            elif event.type == pygame.MOUSEBUTTONDOWN:
+                if debug:
+                    if level_plus_button.isOver(pos):
+                        ui_variables.click_sound.play()
+                        if level < 15:
+                            level += 1
+                            goal += level * 5
+                            Change_RATE = level + 1
+                            set_music_playing_speed(CHANNELS, swidth, Change_RATE)
+                    if level_minus_button.isOver(pos):
+                        ui_variables.click_sound.play()
+                        if level > 1:
+                            level -= 1
+                            goal += level * 5
+                            Change_RATE = level + 1
+                            set_music_playing_speed(CHANNELS, swidth, Change_RATE)
+                    if combo_plus_button.isOver(pos):
+                        ui_variables.click_sound.play()
+                        combo_count += 1
+                    if combo_minus_button.isOver(pos):
+                        ui_variables.click_sound.play()
+                        if combo_count > 0:
+                            combo_count -= 1
+                    if speed_plus_button.isOver(pos):
+                        ui_variables.click_sound.play()
+                        if framerate <= 28:
+                            framerate = int(framerate + speed_change)
+                    if speed_minus_button.isOver(pos):
+                        ui_variables.click_sound.play()
+                        if framerate > 2:
+                            framerate = int(framerate - speed_change)
+                    pygame.display.update()
+
+        if total_time - elapsed_time < 0: # 60초가 지났으면
+            ui_variables.GameOver_sound.play()
+            start = False
+            game_status = 'start'
+            game_over = True
+            hard_mode = False
             pygame.time.set_timer(pygame.USEREVENT, 1)
 
         pygame.display.update()
@@ -1059,7 +1509,7 @@ while not done:
         )
         '''
         # 메인화면 배경
-        draw_image(screen, background_image, board_width * 0.5, board_height * 0.5, board_width, board_height) #(window, 이미지주소, x좌표, y좌표, 너비, 높이)
+        draw_image(screen, gamebackground_image, board_width * 0.5, board_height * 0.5, board_width, board_height) #(window, 이미지주소, x좌표, y좌표, 너비, 높이)
         
         # 버튼그리기
         test_cloud_button.draw(screen, (0,0,0))
