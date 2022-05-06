@@ -98,7 +98,7 @@ class ui_variables:
 
 #각 이미지 주소
 background_image = 'assets/images/background_image.png' #메뉴화면(첫 화면) 배경
-gamebackground_image = 'assets/images/background_nyc.png' #게임 배경화면 : 기본값 뉴욕
+gamebackground_image_nyc = 'assets/images/background_nyc.png' #게임 배경화면 : 기본값 뉴욕
 pause_board_image = 'assets/vector/pause_board.png'
 
 select_mode_button_image = 'assets/vector/select_mode_button.png'
@@ -578,7 +578,7 @@ def draw_2Pboard(next, hold, score, level, goal):
 
 def draw_multiboard(next_1P, hold_1P, next_2P, hold_2P, score1P, score2P, level1P, level2P, goal1P, goal2P):
     screen.fill(ui_variables.real_white)
-    draw_image(screen, gamebackground_image , board_width * 0.5, board_height * 0.5, board_width, board_height) #(window, 이미지주소, x좌표, y좌표, 너비, 높이)
+    draw_image(screen, gamebackground_image_nyc , board_width * 0.5, board_height * 0.5, board_width, board_height) #(window, 이미지주소, x좌표, y좌표, 너비, 높이)
     draw_1Pboard(next_1P, hold_1P, score1P, level1P, goal1P)
     draw_2Pboard(next_2P, hold_2P, score2P, level2P, goal2P)
 
@@ -1056,15 +1056,15 @@ while not done:
                         pygame.time.set_timer(pygame.USEREVENT, framerate * 10)
 
                 # Draw a mino
-                draw_mino(dx, dy, mino, rotation)
+                draw_mino(dx, dy, mino, rotation,matrix)
                 draw_board(next_mino1, next_mino2, hold_mino, score, level, goal)
 
                 # Erase a mino
                 if not game_over:
-                    erase_mino(dx, dy, mino, rotation)
+                    erase_mino(dx, dy, mino, rotation,matrix)
 
                 # Move mino down
-                if not is_bottom(dx, dy, mino, rotation):
+                if not is_bottom(dx, dy, mino, rotation,matrix):
                     dy += 1
 
                 # Create new mino
@@ -1073,7 +1073,7 @@ while not done:
                         hard_drop = False
                         bottom_count = 0
                         score += 10 * level
-                        draw_mino(dx, dy, mino, rotation)
+                        draw_mino(dx, dy, mino, rotation,matrix)
                         draw_board(next_mino1, next_mino2, hold_mino, score, level, goal)
                         if is_stackable(next_mino1):
                             mino = next_mino1
@@ -1123,18 +1123,18 @@ while not done:
                     framerate = int(framerate * 0.8)
 
             elif event.type == KEYDOWN:
-                erase_mino(dx, dy, mino, rotation)
+                erase_mino(dx, dy, mino, rotation,matrix)
                 if event.key == K_ESCAPE:
                     ui_variables.click_sound.play()
                     pause = True
                 # Hard drop
                 elif event.key == K_SPACE:
                     ui_variables.drop_sound.play()
-                    while not is_bottom(dx, dy, mino, rotation):
+                    while not is_bottom(dx, dy, mino, rotation,matrix):
                         dy += 1
                     hard_drop = True
                     pygame.time.set_timer(pygame.USEREVENT, 1)
-                    draw_mino(dx, dy, mino, rotation)
+                    draw_mino(dx, dy, mino, rotation,matrix)
                     draw_board(next_mino1, next_mino2, hold_mino, score, level, goal)
                 # Hold
                 elif event.key == K_LSHIFT or event.key == K_c:
@@ -1149,88 +1149,88 @@ while not done:
                         dx, dy = 3, 0
                         rotation = 0
                         hold = True
-                    draw_mino(dx, dy, mino, rotation)
+                    draw_mino(dx, dy, mino, rotation,matrix)
                     draw_board(next_mino1, next_mino2, hold_mino, score, level, goal)
                 # Turn right
                 elif event.key == K_UP or event.key == K_x:
-                    if is_turnable_r(dx, dy, mino, rotation):
+                    if is_turnable_r(dx, dy, mino, rotation,matrix):
                         ui_variables.move_sound.play()
                         rotation += 1
                     # Kick
-                    elif is_turnable_r(dx, dy - 1, mino, rotation):
+                    elif is_turnable_r(dx, dy - 1, mino, rotation,matrix):
                         ui_variables.move_sound.play()
                         dy -= 1
                         rotation += 1
-                    elif is_turnable_r(dx + 1, dy, mino, rotation):
+                    elif is_turnable_r(dx + 1, dy, mino, rotation,matrix):
                         ui_variables.move_sound.play()
                         dx += 1
                         rotation += 1
-                    elif is_turnable_r(dx - 1, dy, mino, rotation):
+                    elif is_turnable_r(dx - 1, dy, mino, rotation,matrix):
                         ui_variables.move_sound.play()
                         dx -= 1
                         rotation += 1
-                    elif is_turnable_r(dx, dy - 2, mino, rotation):
+                    elif is_turnable_r(dx, dy - 2, mino, rotation,matrix):
                         ui_variables.move_sound.play()
                         dy -= 2
                         rotation += 1
-                    elif is_turnable_r(dx + 2, dy, mino, rotation):
+                    elif is_turnable_r(dx + 2, dy, mino, rotation,matrix):
                         ui_variables.move_sound.play()
                         dx += 2
                         rotation += 1
-                    elif is_turnable_r(dx - 2, dy, mino, rotation):
+                    elif is_turnable_r(dx - 2, dy, mino, rotation,matrix):
                         ui_variables.move_sound.play()
                         dx -= 2
                         rotation += 1
                     if rotation == 4:
                         rotation = 0
-                    draw_mino(dx, dy, mino, rotation)
+                    draw_mino(dx, dy, mino, rotation,matrix)
                     draw_board(next_mino1, next_mino2, hold_mino, score, level, goal)
                 # Turn left
                 elif event.key == K_z or event.key == K_LCTRL:
-                    if is_turnable_l(dx, dy, mino, rotation):
+                    if is_turnable_l(dx, dy, mino, rotation,matrix):
                         ui_variables.move_sound.play()
                         rotation -= 1
                     # Kick
-                    elif is_turnable_l(dx, dy - 1, mino, rotation):
+                    elif is_turnable_l(dx, dy - 1, mino, rotation,matrix):
                         ui_variables.move_sound.play()
                         dy -= 1
                         rotation -= 1
-                    elif is_turnable_l(dx + 1, dy, mino, rotation):
+                    elif is_turnable_l(dx + 1, dy, mino, rotation,matrix):
                         ui_variables.move_sound.play()
                         dx += 1
                         rotation -= 1
-                    elif is_turnable_l(dx - 1, dy, mino, rotation):
+                    elif is_turnable_l(dx - 1, dy, mino, rotation,matrix):
                         ui_variables.move_sound.play()
                         dx -= 1
                         rotation -= 1
-                    elif is_turnable_l(dx, dy - 2, mino, rotation):
+                    elif is_turnable_l(dx, dy - 2, mino, rotation,matrix):
                         ui_variables.move_sound.play()
                         dy -= 2
                         rotation += 1
-                    elif is_turnable_l(dx + 2, dy, mino, rotation):
+                    elif is_turnable_l(dx + 2, dy, mino, rotation,matrix):
                         ui_variables.move_sound.play()
                         dx += 2
                         rotation += 1
-                    elif is_turnable_l(dx - 2, dy, mino, rotation):
+                    elif is_turnable_l(dx - 2, dy, mino, rotation,matrix):
                         ui_variables.move_sound.play()
                         dx -= 2
                     if rotation == -1:
                         rotation = 3
-                    draw_mino(dx, dy, mino, rotation)
+                    draw_mino(dx, dy, mino, rotation,matrix)
                     draw_board(next_mino1, next_mino2, hold_mino, score, level, goal)
                 # Move left
                 elif event.key == K_LEFT:
-                    if not is_leftedge(dx, dy, mino, rotation):
+                    if not is_leftedge(dx, dy, mino, rotation,matrix):
                         ui_variables.move_sound.play()
                         dx -= 1
-                    draw_mino(dx, dy, mino, rotation)
+                    draw_mino(dx, dy, mino, rotation,matrix)
                     draw_board(next_mino1, next_mino2, hold_mino, score, level, goal)
                 # Move right
                 elif event.key == K_RIGHT:
-                    if not is_rightedge(dx, dy, mino, rotation):
+                    if not is_rightedge(dx, dy, mino, rotation,matrix):
                         ui_variables.move_sound.play()
                         dx += 1
-                    draw_mino(dx, dy, mino, rotation)
+                    draw_mino(dx, dy, mino, rotation,matrix)
                     draw_board(next_mino1, next_mino2, hold_mino, score, level, goal)
 
         pygame.display.update()
