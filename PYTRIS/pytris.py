@@ -160,6 +160,7 @@ clicked_setting_vector = 'assets/vector/clicked_setting_vector.png'
 setting_board_image = 'assets/vector/setting_board.png'
 gameover_board_image = 'assets/vector/gameover_board.png'
 gameover_image = 'assets/vector/gameover.png'
+'''
 
 setting_board_image = 'assets/vector/setting_board.png'
 number_board = 'assets/vector/number_board.png'
@@ -202,7 +203,7 @@ clicked_check_button_image = 'assets/vector/clicked_checkbox_button.png'
 
 pvp_win_image = 'assets/vector/pvp_win.png'
 pvp_lose_image = 'assets/vector/pvp_lose.png'
-'''
+
 
 leaderboard_vector = 'assets/vector/leaderboard_vector.png'
 clicked_leaderboard_vector = 'assets/vector/clicked_leaderboard_vector.png'
@@ -699,7 +700,7 @@ def is_rightedge(x, y, mino, r, matrix):
 
     return False
   
-  def is_turnable_r(x, y, mino, r, matrix):
+def is_turnable_r(x, y, mino, r, matrix):
     if r != 3:  #회전모양 총 0, 1, 2, 3번째 총 4가지 있음
         grid = tetrimino.mino_map[mino - 1][r + 1] #3이 아니면 그 다음 모양
     else:
