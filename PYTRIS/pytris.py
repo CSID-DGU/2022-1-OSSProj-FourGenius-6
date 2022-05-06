@@ -61,7 +61,7 @@ class ui_variables:
     h5_i = pygame.font.Font(font_path_i, 13)
 
     # Sounds
-    pygame.mixer.music.load("assets/sounds/BGM1.wav") #음악 불러옴
+    pygame.mixer.music.load("assets/sounds/SFX_Fall.wav") #음악 불러옴
     pygame.mixer.music.set_volume(0.5) # 이 부분도 필요 없음, set_volume에 추가해야 함
     intro_sound = pygame.mixer.Sound("assets/sounds/BGM1.wav")
     fall_sound = pygame.mixer.Sound("assets/sounds/SFX_Fall.wav")
@@ -317,6 +317,10 @@ effect_sound_off_button = button(board_width, board_height, 0.65, 0.73, 0.08, 0.
 music_sound_off_button = button(board_width, board_height, 0.65, 0.53, 0.08, 0.15, sound_off_button_image)
 effect_sound_on_button = button(board_width, board_height, 0.65, 0.73, 0.08, 0.15, sound_on_button_image)
 music_sound_on_button = button(board_width, board_height, 0.65, 0.53, 0.08, 0.15, sound_on_button_image)
+
+BGM1_sound_on_button = button(board_width, board_height, 0.77, 0.43, 0.08, 0.15, sound_on_button_image)
+BGM2_sound_on_button = button(board_width, board_height, 0.77, 0.63, 0.08, 0.15, sound_on_button_image)
+BGM3_sound_on_button = button(board_width, board_height, 0.77, 0.83, 0.08, 0.15, sound_on_button_image)
 
 mute_check_button = button(board_width, board_height, 0.2, 0.4, 0.0625, 0.1111, check_button_image)
 smallsize_check_button = button(board_width, board_height, 0.5, 0.25, 0.1875, 0.1444, smallsize_board)
@@ -2146,6 +2150,9 @@ while not done:
         #음소거 추가#
         effect_sound_on_button.draw(screen,(0,0,0))
         music_sound_on_button.draw(screen,(0,0,0))
+        BGM1_sound_on_button.draw(screen,(0,0,0))
+        BGM2_sound_on_button.draw(screen,(0,0,0))
+        BGM3_sound_on_button.draw(screen,(0,0,0))
         back_button.draw(screen, (0, 0, 0))
 
         #render("텍스트이름", 안티에일리어싱 적용, 색깔), 즉 아래의 코드에서 숫자 1=안티에일리어싱 적용에 관한 코드
@@ -2163,6 +2170,13 @@ while not done:
         effect_volume_size_text = ui_variables.h4.render(str(effect_volume), 1, ui_variables.grey_1)
         screen.blit(music_volume_size_text, (board_width * 0.43, board_height * 0.5)) #위치 비율 고정
         screen.blit(effect_volume_size_text, (board_width * 0.43, board_height * 0.7)) #위치 비율 고정
+
+        BGM1_text = ui_variables.h5.render('BGM1', 1, ui_variables.grey_1)
+        BGM2_text = ui_variables.h5.render('BGM2', 1, ui_variables.grey_1)
+        BGM3_text = ui_variables.h5.render('BGM3', 1, ui_variables.grey_1)
+        screen.blit(BGM1_text, (board_width * 0.75, board_height * 0.3)) #위치 비율 고정
+        screen.blit(BGM2_text, (board_width * 0.75, board_height * 0.5)) #위치 비율 고정
+        screen.blit(BGM3_text, (board_width * 0.75, board_height * 0.7)) #위치 비율 고정
 
         for event in pygame.event.get():
             pos = pygame.mouse.get_pos()
@@ -2243,6 +2257,24 @@ while not done:
                         else:
                             effect_sound_on_button.image=sound_on_button_image
                             effect_volume -= 1
+                #BGM 선택 기능 추가#
+                if BGM1_sound_on_button.isOver(pos): 
+                    #ui_variables.intro_sound.("assets/sounds/BGM2.wav")#
+                    ui_variables.intro_sound.stop()
+                    ui_variables.intro_sound = pygame.mixer.Sound("assets/sounds/BGM1.wav")
+                    ui_variables.intro_sound.play()
+                if BGM2_sound_on_button.isOver(pos): 
+                    #ui_variables.intro_sound.("assets/sounds/BGM2.wav")#
+                    ui_variables.intro_sound.stop()
+                    ui_variables.intro_sound = pygame.mixer.Sound("assets/sounds/BGM2.wav")
+                    ui_variables.intro_sound.play()
+                if BGM3_sound_on_button.isOver(pos): 
+                    #ui_variables.intro_sound.("assets/sounds/BGM2.wav")#
+                    ui_variables.intro_sound.stop()
+                    ui_variables.intro_sound = pygame.mixer.Sound("assets/sounds/BGM3.wav")
+                    ui_variables.intro_sound.play()    
+                    
+                   
                 #음소거 추가#
                 if music_sound_on_button.isOver(pos):
                     ui_variables.click_sound.play()
@@ -2273,6 +2305,8 @@ while not done:
                         effect_volume = 0 #최소 음량으로
                         default_button.draw(screen,(0,0,0))
                         mute_button.image=default_button_image
+                
+
 
                 set_volume()
 
