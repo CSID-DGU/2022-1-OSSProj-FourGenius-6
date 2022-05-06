@@ -123,6 +123,9 @@ clicked_select_mode_button_image = 'assets/vector/clicked_select_mode_button.png
 setting_button_image = 'assets/vector/settings_button.png'
 clicked_setting_button_image = 'assets/vector/clicked_settings_button.png'
 
+pause_setting_button_image = 'assets/vector/pause_settings_button.png'
+clicked_pause_setting_button_image = 'assets/vector/clicked_pause_settings_button.png'
+
 score_board_button_image = 'assets/vector/score_board_button.png'
 clicked_score_board_button_image = 'assets/vector/clicked_score_board_button.png'
 
@@ -240,7 +243,7 @@ hard_tutorial_button = button(board_width, board_height, 0.37, 0.65, 0.22, 0.2, 
 multi_tutorial_button = button(board_width, board_height, 0.63, 0.65, 0.22, 0.2, multi_tutorial_button_image)
 
 pause_quit_button = button(board_width, board_height, 0.5, 0.83, 0.17, 0.2, quit_button_image)
-pause_setting_button = button(board_width, board_height, 0.5, 0.63, 0.17, 0.2, setting_button_image)
+pause_setting_button = button(board_width, board_height, 0.5, 0.63, 0.17, 0.2, pause_setting_button_image)
 
 leaderboard_icon = button(board_width, board_height, 0.77, 0.85, 0.15, 0.2, leaderboard_vector)
 mute_button = button(board_width, board_height, 0.5, 0.27, 0.25, 0.45, mute_button_image)
@@ -319,6 +322,7 @@ mute_check_button = button(board_width, board_height, 0.2, 0.4, 0.0625, 0.1111, 
 smallsize_check_button = button(board_width, board_height, 0.5, 0.25, 0.1875, 0.1444, smallsize_board)
 midiumsize_check_button = button(board_width, board_height, 0.5, 0.45, 0.1875, 0.1444, midiumsize_board)
 bigsize_check_button = button(board_width, board_height, 0.5, 0.65, 0.1875, 0.1444, bigsize_board)
+
 '''
 #게임 중 버튼 생성하기위한 버튼객체 리스트 (버튼 전체)
 button_list = [mute_button, default_button, single_button, pvp_button, help_button, quit_button, gravity_button, timeattack_button, resume_button, restart_button, setting_button, pause_quit_button, back_button,
@@ -994,8 +998,8 @@ while not done:
         #resume_button.draw(screen, (0, 0, 0)) #rgb(0,0,0) = 검정색
         #restart_button.draw(screen, (0, 0, 0))
 
-        setting_button.draw(screen, (0, 0, 0))
         pause_quit_button.draw(screen, (0, 0, 0))
+        pause_setting_button.draw(screen, (0, 0, 0))
         
         for event in pygame.event.get():
             pos = pygame.mouse.get_pos()
@@ -1024,10 +1028,10 @@ while not done:
             #     else:
             #         restart_button.image = restart_button_image
 
-                if setting_button.isOver_2(pos):
-                    setting_button.image = clicked_setting_button_image
+                if pause_setting_button.isOver_2(pos):
+                    pause_setting_button.image = clicked_pause_setting_button_image
                 else:
-                    setting_button.image = setting_button_image
+                    pause_setting_button.image = pause_setting_button_image
                 if pause_quit_button.isOver_2(pos):
                     pause_quit_button.image = clicked_quit_button_image
                 else:
@@ -1041,7 +1045,7 @@ while not done:
                    ui_variables.click_sound.play()
                    done = True
                 
-                if setting_button.isOver_2(pos):
+                if pause_setting_button.isOver_2(pos):
                     ui_variables.click_sound.play()
                     setting = True
                 '''
