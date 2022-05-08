@@ -130,6 +130,8 @@ clicked_hard_tutorial_button_image = 'assets/vector/clicked_hard_tutorial_button
 multi_tutorial_button_image = 'assets/vector/multi_tutorial_button.png'
 clicked_multi_tutorial_button_image = 'assets/vector/clicked_multi_tutorial_button.png'
 
+gameover_image = 'assets/vector/gameover.png'
+
 
 '''
 
@@ -157,7 +159,6 @@ clicked_setting_vector = 'assets/vector/clicked_setting_vector.png'
 
 setting_board_image = 'assets/vector/setting_board.png'
 gameover_board_image = 'assets/vector/gameover_board.png'
-gameover_image = 'assets/vector/gameover.png'
 
 smallsize_board = 'assets/vector/screensize1.png'
 midiumsize_board = 'assets/vector/screensize2.png'
