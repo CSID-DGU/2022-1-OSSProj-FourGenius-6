@@ -152,7 +152,7 @@ setting_board_image = 'assets/vector/setting_board.png'
 number_board = 'assets/vector/number_board.png'
 mute_button_image = 'assets/vector/allmute_button.png'
 
-background1_image = 'assets/images/background_honkong.png'
+background1_image = 'assets/images/background_hongkong.png'
 background2_image = 'assets/images/background_nyc.png'
 background3_image = 'assets/images/background_uk.png'
 
@@ -2047,13 +2047,11 @@ while not done:
             screen.blit(pause_surface, (0, 0))
 
             draw_image(screen, setting_board_image, board_width * 0.5, board_height * 0.5, int(board_height * 1.3), board_height) #(window, 이미지주소, x좌표, y좌표, 너비, 높이)
-            #background1_check_button.draw(screen, background1_image, board_width * 0.45, board_height * 0.53, int(board_width * 0.09), int(board_height * 0.1444))
             background1_check_button.draw(screen, (0, 0, 0))
-            #background3_check_button.draw(screen, (0, 0, 0))
-            #draw_image(screen, number_board, board_width * 0.45, board_height * 0.53, int(board_width * 0.09), int(board_height * 0.1444))
-            #draw_image(screen, number_board, board_width * 0.45, board_height * 0.73, int(board_width * 0.09), int(board_height * 0.1444))
+            background2_check_button.draw(screen, (0, 0, 0))
+            background3_check_button.draw(screen, (0, 0, 0))
             back_button.draw(screen, (0, 0, 0))
-            '''
+            
             for event in pygame.event.get():
                 pos = pygame.mouse.get_pos()
 
@@ -2077,11 +2075,6 @@ while not done:
                         screen_setting = False
                     if background1_check_button.isOver(pos):
                         ui_variables.click_sound.play()
-                        board_width = 800
-                        board_height = 450
-                        block_size = int(board_height * 0.045) #블록 크기 비율 고정
-                        screen = pygame.display.set_mode((board_width, board_height), pygame.RESIZABLE)
-                        textsize=False
                         
                         #for i in range(len(button_list):
                         #    button_list[i].change(board_width, board_height)
@@ -2089,12 +2082,7 @@ while not done:
                         
 
                     if background2_check_button.isOver(pos):
-                        ui_variables.click_sound.play()
-                        board_width = 1200
-                        board_height = 675
-                        block_size = int(board_height * 0.045) #블록 크기 비율 고정
-                        screen = pygame.display.set_mode((board_width, board_height), pygame.RESIZABLE)
-                        textsize=True
+                        gamebackground_image='assets/images/background_nyc.png'
                         
                         #for i in range(len(button_list)):
                         #    button_list[i].change(board_width, board_height)
@@ -2112,7 +2100,7 @@ while not done:
                         #for i in range(len(button_list)):
                         #    button_list[i].change(board_width, board_height)
                         pygame.display.update()
-               '''         
+                     
     elif volume_setting:
         #배경 약간 어둡게
         leaderboard_icon.draw(screen, (0, 0, 0)) #rgb(0,0,0) = 검정색#
