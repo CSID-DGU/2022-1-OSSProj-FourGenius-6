@@ -153,7 +153,8 @@ clicked_hard_tutorial_button_image = 'assets/vector/clicked_hard_tutorial_button
 multi_tutorial_button_image = 'assets/vector/multi_tutorial_button.png'
 clicked_multi_tutorial_button_image = 'assets/vector/clicked_multi_tutorial_button.png'
 
-'''
+
+
 help_button_image = 'assets/vector/help_button.png'
 clicked_help_button_image = 'assets/vector/clicked_help_button.png'
 gravity_button_image = 'assets/vector/gravity_button.png'
@@ -162,8 +163,9 @@ setting_vector = 'assets/vector/setting_vector.png'
 clicked_setting_vector = 'assets/vector/clicked_setting_vector.png'
 setting_board_image = 'assets/vector/setting_board.png'
 gameover_board_image = 'assets/vector/gameover_board.png'
+
 gameover_image = 'assets/vector/gameover.png'
-'''
+
 
 setting_board_image = 'assets/vector/setting_board.png'
 number_board = 'assets/vector/number_board.png'
