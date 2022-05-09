@@ -66,7 +66,7 @@ class ui_variables:
     h5_i = pygame.font.Font(font_path_i, 13)
 
     # Sounds
-    pygame.mixer.music.load("assets/sounds/BGM1.wav") #음악 불러옴
+    pygame.mixer.music.load("assets/sounds/SFX_Fall.wav") #음악 불러옴
     pygame.mixer.music.set_volume(0.5) # 이 부분도 필요 없음, set_volume에 추가해야 함
     intro_sound = pygame.mixer.Sound("assets/sounds/BGM1.wav")
     fall_sound = pygame.mixer.Sound("assets/sounds/SFX_Fall.wav")
@@ -128,6 +128,9 @@ clicked_select_mode_button_image = 'assets/vector/clicked_select_mode_button.png
 setting_button_image = 'assets/vector/settings_button.png'
 clicked_setting_button_image = 'assets/vector/clicked_settings_button.png'
 
+pause_setting_button_image = 'assets/vector/pause_settings_button.png'
+clicked_pause_setting_button_image = 'assets/vector/clicked_pause_settings_button.png'
+
 score_board_button_image = 'assets/vector/score_board_button.png'
 clicked_score_board_button_image = 'assets/vector/clicked_score_board_button.png'
 
@@ -160,6 +163,7 @@ clicked_setting_vector = 'assets/vector/clicked_setting_vector.png'
 setting_board_image = 'assets/vector/setting_board.png'
 gameover_board_image = 'assets/vector/gameover_board.png'
 gameover_image = 'assets/vector/gameover.png'
+'''
 
 setting_board_image = 'assets/vector/setting_board.png'
 number_board = 'assets/vector/number_board.png'
@@ -202,7 +206,7 @@ clicked_check_button_image = 'assets/vector/clicked_checkbox_button.png'
 
 pvp_win_image = 'assets/vector/pvp_win.png'
 pvp_lose_image = 'assets/vector/pvp_lose.png'
-'''
+
 
 leaderboard_vector = 'assets/vector/leaderboard_vector.png'
 clicked_leaderboard_vector = 'assets/vector/clicked_leaderboard_vector.png'
@@ -257,7 +261,7 @@ hard_tutorial_button = button(board_width, board_height, 0.37, 0.65, 0.22, 0.2, 
 multi_tutorial_button = button(board_width, board_height, 0.63, 0.65, 0.22, 0.2, multi_tutorial_button_image)
 
 pause_quit_button = button(board_width, board_height, 0.5, 0.83, 0.17, 0.2, quit_button_image)
-pause_setting_button = button(board_width, board_height, 0.5, 0.63, 0.17, 0.2, setting_button_image)
+pause_setting_button = button(board_width, board_height, 0.5, 0.63, 0.17, 0.2, pause_setting_button_image)
 
 leaderboard_icon = button(board_width, board_height, 0.77, 0.85, 0.15, 0.2, leaderboard_vector)
 mute_button = button(board_width, board_height, 0.5, 0.27, 0.25, 0.45, mute_button_image)
@@ -699,7 +703,7 @@ def is_rightedge(x, y, mino, r, matrix):
 
     return False
   
-  def is_turnable_r(x, y, mino, r, matrix):
+def is_turnable_r(x, y, mino, r, matrix):
     if r != 3:  #회전모양 총 0, 1, 2, 3번째 총 4가지 있음
         grid = tetrimino.mino_map[mino - 1][r + 1] #3이 아니면 그 다음 모양
     else:
@@ -917,6 +921,8 @@ def set_initial_values():
     swidth = 2
     Change_RATE = 2
 
+    combo_count = 0
+    combo_count_2P = 0
     score = 0
     level = 1
     goal = level * 5
@@ -1017,8 +1023,8 @@ while not done:
         #resume_button.draw(screen, (0, 0, 0)) #rgb(0,0,0) = 검정색
         #restart_button.draw(screen, (0, 0, 0))
 
-        setting_button.draw(screen, (0, 0, 0))
         pause_quit_button.draw(screen, (0, 0, 0))
+        pause_setting_button.draw(screen, (0, 0, 0))
         
         for event in pygame.event.get():
             pos = pygame.mouse.get_pos()
@@ -1047,10 +1053,10 @@ while not done:
             #     else:
             #         restart_button.image = restart_button_image
 
-                if setting_button.isOver_2(pos):
-                    setting_button.image = clicked_setting_button_image
+                if pause_setting_button.isOver_2(pos):
+                    pause_setting_button.image = clicked_pause_setting_button_image
                 else:
-                    setting_button.image = setting_button_image
+                    pause_setting_button.image = pause_setting_button_image
                 if pause_quit_button.isOver_2(pos):
                     pause_quit_button.image = clicked_quit_button_image
                 else:
@@ -1064,7 +1070,7 @@ while not done:
                    ui_variables.click_sound.play()
                    done = True
                 
-                if setting_button.isOver_2(pos):
+                if pause_setting_button.isOver_2(pos):
                     ui_variables.click_sound.play()
                     setting = True
                 '''
@@ -1084,8 +1090,8 @@ while not done:
 
     # Game screen
     elif start:
-        if time_attack:
-            elapsed_time = (pygame.time.get_ticks() - start_ticks) / 1000 # 경과 시간 계산
+        #if time_attack:
+         #   elapsed_time = (pygame.time.get_ticks() - start_ticks) / 1000 # 경과 시간 계산
         for event in pygame.event.get():
             pos = pygame.mouse.get_pos()
             if event.type == QUIT:
@@ -2564,6 +2570,9 @@ while not done:
         #음소거 추가#
         effect_sound_on_button.draw(screen,(0,0,0))
         music_sound_on_button.draw(screen,(0,0,0))
+        BGM1_sound_on_button.draw(screen,(0,0,0))
+        BGM2_sound_on_button.draw(screen,(0,0,0))
+        BGM3_sound_on_button.draw(screen,(0,0,0))
         back_button.draw(screen, (0, 0, 0))
 
         #render("텍스트이름", 안티에일리어싱 적용, 색깔), 즉 아래의 코드에서 숫자 1=안티에일리어싱 적용에 관한 코드
@@ -2581,6 +2590,13 @@ while not done:
         effect_volume_size_text = ui_variables.h4.render(str(effect_volume), 1, ui_variables.grey_1)
         screen.blit(music_volume_size_text, (board_width * 0.43, board_height * 0.5)) #위치 비율 고정
         screen.blit(effect_volume_size_text, (board_width * 0.43, board_height * 0.7)) #위치 비율 고정
+
+        BGM1_text = ui_variables.h5.render('BGM1', 1, ui_variables.grey_1)
+        BGM2_text = ui_variables.h5.render('BGM2', 1, ui_variables.grey_1)
+        BGM3_text = ui_variables.h5.render('BGM3', 1, ui_variables.grey_1)
+        screen.blit(BGM1_text, (board_width * 0.75, board_height * 0.3)) #위치 비율 고정
+        screen.blit(BGM2_text, (board_width * 0.75, board_height * 0.5)) #위치 비율 고정
+        screen.blit(BGM3_text, (board_width * 0.75, board_height * 0.7)) #위치 비율 고정
 
         for event in pygame.event.get():
             pos = pygame.mouse.get_pos()
@@ -2661,6 +2677,24 @@ while not done:
                         else:
                             effect_sound_on_button.image=sound_on_button_image
                             effect_volume -= 1
+                #BGM 선택 기능 추가#
+                if BGM1_sound_on_button.isOver(pos): 
+                    #ui_variables.intro_sound.("assets/sounds/BGM2.wav")#
+                    ui_variables.intro_sound.stop()
+                    ui_variables.intro_sound = pygame.mixer.Sound("assets/sounds/BGM1.wav")
+                    ui_variables.intro_sound.play()
+                if BGM2_sound_on_button.isOver(pos): 
+                    #ui_variables.intro_sound.("assets/sounds/BGM2.wav")#
+                    ui_variables.intro_sound.stop()
+                    ui_variables.intro_sound = pygame.mixer.Sound("assets/sounds/BGM2.wav")
+                    ui_variables.intro_sound.play()
+                if BGM3_sound_on_button.isOver(pos): 
+                    #ui_variables.intro_sound.("assets/sounds/BGM2.wav")#
+                    ui_variables.intro_sound.stop()
+                    ui_variables.intro_sound = pygame.mixer.Sound("assets/sounds/BGM3.wav")
+                    ui_variables.intro_sound.play()    
+                    
+                   
                 #음소거 추가#
                 if music_sound_on_button.isOver(pos):
                     ui_variables.click_sound.play()
@@ -2691,6 +2725,8 @@ while not done:
                         effect_volume = 0 #최소 음량으로
                         default_button.draw(screen,(0,0,0))
                         mute_button.image=default_button_image
+                
+
 
                 set_volume()
 
