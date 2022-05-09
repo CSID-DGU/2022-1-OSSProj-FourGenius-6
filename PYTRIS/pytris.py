@@ -48,8 +48,8 @@ initialize = True # Start Screen 에서 set_initial_values()로 초기화할지 
 
 class ui_variables:
     # Fonts
-    font_path = "assets/fonts/OpenSans-Light.ttf"
-    font_path_b = "assets/fonts/OpenSans-Bold.ttf"
+    font_path = "assets/fonts/a옛날사진관2.ttf"
+    font_path_b = "assets/fonts/a옛날사진관3.ttf"
     font_path_i = "assets/fonts/Inconsolata/Inconsolata.otf"
 
 
@@ -136,6 +136,13 @@ clicked_score_board_button_image = 'assets/vector/clicked_score_board_button.png
 
 quit_button_image = 'assets/vector/quit_button.png'
 clicked_quit_button_image = 'assets/vector/clicked_quit_button.png'
+
+
+resume_button_image = 'assets/vector/resume_button.png'
+clicked_resume_button_image = 'assets/vector/clicked_resume_button.png'
+
+help_button_image = 'assets/vector/help_button.png'
+clicked_help_button_image = 'assets/vector/clicked_help_button.png'
 
 single_button_image = 'assets/vector/easy_button.png'
 clicked_single_button_image = 'assets/vector/clicked_easy_button.png'
@@ -260,8 +267,11 @@ pvp_button = button(board_width, board_height, 0.75, 0.35, 0.22, 0.2, pvp_button
 hard_tutorial_button = button(board_width, board_height, 0.37, 0.65, 0.22, 0.2, hard_tutorial_button_image)
 multi_tutorial_button = button(board_width, board_height, 0.63, 0.65, 0.22, 0.2, multi_tutorial_button_image)
 
+resume_button = button(board_width, board_height, 0.5, 0.23, 0.17, 0.2, resume_button_image)
+menu_button2 = button(board_width, board_height, 0.5, 0.43, 0.17, 0.2, menu_button_image)
+help_button = button(board_width, board_height, 0.5, 0.63, 0.17, 0.2, help_button_image)
 pause_quit_button = button(board_width, board_height, 0.5, 0.83, 0.17, 0.2, quit_button_image)
-pause_setting_button = button(board_width, board_height, 0.5, 0.63, 0.17, 0.2, pause_setting_button_image)
+#pause_setting_button = button(board_width, board_height, 0.5, 0.63, 0.17, 0.2, pause_setting_button_image)
 
 leaderboard_icon = button(board_width, board_height, 0.77, 0.85, 0.15, 0.2, leaderboard_vector)
 mute_button = button(board_width, board_height, 0.5, 0.27, 0.25, 0.45, mute_button_image)
@@ -1020,11 +1030,11 @@ while not done:
             screen.blit(pause_surface, (0, 0))
 
         draw_image(screen, pause_board_image, board_width * 0.5, board_height * 0.5, int(board_height * 0.7428), board_height) #(window, 이미지주소, x좌표, y좌표, 너비, 높이)
-        #resume_button.draw(screen, (0, 0, 0)) #rgb(0,0,0) = 검정색
-        #restart_button.draw(screen, (0, 0, 0))
-
+        resume_button.draw(screen, (0, 0, 0)) #rgb(0,0,0) = 검정색
+        menu_button2.draw(screen, (0, 0, 0))
+        help_button.draw(screen, (0, 0, 0))
         pause_quit_button.draw(screen, (0, 0, 0))
-        pause_setting_button.draw(screen, (0, 0, 0))
+
         
         for event in pygame.event.get():
             pos = pygame.mouse.get_pos()
@@ -1035,7 +1045,7 @@ while not done:
                 pygame.time.set_timer(pygame.USEREVENT, 300)
                 pygame.display.update()
             elif event.type == KEYDOWN:
-                erase_mino(dx, dy, mino, rotation)
+                erase_mino(dx, dy, mino, rotation, matrix)
                 if event.key == K_ESCAPE:
                     pause = False
                     ui_variables.click_sound.play()
@@ -1043,20 +1053,21 @@ while not done:
                     pygame.time.set_timer(pygame.USEREVENT, 1)
                   
             elif event.type == pygame.MOUSEMOTION:
-            #     if resume_button.isOver_2(pos):
-            #         resume_button.image = clicked_resume_button_image
-            #     else:
-            #         resume_button.image = resume_button_image
-
-            #     if restart_button.isOver_2(pos):
-            #         restart_button.image = clicked_restart_button_image
-            #     else:
-            #         restart_button.image = restart_button_image
-
-                if pause_setting_button.isOver_2(pos):
-                    pause_setting_button.image = clicked_pause_setting_button_image
+                if resume_button.isOver_2(pos):
+                    resume_button.image = clicked_resume_button_image
                 else:
-                    pause_setting_button.image = pause_setting_button_image
+                    resume_button.image = resume_button_image
+
+                if menu_button2.isOver_2(pos):
+                    menu_button2.image = clicked_menu_button_image
+                else:
+                    menu_button2.image = menu_button_image
+
+                if help_button.isOver_2(pos):
+                    help_button.image = clicked_help_button_image
+                else:
+                    help_button.image = help_button_image
+
                 if pause_quit_button.isOver_2(pos):
                     pause_quit_button.image = clicked_quit_button_image
                 else:
@@ -1070,11 +1081,11 @@ while not done:
                    ui_variables.click_sound.play()
                    done = True
                 
-                if pause_setting_button.isOver_2(pos):
+                if help_button.isOver_2(pos):
                     ui_variables.click_sound.play()
                     setting = True
-                '''
-                if restart_button.isOver_2(pos):
+
+                if menu_button.isOver_2(pos):
                     ui_variables.click_sound.play()
                     pause = False
                     start = False
@@ -1086,7 +1097,7 @@ while not done:
                     pause = False
                     ui_variables.click_sound.play()
                     pygame.time.set_timer(pygame.USEREVENT, 1) #0.001초
-                '''
+
 
     # Game screen
     elif start:
