@@ -35,6 +35,7 @@ mino_matrix_y = 4 #mino는 4*4 배열이어서 이를 for문에 사용
 board_x = 10
 board_y = 20
 
+background_number=1
 total_time = 60 # 타임 어택 시간
 
 pygame.init()
@@ -114,9 +115,6 @@ class ui_variables:
     linessent_image = 'assets/block_images/linessent.png'
     t_block = [table_image, cyan_image, blue_image, orange_image, yellow_image, green_image, pink_image, red_image,
                ghost_image, linessent_image]
-    #gamebackground_image = 'assets/images/background_nyc.png' #게임 배경화면 : 기본값 뉴욕
-
-
 
 #각 이미지 주소
 background_image = 'assets/images/background_image.png' #메뉴화면(첫 화면) 배경
@@ -349,6 +347,14 @@ def set_volume():
     ui_variables.GameOver_sound.set_volume(music_volume / 10)
     ui_variables.intro_sound.set_volume(music_volume / 10)
     pygame.mixer.music.set_volume(music_volume / 10)
+
+def image_select():
+    if background_number== 1:
+        return 'assets/images/background_nyc.png'
+    elif background_number == 2:
+        return 'assets/images/background_uk.png'
+    elif background_number == 3:
+        return'assets/images/background_hongkong.png'
 
 
 # 이미지 화면에 띄우기 (매개변수 x, y가 이미지의 정중앙 좌표)
@@ -2525,34 +2531,13 @@ while not done:
                     if back_button.isOver(pos):
                         ui_variables.click_sound.play()
                         screen_setting = False
-
                     if background1_check_button.isOver(pos):
-                        ui_variables.click_sound.play()
-                        
-                        #for i in range(len(button_list):
-                        #    button_list[i].change(board_width, board_height)
-                        
+                       gamebackground_image='assets/images/background_hongkong.png'   
                     if background2_check_button.isOver(pos):
                         gamebackground_image='assets/images/background_nyc.png'
-                        ui_variables.gamebackgroundimage.set(background2_image)
-                        #ui_variables.intro_sound.set_volume(music_volume / 10)
-                        
-                        #for i in range(len(button_list)):
-                        #    button_list[i].change(board_width, board_height)
-                        
-                        pygame.display.update()
-
                     if background3_check_button.isOver(pos):
-                        ui_variables.click_sound.play()
-                        board_width = 1600
-                        board_height = 900
-                        block_size = int(board_height * 0.045) #블록 크기 비율 고정
-                        screen = pygame.display.set_mode((board_width, board_height), pygame.RESIZABLE)
-                        textsize=True
-                        
-                        #for i in range(len(button_list)):
-                        #    button_list[i].change(board_width, board_height)
-                        pygame.display.update()
+                        gamebackground_image='assets/images/background_uk.png'
+                    pygame.display.update()
                      
     elif volume_setting:
         #배경 약간 어둡게
