@@ -893,6 +893,8 @@ def set_initial_values():
     swidth = 2
     Change_RATE = 2
 
+    combo_count = 0
+    combo_count_2p =0
     score = 0
     level = 1
     goal = level * 5
