@@ -291,6 +291,7 @@ setting_icon = button(board_width, board_height, 0.9, 0.85, 0.10, 0.15, setting_
 leaderboard_icon = button(board_width, board_height, 0.77, 0.85, 0.15, 0.2, leaderboard_vector)
 resume_button = button(board_width, board_height, 0.5, 0.23, 0.15, 0.35, resume_button_image)
 restart_button = button(board_width, board_height, 0.5, 0.43, 0.15, 0.35, restart_button_image)
+<<<<<<< HEAD
 '''
 '''
 back_button = button(board_width, board_height, 0.5, 0.85, 0.15, 0.35, back_button_image)
@@ -313,6 +314,34 @@ speed_minus_button =button(board_width, board_height, 0.035, 0.12, 0.055, 0.09, 
 '''
 
 '''
+=======
+<<<<<<< HEAD
+
+=======
+'''
+'''
+back_button = button(board_width, board_height, 0.5, 0.85, 0.15, 0.35, back_button_image)
+volume_icon = button(board_width, board_height, 0.4, 0.5, 0.12, 0.23, volume_vector)
+screen_icon = button(board_width, board_height, 0.6, 0.5, 0.12, 0.23, screen_vector)
+ok_button = button(board_width, board_height, 0.5, 0.83, 0.15, 0.35, ok_button_image)
+volume = 1.0
+menu_button = button(board_width, board_height, 0.5, 0.23, 0.15, 0.35, menu_button_image)
+gameover_quit_button = button(board_width, board_height, 0.5, 0.43, 0.15, 0.35, quit_button_image)
+effect_plus_button = button(board_width, board_height, 0.37, 0.73, 0.0625, 0.1111, plus_button_image)
+effect_minus_button = button(board_width, board_height, 0.52, 0.73, 0.0625, 0.1111, minus_button_image)
+sound_plus_button = button(board_width, board_height, 0.37, 0.53, 0.0625, 0.1111, plus_button_image)
+sound_minus_button = button(board_width, board_height, 0.52, 0.53, 0.0625, 0.1111, minus_button_image)
+level_plus_button = button(board_width, board_height, 0.63, 0.7719, 0.0625, 0.1111, plus_button_image)
+level_minus_button = button(board_width, board_height, 0.56, 0.7719, 0.0625, 0.1111, minus_button_image)
+combo_plus_button = button(board_width, board_height, 0.63, 0.9419, 0.0625, 0.1111, plus_button_image)
+combo_minus_button =button(board_width, board_height, 0.56, 0.9419, 0.0625, 0.1111, minus_button_image)
+speed_plus_button = button(board_width, board_height, 0.18, 0.12, 0.055, 0.09, plus_button_image)
+speed_minus_button =button(board_width, board_height, 0.035, 0.12, 0.055, 0.09, minus_button_image)
+'''
+
+'''
+>>>>>>> ee26f148b3354c574a8778288c1f6bcafbd93d55
+>>>>>>> 9646907 ([22.05.12 최원준](mode)fetch 오류해결)
 #게임 중 버튼 생성하기위한 버튼객체 리스트 (버튼 전체)
 button_list = [mute_button, default_button, single_button, pvp_button, help_button, quit_button, gravity_button, timeattack_button, resume_button, restart_button, setting_button, pause_quit_button, back_button,
         ok_button, menu_button, gameover_quit_button, effect_plus_button, effect_minus_button, sound_plus_button, sound_minus_button, level_plus_button,
