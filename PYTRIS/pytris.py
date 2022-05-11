@@ -613,7 +613,7 @@ def draw_1Pboard(next, hold, score, level, goal):
         # level_value = ui_variables.h4.render(str(level), 1, ui_variables.real_white)
         text_combo = ui_variables.h5.render("GOAL", 1, ui_variables.real_white)
         combo_value = ui_variables.h4.render(
-            str(combo_count), 1, ui_variables.real_white)
+            str(5 - combo_count), 1, ui_variables.real_white)
     if textsize == True:
         text_hold = ui_variables.h3.render("HOLD", 1, ui_variables.real_white)
         text_next = ui_variables.h3.render("NEXT", 1, ui_variables.real_white)
@@ -625,7 +625,7 @@ def draw_1Pboard(next, hold, score, level, goal):
         # level_value = ui_variables.h2.render(str(level), 1, ui_variables.real_white)
         text_combo = ui_variables.h3.render("GOAL", 1, ui_variables.real_white)
         combo_value = ui_variables.h2.render(
-            str(combo_count), 1, ui_variables.real_white)
+            str(5 - combo_count), 1, ui_variables.real_white)
     if debug:
         # speed를 알려주는 framerate(기본값 30. 빨라질 수록 숫자 작아짐)
         speed_value = ui_variables.h5.render(
@@ -711,7 +711,7 @@ def draw_2Pboard(next, hold, score, level, goal):
         # level_value = ui_variables.h4.render(str(level), 1, ui_variables.real_white)
         text_combo = ui_variables.h5.render("GOAL", 1, ui_variables.real_white)
         combo_value = ui_variables.h4.render(
-            str(combo_count_2P), 1, ui_variables.real_white)
+            str(5 - combo_count_2P), 1, ui_variables.real_white)
     if textsize == True:
         text_hold = ui_variables.h4.render("HOLD", 1, ui_variables.real_white)
         text_next = ui_variables.h4.render("NEXT", 1, ui_variables.real_white)
@@ -723,7 +723,7 @@ def draw_2Pboard(next, hold, score, level, goal):
         # level_value = ui_variables.h3.render(str(level), 1, ui_variables.real_white)
         text_combo = ui_variables.h4.render("GOAL", 1, ui_variables.real_white)
         combo_value = ui_variables.h3.render(
-            str(combo_count_2P), 1, ui_variables.real_white)
+            str(5 - combo_count_2P), 1, ui_variables.real_white)
     if debug:
         # speed를 알려주는 framerate(기본값 30. 빨라질 수록 숫자 작아짐)
         speed_value = ui_variables.h5.render(
@@ -1871,7 +1871,7 @@ while not done:
                 done = True
             elif event.type == USEREVENT:
                 # Set speed
-                if not game_over:
+                if not game_over_multi:
                     keys_pressed = pygame.key.get_pressed()
                     if keys_pressed[K_s]:  # 프레임만큼의 시간으로 소프트드롭 되도록 함
                         pygame.time.set_timer(pygame.USEREVENT, framerate)
@@ -1889,7 +1889,7 @@ while not done:
                                 goal, goal_2P)
 
                 # Erase a mino
-                if not game_over:
+                if not game_over_multi:
                     erase_mino(dx, dy, mino, rotation, matrix)
                     erase_mino(dx_2P, dy_2P, mino_2P, rotation_2P, matrix_2P)
 
@@ -1900,6 +1900,12 @@ while not done:
 
                 # Create new mino
                 else:
+                    if combo_count == 5:  # 5줄을 먼저 깨면 게임 종료
+                        winner = 1
+                        pvp = False
+                        game_over_multi = True
+                        pygame.time.set_timer(pygame.USEREVENT, 1)
+
                     if hard_drop or bottom_count == 6:
                         hard_drop = False
                         bottom_count = 0
@@ -1926,6 +1932,12 @@ while not done:
 
                 # Create new mino
                 else:
+                    if combo_count_2P == 5:  # 5줄을 먼저 깨면 게임 종료
+                        winner = 2
+                        pvp = False
+                        game_over_multi = True
+                        pygame.time.set_timer(pygame.USEREVENT, 1)
+
                     if hard_drop_2P or bottom_count_2P == 6:
                         hard_drop_2P = False
                         bottom_count_2P = 0
@@ -2035,12 +2047,6 @@ while not done:
 
                     # screen.blit(ui_variables.combo_4ring, (250, 160))  # blit(이미지, 위치)
 
-                    elif erase_count == 5:  # 5줄을 먼저 깬다면
-                        winner = 1
-                        pvp = False
-                        game_over_multi = True
-                        pygame.time.set_timer(pygame.USEREVENT, 1)
-
                     '''for i in range(1, 6): # 1 ~ 5
                         if combo_count == i:  # 1 ~ 10 콤보 이미지
                             screen.blit(ui_variables.large_combos[i - 1], (124, 190))  # blits the combo number
@@ -2090,12 +2096,6 @@ while not done:
                         ui_variables.tetris_sound.play()
                         ui_variables.tetris_sound.play()
                         score_2P += 1000 * level_2P * erase_count_2P + 4 * combo_count_2P
-
-                    elif erase_count_2P == 5:  # 5줄을 먼저 깬다면
-                        winner = 2
-                        pvp = False
-                        game_over_multi = True
-                        pygame.time.set_timer(pygame.USEREVENT, 1)
 
                     '''for i in range(1, 11):
                         if combo_count_2P == i:  # 1 ~ 10 콤보 이미지
@@ -2405,29 +2405,41 @@ while not done:
 
         pygame.display.update()
     elif game_over_multi:
+        # 기존 화면 약간 어둡게 처리
+        draw_image(screen, gamebackground_image, board_width * 0.5, board_height *
+                   0.5, board_width, board_height)  # (window, 이미지주소, x좌표, y좌표, 너비, 높이)
+        draw_multiboard(next_mino1, hold_mino, next_mino1_2P, hold_mino_2P,
+                        score, score_2P, level, level_2P, goal, goal_2P)
+        pause_surface = screen.convert_alpha()  # 투명 가능하도록
+        pause_surface.fill((0, 0, 0, 0))  # 투명한 검정색으로 덮기
+        pygame.draw.rect(pause_surface, (ui_variables.black_pause), [0, 0, int(
+            board_width), int(board_height)])  # (screen, 색깔, 위치 x, y좌표, 너비, 높이)
+        screen.blit(pause_surface, (0, 0))
+        pygame.display.update()
+
         for event in pygame.event.get():
             if event.type == QUIT:
                 done = True
             elif event.type == USEREVENT:
                 pygame.time.set_timer(pygame.USEREVENT, 300)
-                draw_image(screen, gameover_image, board_width * 0.5, board_height * 0.5,
+                draw_image(screen, gameover_image, board_width * 0.5, board_height * 0.2,
                            int(board_width * 0.5),
                            int(board_height * 0.6))  # (window, 이미지주소, x좌표, y좌표, 너비, 높이)  # (window, 이미지주소, x좌표, y좌표, 너비, 높이)
                 pygame.display.update()
                 if winner == 1:
-                    draw_image(screen, pvp_win_image, board_width * 0.1, board_height * 0.5,
-                               int(board_width * 0.5),
-                               int(board_height * 0.6))
-                    draw_image(screen, pvp_lose_image, board_width * 0.9, board_height * 0.5,
-                               int(board_width * 0.5),
-                               int(board_height * 0.6))
+                    draw_image(screen, pvp_win_image, board_width * 0.2, board_height * 0.5,
+                               int(board_width * 0.4),
+                               int(board_height * 0.5))
+                    draw_image(screen, pvp_lose_image, board_width * 0.7, board_height * 0.5,
+                               int(board_width * 0.4),
+                               int(board_height * 0.5))
                 if winner == 2:
-                    draw_image(screen, pvp_win_image, board_width * 0.9, board_height * 0.5,
-                               int(board_width * 0.5),
-                               int(board_height * 0.6))
-                    draw_image(screen, pvp_lose_image, board_width * 0.1, board_height * 0.5,
-                               int(board_width * 0.5),
-                               int(board_height * 0.6))
+                    draw_image(screen, pvp_win_image, board_width * 0.7, board_height * 0.5,
+                               int(board_width * 0.4),
+                               int(board_height * 0.5))
+                    draw_image(screen, pvp_lose_image, board_width * 0.2, board_height * 0.5,
+                               int(board_width * 0.4),
+                               int(board_height * 0.5))
             elif event.type == KEYDOWN:
                 if event.key == K_RETURN:
                     ui_variables.click_sound.play()
