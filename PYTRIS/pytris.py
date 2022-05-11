@@ -2588,7 +2588,7 @@ while not done:
     elif leader_board:
         pass
 
-    elif screen_setting:
+    elif screen_setting: #setting 환경
             screen.fill(ui_variables.pinkpurple)
             draw_image(screen, background_image, board_width * 0.5, board_height * 0.5, board_width, board_height) #(window, 이미지주소, x좌표, y좌표, 너비, 높이)
             select_mode_button.draw(screen, (0,0,0))
