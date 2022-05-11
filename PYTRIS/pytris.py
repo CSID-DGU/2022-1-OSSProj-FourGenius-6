@@ -35,7 +35,6 @@ mino_matrix_y = 4 #mino는 4*4 배열이어서 이를 for문에 사용
 board_x = 10
 board_y = 20
 
-background_number=1
 total_time = 60 # 타임 어택 시간
 
 pygame.init()
@@ -347,15 +346,6 @@ def set_volume():
     ui_variables.GameOver_sound.set_volume(music_volume / 10)
     ui_variables.intro_sound.set_volume(music_volume / 10)
     pygame.mixer.music.set_volume(music_volume / 10)
-
-def image_select():
-    if background_number== 1:
-        return 'assets/images/background_nyc.png'
-    elif background_number == 2:
-        return 'assets/images/background_uk.png'
-    elif background_number == 3:
-        return'assets/images/background_hongkong.png'
-
 
 # 이미지 화면에 띄우기 (매개변수 x, y가 이미지의 정중앙 좌표)
 def draw_image(window, img_path, x, y, width, height):
