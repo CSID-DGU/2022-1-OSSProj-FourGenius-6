@@ -302,9 +302,11 @@ music_sound_off_button = button(board_width, board_height, 0.65, 0.53, 0.08, 0.1
 effect_sound_on_button = button(board_width, board_height, 0.65, 0.73, 0.08, 0.15, sound_on_button_image)
 music_sound_on_button = button(board_width, board_height, 0.65, 0.53, 0.08, 0.15, sound_on_button_image)
 mute_check_button = button(board_width, board_height, 0.2, 0.4, 0.0625, 0.1111, check_button_image)
-smallsize_check_button = button(board_width, board_height, 0.5, 0.25, 0.1875, 0.1444, smallsize_board)
-midiumsize_check_button = button(board_width, board_height, 0.5, 0.45, 0.1875, 0.1444, midiumsize_board)
-bigsize_check_button = button(board_width, board_height, 0.5, 0.65, 0.1875, 0.1444, bigsize_board)
+
+background1_check_button = button(board_width, board_height, 0.5, 0.25, 0.1875, 0.1444, background1_image)
+background2_check_button = button(board_width, board_height, 0.5, 0.45, 0.1875, 0.1444, background2_image)
+background3_check_button = button(board_width, board_height, 0.5, 0.65, 0.1875, 0.1444, background3_image)
+
 volume_icon = button(board_width, board_height, 0.4, 0.5, 0.12, 0.23, volume_vector)
 screen_icon = button(board_width, board_height, 0.6, 0.5, 0.12, 0.23, screen_vector)
 
@@ -367,13 +369,13 @@ speed_minus_button =button(board_width, board_height,
                            0.035, 0.12, 0.055, 0.09, minus_button_image)
 '''
 
-'''
-# 게임 중 버튼 생성하기위한 버튼객체 리스트 (버튼 전체)
-button_list = [mute_button, default_button, single_button, pvp_button, help_button, quit_button, gravity_button, timeattack_button, resume_button, restart_button, setting_button, pause_quit_button, back_button,
-        ok_button, menu_button, gameover_quit_button, effect_plus_button, effect_minus_button, sound_plus_button, sound_minus_button, level_plus_button,
-        effect_sound_off_button, music_sound_off_button, effect_sound_on_button, music_sound_on_button, mute_check_button, smallsize_check_button, midiumsize_check_button, bigsize_check_button,
-        setting_icon, leaderboard_icon, volume_icon, screen_icon, level_minus_button, combo_minus_button, combo_plus_button, speed_minus_button, speed_plus_button]
-'''
+#음소거 추가#
+effect_sound_off_button = button(board_width, board_height, 0.55, 0.73, 0.08, 0.15, sound_off_button_image)
+music_sound_off_button = button(board_width, board_height, 0.55, 0.53, 0.08, 0.15, sound_off_button_image)
+effect_sound_on_button = button(board_width, board_height, 0.55, 0.73, 0.08, 0.15, sound_on_button_image)
+music_sound_on_button = button(board_width, board_height, 0.55, 0.53, 0.08, 0.15, sound_on_button_image)
+
+
 
 
 def set_volume():
