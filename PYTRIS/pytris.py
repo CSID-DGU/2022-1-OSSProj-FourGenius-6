@@ -2783,21 +2783,21 @@ while not done:
 
         screen.blit(pause_surface, (0, 0))
         
-            draw_image(screen, setting_board_image, board_width * 0.5, board_height * 0.5, int(board_height * 1.3), board_height) #(window, 이미지주소, x좌표, y좌표, 너비, 높이)
-            background1_check_button.draw(screen, (0, 0, 0))
-            background2_check_button.draw(screen, (0, 0, 0))
-            background3_check_button.draw(screen, (0, 0, 0))
-            back_button.draw(screen, (0, 0, 0))
+        draw_image(screen, setting_board_image, board_width * 0.5, board_height * 0.5, int(board_height * 1.3), board_height) #(window, 이미지주소, x좌표, y좌표, 너비, 높이)
+        background1_check_button.draw(screen, (0, 0, 0))
+        background2_check_button.draw(screen, (0, 0, 0))
+        background3_check_button.draw(screen, (0, 0, 0))
+        back_button.draw(screen, (0, 0, 0))
 
-            Background1_text = ui_variables.h5.render('HongKong', 1, ui_variables.grey_1)
-            Background2_text = ui_variables.h5.render('NewYork', 1, ui_variables.grey_1)
-            Background3_text = ui_variables.h5.render('London', 1, ui_variables.grey_1)
-            screen.blit(Background1_text, (board_width * 0.47, board_height * 0.33)) #위치 비율 고정
-            screen.blit(Background2_text, (board_width * 0.47, board_height * 0.52)) #위치 비율 고정
-            screen.blit(Background3_text, (board_width * 0.47, board_height * 0.73)) #위치 비율 고정
+        Background1_text = ui_variables.h5.render('HongKong', 1, ui_variables.grey_1)
+        Background2_text = ui_variables.h5.render('NewYork', 1, ui_variables.grey_1)
+        Background3_text = ui_variables.h5.render('London', 1, ui_variables.grey_1)
+        screen.blit(Background1_text, (board_width * 0.47, board_height * 0.33)) #위치 비율 고정
+        screen.blit(Background2_text, (board_width * 0.47, board_height * 0.52)) #위치 비율 고정
+        screen.blit(Background3_text, (board_width * 0.47, board_height * 0.73)) #위치 비율 고정
             
-            for event in pygame.event.get():
-                pos = pygame.mouse.get_pos()
+        for event in pygame.event.get():
+            pos = pygame.mouse.get_pos()
 
             if event.type == QUIT:
                 done = True
@@ -2811,54 +2811,35 @@ while not done:
                 else:
                     back_button.image = back_button_image
 
+                if background1_check_button.isOver(pos):
+                    background1_check_button.image = clicked_background1_image
+                else:
+                    background1_check_button.image = background1_image
+
+                if background2_check_button.isOver(pos):
+                    background2_check_button.image = clicked_background2_image
+                else:
+                    background2_check_button.image = background2_image
+
+                if background3_check_button.isOver(pos):
+                    background3_check_button.image = clicked_background3_image
+                else:
+                    background3_check_button.image = background3_image
                 pygame.display.update()
 
             elif event.type == pygame.MOUSEBUTTONDOWN:
                 if back_button.isOver(pos):
                     ui_variables.click_sound.play()
                     screen_setting = False
-                if smallsize_check_button.isOver(pos):
-                    ui_variables.click_sound.play()
-                    board_width = 800
-                    board_height = 450
-                    block_size = int(board_height * 0.045)  # 블록 크기 비율 고정
-                    screen = pygame.display.set_mode(
-                        (board_width, board_height), pygame.RESIZABLE)
-                    textsize = False
+                if background1_check_button.isOver(pos):
+                    gamebackground_image='assets/images/background_hongkong.png'
+                    
+                if background2_check_button.isOver(pos):
+                    gamebackground_image='assets/images/background_nyc.png'
 
-                    # for i in range(len(button_list):
-                    #    button_list[i].change(board_width, board_height)
-                    pygame.display.update()
-
-
-                    if background1_check_button.isOver(pos):
-                        background1_check_button.image = clicked_background1_image
-                    else:
-                        background1_check_button.image = background1_image
-
-                    if background2_check_button.isOver(pos):
-                        background2_check_button.image = clicked_background2_image
-                    else:
-                        background2_check_button.image = background2_image
-
-                    if background3_check_button.isOver(pos):
-                        background3_check_button.image = clicked_background3_image
-                    else:
-                        background3_check_button.image = background3_image
-
-                elif event.type == pygame.MOUSEBUTTONDOWN:
-                    if back_button.isOver(pos):
-                        ui_variables.click_sound.play()
-                        screen_setting = False
-                    if background1_check_button.isOver(pos):
-                        gamebackground_image='assets/images/background_hongkong.png'
-                        
-                    if background2_check_button.isOver(pos):
-                        gamebackground_image='assets/images/background_nyc.png'
-
-                    if background3_check_button.isOver(pos):
-                       gamebackground_image='assets/images/background_uk.png'
-                    pygame.display.update()
+                if background3_check_button.isOver(pos):
+                    gamebackground_image='assets/images/background_uk.png'
+                pygame.display.update()
                         
     elif volume_setting:
         #배경 약간 어둡게
