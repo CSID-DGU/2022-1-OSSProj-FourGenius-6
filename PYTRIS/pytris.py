@@ -4,6 +4,7 @@
 from contextlib import nullcontext
 import pygame
 import operator
+
 from mino import *
 from random import *
 from pygame.locals import *
@@ -1927,6 +1928,7 @@ while not done:
                             hold = False
                             score += 10 * level
                         else:  # 더이상 쌓을 수 없으면 게임오버
+                            winner = 2
                             pvp = False
                             game_over_multi = True
                             pygame.time.set_timer(pygame.USEREVENT, 1)
@@ -1955,6 +1957,7 @@ while not done:
                             hold_2P = False
                             score_2P += 10 * level_2P
                         else:  # 더이상 쌓을 수 없으면 게임오버
+                            winner = 1
                             pvp = False
                             game_over_multi = True
                             pygame.time.set_timer(pygame.USEREVENT, 1)
@@ -2407,26 +2410,29 @@ while not done:
                     button_list[i].change(board_width, board_height)
 
         pygame.display.update()
+
     elif game_over_multi:
         # 기존 화면 약간 어둡게 처리
-        # draw_image(screen, gamebackground_image, board_width * 0.5, board_height *
-        #            0.5, board_width, board_height)  # (window, 이미지주소, x좌표, y좌표, 너비, 높이)
-        # draw_multiboard(next_mino1, hold_mino, next_mino1_2P, hold_mino_2P,
-        #                 score, score_2P, level, level_2P, goal, goal_2P)
-        # pause_surface = screen.convert_alpha()  # 투명 가능하도록
-        # pause_surface.fill((0, 0, 0, 0))  # 투명한 검정색으로 덮기
-        # pygame.draw.rect(pause_surface, (ui_variables.black_pause), [0, 0, int(
-        #     board_width), int(board_height)])  # (screen, 색깔, 위치 x, y좌표, 너비, 높이)
-        # screen.blit(pause_surface, (0, 0))
-        # pygame.display.update()
+        draw_image(screen, gamebackground_image, board_width * 0.5, board_height *
+                   0.5, board_width, board_height)  # (window, 이미지주소, x좌표, y좌표, 너비, 높이)
+        draw_multiboard(next_mino1, hold_mino, next_mino1_2P, hold_mino_2P,
+                        score, score_2P, level, level_2P, goal, goal_2P)
+        pause_surface = screen.convert_alpha()  # 투명 가능하도록
+        pause_surface.fill((0, 0, 0, 0))  # 투명한 검정색으로 덮기
+        pygame.draw.rect(pause_surface, (ui_variables.black_pause), [0, 0, int(
+            board_width), int(board_height)])  # (screen, 색깔, 위치 x, y좌표, 너비, 높이)
+        screen.blit(pause_surface, (0, 0))
+        pygame.display.update()
 
         for event in pygame.event.get():
             if event.type == QUIT:
                 done = True
             elif event.type == USEREVENT:
+
                 draw_image(screen, gameover_image, board_width * 0.5, board_height * 0.2,
                            int(board_width * 0.5),
                            int(board_height * 0.6))  # (window, 이미지주소, x좌표, y좌표, 너비, 높이)  # (window, 이미지주소, x좌표, y좌표, 너비, 높이)
+
                 if winner == 1:
                     draw_image(screen, pvp_win_image, board_width * 0.2, board_height * 0.5,
                                int(board_width * 0.4),
@@ -2441,13 +2447,14 @@ while not done:
                     draw_image(screen, pvp_lose_image, board_width * 0.2, board_height * 0.5,
                                int(board_width * 0.4),
                                int(board_height * 0.5))
-                # pygame.display.update()
+
+                pygame.display.update()
+
             elif event.type == KEYDOWN:
                 if event.key == K_RETURN:
                     ui_variables.click_sound.play()
                     game_over_multi = False
-                    start = True
-                    pygame.time.set_timer(pygame.USEREVENT, 1)  # 0.001초
+                    pygame.time.set_timer(pygame.USEREVENT, 1)
 
     # Game over screen
     elif game_over:
