@@ -316,12 +316,15 @@ sound_minus_button = button(board_width, board_height, 0.42, 0.53, 0.0625, 0.111
 
 mute_check_button = button(board_width, board_height, 0.2, 0.4, 0.0625, 0.1111, check_button_image)
 
+
 background1_check_button = button(board_width, board_height, 0.5, 0.25, 0.1875, 0.1444, background1_image)
 background2_check_button = button(board_width, board_height, 0.5, 0.45, 0.1875, 0.1444, background2_image)
 background3_check_button = button(board_width, board_height, 0.5, 0.65, 0.1875, 0.1444, background3_image)
 
+
 volume_icon = button(board_width, board_height, 0.4, 0.5, 0.12, 0.23, volume_vector)
 screen_icon = button(board_width, board_height, 0.6, 0.5, 0.12, 0.23, screen_vector)
+
 
 
 #음소거 추가#
@@ -334,6 +337,7 @@ music_sound_on_button = button(board_width, board_height, 0.55, 0.53, 0.08, 0.15
 BGM1_sound_on_button = button(board_width, board_height, 0.67, 0.43, 0.08, 0.15, backgroundmusic_select_image)
 BGM2_sound_on_button = button(board_width, board_height, 0.67, 0.63, 0.08, 0.15, backgroundmusic_select_image)
 BGM3_sound_on_button = button(board_width, board_height, 0.67, 0.83, 0.08, 0.15, backgroundmusic_select_image)
+
 
 def set_volume():
     # set_volume의 argument는 0.0~1.0으로 이루어져야하기 때문에 소수로 만들어주기 위해 10으로 나눔#
