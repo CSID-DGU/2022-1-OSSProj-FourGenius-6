@@ -1130,6 +1130,8 @@ def set_initial_values():
     CHANNELS = 1
     swidth = 2
     Change_RATE = 2
+    combo_count = 0
+    combo_count_2P = 0
 
     score = 0
     level = 1
@@ -2781,6 +2783,7 @@ while not done:
         hard_button.draw(screen, (0, 0, 0))
         hard_tutorial_button.draw(screen, (0, 0, 0))
         multi_tutorial_button.draw(screen, (0, 0, 0))
+        back_button.draw(screen, (0, 0, 0))
 
         pygame.display.update()  # select mode 화면으로 넘어가도록 전체 화면 업데이트
 
@@ -2823,6 +2826,11 @@ while not done:
                 else:
                     multi_tutorial_button.image = multi_tutorial_button_image
 
+                if back_button.isOver(pos):
+                    back_button.image = clicked_back_button_image
+                else:
+                    back_button.image = back_button_image
+
             elif event.type == pygame.MOUSEBUTTONDOWN:
                 if single_button.isOver_2(pos):
                     ui_variables.click_sound.play()
@@ -2860,6 +2868,10 @@ while not done:
                     select_mode = False
                     # pygame.mixer.music.play(-1)
                     # ui_variables.intro_sound.stop()
+                if back_button.isOver(pos):
+                    ui_variables.click_sound.play()
+                    select_mode = False
+                    initialize = False
                 '''
                 if single_button.isOver_2(pos):
                 if pvp_button.isOver_2(pos):
