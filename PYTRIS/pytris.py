@@ -151,6 +151,7 @@ clicked_score_board_button_image = 'assets/vector/clicked_score_board_button.png
 quit_button_image = 'assets/vector/quit_button.png'
 clicked_quit_button_image = 'assets/vector/clicked_quit_button.png'
 
+
 resume_button_image = 'assets/vector/resume_button.png'
 clicked_resume_button_image = 'assets/vector/clicked_resume_button.png'
 
@@ -173,7 +174,6 @@ clicked_hard_tutorial_button_image = 'assets/vector/clicked_hard_tutorial_button
 multi_tutorial_button_image = 'assets/vector/multi_tutorial_button.png'
 clicked_multi_tutorial_button_image = 'assets/vector/clicked_multi_tutorial_button.png'
 
-'''
 help_button_image = 'assets/vector/help_button.png'
 clicked_help_button_image = 'assets/vector/clicked_help_button.png'
 gravity_button_image = 'assets/vector/gravity_button.png'
@@ -183,29 +183,19 @@ clicked_setting_vector = 'assets/vector/clicked_setting_vector.png'
 setting_board_image = 'assets/vector/setting_board.png'
 gameover_board_image = 'assets/vector/gameover_board.png'
 gameover_image = 'assets/vector/gameover.png'
-'''
-
 setting_board_image = 'assets/vector/setting_board.png'
 number_board = 'assets/vector/number_board.png'
 mute_button_image = 'assets/vector/allmute_button.png'
-
-background1_image = 'assets/images/background_hongkong.png'
-background2_image = 'assets/images/background_nyc.png'
-background3_image = 'assets/images/background_uk.png'
-
-clicked_background1_image = 'assets/images/clicked_background_hongkong.png'
-clicked_background2_image = 'assets/images/clicked_background_nyc.png'
-clicked_background3_image = 'assets/images/clicked_background_uk.png'
-
+smallsize_board = 'assets/vector/screensize1.png'
+midiumsize_board = 'assets/vector/screensize2.png'
+bigsize_board = 'assets/vector/screensize3.png'
 mute_button_image = 'assets/vector/allmute_button.png'
 default_button_image = 'assets/vector/default_button.png'
 number_board = 'assets/vector/number_board.png'
-
 resume_button_image = 'assets/vector/resume_button.png'
 clicked_resume_button_image = 'assets/vector/clicked_resume_button.png'
 restart_button_image = 'assets/vector/restart_button.png'
 clicked_restart_button_image = 'assets/vector/clicked_restart_button.png'
-
 back_button_image = 'assets/vector/back_button.png'
 clicked_back_button_image = 'assets/vector/clicked_back_button.png'
 volume_vector = 'assets/vector/volume_vector.png'
@@ -222,39 +212,35 @@ plus_button_image = 'assets/vector/plus_button.png'
 clicked_plus_button_image = 'assets/vector/clicked_plus_button.png'
 minus_button_image = 'assets/vector/minus_button.png'
 clicked_minus_button_image = 'assets/vector/clicked_minus_button.png'
-
-backgroundmusic_select_image = 'assets/vector/backgroundmusic_select.png'
 sound_off_button_image = 'assets/vector/sound_off_button.png'
 sound_on_button_image = 'assets/vector/sound_on_button.png'
 check_button_image = 'assets/vector/checkbox_button.png'
 clicked_check_button_image = 'assets/vector/clicked_checkbox_button.png'
-
 pvp_win_image = 'assets/vector/pvp_win.png'
 pvp_lose_image = 'assets/vector/pvp_lose.png'
 leaderboard_vector = 'assets/vector/leaderboard_vector.png'
 clicked_leaderboard_vector = 'assets/vector/clicked_leaderboard_vector.png'
 
-leaderboard_vector = 'assets/vector/leaderboard_vector.png'
-clicked_leaderboard_vector = 'assets/vector/clicked_leaderboard_vector.png'
 
-class button(): #버튼객체
-    def __init__(self, board_width, board_height, x_rate, y_rate, width_rate, height_rate, img=''): #버튼생성
-        self.x = board_width * x_rate #버튼 x좌표 (버튼이미지의 정중앙)
-        self.y = board_height * y_rate #버튼 y좌표 (버튼이미지의 정중앙)
-        self.width = int(board_width * width_rate) #버튼 너비
-        self.height = int(board_height * height_rate) #버튼 높이
-        self.x_rate = x_rate #board_width * x_rate = x좌표
-        self.y_rate = y_rate #board_height * y_rate = y좌표
-        self.width_rate = width_rate #board_width * width_rate = 버튼 너비
-        self.height_rate = height_rate #board_height * height_rate = 버튼 높이
-        self.image = img #불러올 버튼 이미지
-    def change(self, board_width, board_height): #버튼 위치, 크기 바꾸기
-        self.x = board_width * self.x_rate #x좌표
-        self.y = board_height * self.y_rate #y좌표
-        self.width = int(board_width * self.width_rate) #너비
-        self.height = int(board_height * self.height_rate) #높이
-    def draw(self, win, outline=None): #버튼 보이게 만들기
+class button():  # 버튼객체
+    def __init__(self, board_width, board_height, x_rate, y_rate, width_rate, height_rate, img=''):  # 버튼생성
+        self.x = board_width * x_rate  # 버튼 x좌표 (버튼이미지의 정중앙)
+        self.y = board_height * y_rate  # 버튼 y좌표 (버튼이미지의 정중앙)
+        self.width = int(board_width * width_rate)  # 버튼 너비
+        self.height = int(board_height * height_rate)  # 버튼 높이
+        self.x_rate = x_rate  # board_width * x_rate = x좌표
+        self.y_rate = y_rate  # board_height * y_rate = y좌표
+        self.width_rate = width_rate  # board_width * width_rate = 버튼 너비
+        self.height_rate = height_rate  # board_height * height_rate = 버튼 높이
+        self.image = img  # 불러올 버튼 이미지
 
+    def change(self, board_width, board_height):  # 버튼 위치, 크기 바꾸기
+        self.x = board_width * self.x_rate  # x좌표
+        self.y = board_height * self.y_rate  # y좌표
+        self.width = int(board_width * self.width_rate)  # 너비
+        self.height = int(board_height * self.height_rate)  # 높이
+
+    def draw(self, win, outline=None):  # 버튼 보이게 만들기
         if outline:
             draw_image(screen, self.image, self.x,
                        self.y, self.width, self.height)
@@ -279,10 +265,8 @@ class button(): #버튼객체
 
 select_mode_button = button(board_width, board_height, 0.2, 0.2, 0.22, 0.2, select_mode_button_image)
 setting_button = button(board_width, board_height, 0.2, 0.8, 0.22, 0.2, setting_button_image)
-
 quit_button = button(board_width, board_height, 0.8, 0.8, 0.22, 0.2, quit_button_image)
 score_board_button = button(board_width, board_height, 0.8, 0.2, 0.22, 0.2, score_board_button_image)
-
 single_button = button(board_width,board_height, 0.25, 0.35, 0.22, 0.2, single_button_image)
 hard_button = button(board_width, board_height, 0.5, 0.35, 0.22, 0.2, hard_button_image)
 pvp_button = button(board_width, board_height, 0.75, 0.35, 0.22, 0.2, pvp_button_image)
@@ -291,49 +275,106 @@ multi_tutorial_button = button(board_width, board_height, 0.63, 0.65, 0.22, 0.2,
 resume_button = button(board_width, board_height, 0.5, 0.23, 0.17, 0.2, resume_button_image)
 menu_button2 = button(board_width, board_height, 0.5, 0.43, 0.17, 0.2, menu_button_image)
 help_button = button(board_width, board_height, 0.5, 0.63, 0.17, 0.2, help_button_image)
-
 pause_quit_button = button(board_width, board_height, 0.5, 0.83, 0.17, 0.2, quit_button_image)
-pause_setting_button = button(board_width, board_height, 0.5, 0.63, 0.17, 0.2, pause_setting_button_image)
-
+#pause_setting_button = button(board_width, board_height, 0.5, 0.63, 0.17, 0.2, pause_setting_button_image)
 leaderboard_icon = button(board_width, board_height, 0.77, 0.85, 0.15, 0.2, leaderboard_vector)
 mute_button = button(board_width, board_height, 0.5, 0.27, 0.25, 0.45, mute_button_image)
 default_button = button(board_width, board_height, 0.5, 0.27, 0.25, 0.45, default_button_image)
+back_button = button(board_width, board_height, 0.5, 0.85, 0.15, 0.35, back_button_image)
 
 
 
 
 restart_button = button(board_width, board_height, 0.5, 0.23, 0.17, 0.2, restart_button_image)
-back_button = button(board_width, board_height, 0.5, 0.85, 0.1, 0.12, back_button_image)
+back_button = button(board_width, board_height, 0.5, 0.85, 0.15, 0.2, back_button_image)
 ok_button = button(board_width, board_height, 0.5, 0.83, 0.15, 0.2, ok_button_image)
 
+
+
 volume = 1.0
-
-effect_plus_button = button(board_width, board_height, 0.27, 0.73, 0.0625, 0.1111, plus_button_image)
-effect_minus_button = button(board_width, board_height, 0.42, 0.73, 0.0625, 0.1111, minus_button_image)
-
-sound_plus_button = button(board_width, board_height, 0.27, 0.53, 0.0625, 0.1111, plus_button_image)
-sound_minus_button = button(board_width, board_height, 0.42, 0.53, 0.0625, 0.1111, minus_button_image)
-
+effect_plus_button = button(board_width, board_height, 0.37, 0.73, 0.0625, 0.1111, plus_button_image)
+effect_minus_button = button(board_width, board_height, 0.52, 0.73, 0.0625, 0.1111, minus_button_image)
+sound_plus_button = button(board_width, board_height, 0.37, 0.53, 0.0625, 0.1111, plus_button_image)
+sound_minus_button = button(board_width, board_height, 0.52, 0.53, 0.0625, 0.1111, minus_button_image)
+#음소거 추가#
+effect_sound_off_button = button(board_width, board_height, 0.65, 0.73, 0.08, 0.15, sound_off_button_image)
+music_sound_off_button = button(board_width, board_height, 0.65, 0.53, 0.08, 0.15, sound_off_button_image)
+effect_sound_on_button = button(board_width, board_height, 0.65, 0.73, 0.08, 0.15, sound_on_button_image)
+music_sound_on_button = button(board_width, board_height, 0.65, 0.53, 0.08, 0.15, sound_on_button_image)
 mute_check_button = button(board_width, board_height, 0.2, 0.4, 0.0625, 0.1111, check_button_image)
-
-background1_check_button = button(board_width, board_height, 0.5, 0.25, 0.1875, 0.1444, background1_image)
-background2_check_button = button(board_width, board_height, 0.5, 0.45, 0.1875, 0.1444, background2_image)
-background3_check_button = button(board_width, board_height, 0.5, 0.65, 0.1875, 0.1444, background3_image)
-
+smallsize_check_button = button(board_width, board_height, 0.5, 0.25, 0.1875, 0.1444, smallsize_board)
+midiumsize_check_button = button(board_width, board_height, 0.5, 0.45, 0.1875, 0.1444, midiumsize_board)
+bigsize_check_button = button(board_width, board_height, 0.5, 0.65, 0.1875, 0.1444, bigsize_board)
 volume_icon = button(board_width, board_height, 0.4, 0.5, 0.12, 0.23, volume_vector)
 screen_icon = button(board_width, board_height, 0.6, 0.5, 0.12, 0.23, screen_vector)
 
+'''
+    # 버튼객체 생성 class Button에서 확인
+# def __init__(self, board_width, board_height, x_rate, y_rate, width_rate, height_rate, img='')
+# (현재 보드너비, 현재보드높이, 버튼의 x좌표 위치비율, 버튼의 y좌표 위치비율, 버튼의 너비 길이비율, 버튼의 높이 길이비율) - 전체화면 크기에 대한 비율
+mute_button = button(board_width, board_height, 0.5,
+                     0.27, 0.25, 0.45, mute_button_image)
+default_button = button(board_width, board_height, 0.5,
+                        0.27, 0.25, 0.45, default_button_image)
+help_button = button(board_width, board_height, 0.12,
+                     0.8, 0.235, 0.435, help_button_image)
+gravity_button = button(board_width, board_height, 0.58,
+                        0.55, 0.235, 0.435, gravity_button_image)
+timeattack_button = button(board_width, board_height,
+                           0.58, 0.8, 0.235, 0.435, timeattack_button_image)
+setting_icon = button(board_width, board_height, 0.9,
+                      0.85, 0.10, 0.15, setting_vector)
+leaderboard_icon = button(board_width, board_height,
+                          0.77, 0.85, 0.15, 0.2, leaderboard_vector)
+resume_button = button(board_width, board_height, 0.5,
+                       0.23, 0.15, 0.35, resume_button_image)
+restart_button = button(board_width, board_height, 0.5,
+                        0.43, 0.15, 0.35, restart_button_image)
+'''
+'''
+back_button = button(board_width, board_height, 0.5,
+                     0.85, 0.15, 0.35, back_button_image)
+volume_icon = button(board_width, board_height, 0.4,
+                     0.5, 0.12, 0.23, volume_vector)
+screen_icon = button(board_width, board_height, 0.6,
+                     0.5, 0.12, 0.23, screen_vector)
+ok_button = button(board_width, board_height, 0.5,
+                   0.83, 0.15, 0.35, ok_button_image)
+volume = 1.0
+menu_button = button(board_width, board_height, 0.5,
+                     0.23, 0.15, 0.35, menu_button_image)
+gameover_quit_button = button(
+    board_width, board_height, 0.5, 0.43, 0.15, 0.35, quit_button_image)
+effect_plus_button = button(
+    board_width, board_height, 0.37, 0.73, 0.0625, 0.1111, plus_button_image)
+effect_minus_button = button(
+    board_width, board_height, 0.52, 0.73, 0.0625, 0.1111, minus_button_image)
+sound_plus_button = button(board_width, board_height,
+                           0.37, 0.53, 0.0625, 0.1111, plus_button_image)
+sound_minus_button = button(
+    board_width, board_height, 0.52, 0.53, 0.0625, 0.1111, minus_button_image)
+level_plus_button = button(board_width, board_height,
+                           0.63, 0.7719, 0.0625, 0.1111, plus_button_image)
+level_minus_button = button(
+    board_width, board_height, 0.56, 0.7719, 0.0625, 0.1111, minus_button_image)
+combo_plus_button = button(board_width, board_height,
+                           0.63, 0.9419, 0.0625, 0.1111, plus_button_image)
+combo_minus_button =button(board_width, board_height,
+                           0.56, 0.9419, 0.0625, 0.1111, minus_button_image)
+speed_plus_button = button(board_width, board_height,
+                           0.18, 0.12, 0.055, 0.09, plus_button_image)
+speed_minus_button =button(board_width, board_height,
+                           0.035, 0.12, 0.055, 0.09, minus_button_image)
+'''
 
-#음소거 추가#
-effect_sound_off_button = button(board_width, board_height, 0.55, 0.73, 0.08, 0.15, sound_off_button_image)
-music_sound_off_button = button(board_width, board_height, 0.55, 0.53, 0.08, 0.15, sound_off_button_image)
-effect_sound_on_button = button(board_width, board_height, 0.55, 0.73, 0.08, 0.15, sound_on_button_image)
-music_sound_on_button = button(board_width, board_height, 0.55, 0.53, 0.08, 0.15, sound_on_button_image)
+'''
+# 게임 중 버튼 생성하기위한 버튼객체 리스트 (버튼 전체)
+button_list = [mute_button, default_button, single_button, pvp_button, help_button, quit_button, gravity_button, timeattack_button, resume_button, restart_button, setting_button, pause_quit_button, back_button,
+        ok_button, menu_button, gameover_quit_button, effect_plus_button, effect_minus_button, sound_plus_button, sound_minus_button, level_plus_button,
+        effect_sound_off_button, music_sound_off_button, effect_sound_on_button, music_sound_on_button, mute_check_button, smallsize_check_button, midiumsize_check_button, bigsize_check_button,
+        setting_icon, leaderboard_icon, volume_icon, screen_icon, level_minus_button, combo_minus_button, combo_plus_button, speed_minus_button, speed_plus_button]
+'''
 
-#BGM 선택 추가#
-BGM1_sound_on_button = button(board_width, board_height, 0.67, 0.43, 0.08, 0.15, backgroundmusic_select_image)
-BGM2_sound_on_button = button(board_width, board_height, 0.67, 0.63, 0.08, 0.15, backgroundmusic_select_image)
-BGM3_sound_on_button = button(board_width, board_height, 0.67, 0.83, 0.08, 0.15, backgroundmusic_select_image)
 
 def set_volume():
     # set_volume의 argument는 0.0~1.0으로 이루어져야하기 때문에 소수로 만들어주기 위해 10으로 나눔#
@@ -2782,22 +2823,16 @@ while not done:
             board_width), int(board_height)])  # (screen, 색깔, 위치 x, y좌표, 너비, 높이)
 
         screen.blit(pause_surface, (0, 0))
-        
-            draw_image(screen, setting_board_image, board_width * 0.5, board_height * 0.5, int(board_height * 1.3), board_height) #(window, 이미지주소, x좌표, y좌표, 너비, 높이)
-            background1_check_button.draw(screen, (0, 0, 0))
-            background2_check_button.draw(screen, (0, 0, 0))
-            background3_check_button.draw(screen, (0, 0, 0))
-            back_button.draw(screen, (0, 0, 0))
 
-            Background1_text = ui_variables.h5.render('HongKong', 1, ui_variables.grey_1)
-            Background2_text = ui_variables.h5.render('NewYork', 1, ui_variables.grey_1)
-            Background3_text = ui_variables.h5.render('London', 1, ui_variables.grey_1)
-            screen.blit(Background1_text, (board_width * 0.47, board_height * 0.33)) #위치 비율 고정
-            screen.blit(Background2_text, (board_width * 0.47, board_height * 0.52)) #위치 비율 고정
-            screen.blit(Background3_text, (board_width * 0.47, board_height * 0.73)) #위치 비율 고정
-            
-            for event in pygame.event.get():
-                pos = pygame.mouse.get_pos()
+        draw_image(screen, setting_board_image, board_width * 0.5, board_height * 0.5,
+                   int(board_height * 1.3), board_height)  # (window, 이미지주소, x좌표, y좌표, 너비, 높이)
+        smallsize_check_button.draw(screen, (0, 0, 0))
+        bigsize_check_button.draw(screen, (0, 0, 0))
+        midiumsize_check_button.draw(screen, (0, 0, 0))
+        back_button.draw(screen, (0, 0, 0))
+
+        for event in pygame.event.get():
+            pos = pygame.mouse.get_pos()
 
             if event.type == QUIT:
                 done = True
@@ -2830,50 +2865,50 @@ while not done:
                     #    button_list[i].change(board_width, board_height)
                     pygame.display.update()
 
+                if midiumsize_check_button.isOver(pos):
+                    ui_variables.click_sound.play()
+                    board_width = 1200
+                    board_height = 675
+                    block_size = int(board_height * 0.045)  # 블록 크기 비율 고정
+                    screen = pygame.display.set_mode(
+                        (board_width, board_height), pygame.RESIZABLE)
+                    textsize = True
 
-                    if background1_check_button.isOver(pos):
-                        background1_check_button.image = clicked_background1_image
-                    else:
-                        background1_check_button.image = background1_image
+                    # for i in range(len(button_list)):
+                    #    button_list[i].change(board_width, board_height)
 
-                    if background2_check_button.isOver(pos):
-                        background2_check_button.image = clicked_background2_image
-                    else:
-                        background2_check_button.image = background2_image
-
-                    if background3_check_button.isOver(pos):
-                        background3_check_button.image = clicked_background3_image
-                    else:
-                        background3_check_button.image = background3_image
-
-                elif event.type == pygame.MOUSEBUTTONDOWN:
-                    if back_button.isOver(pos):
-                        ui_variables.click_sound.play()
-                        screen_setting = False
-                    if background1_check_button.isOver(pos):
-                        gamebackground_image='assets/images/background_hongkong.png'
-                        
-                    if background2_check_button.isOver(pos):
-                        gamebackground_image='assets/images/background_nyc.png'
-
-                    if background3_check_button.isOver(pos):
-                       gamebackground_image='assets/images/background_uk.png'
                     pygame.display.update()
-                        
+
+                if bigsize_check_button.isOver(pos):
+                    ui_variables.click_sound.play()
+                    board_width = 1600
+                    board_height = 900
+                    block_size = int(board_height * 0.045)  # 블록 크기 비율 고정
+                    screen = pygame.display.set_mode(
+                        (board_width, board_height), pygame.RESIZABLE)
+                    textsize = True
+
+                    # for i in range(len(button_list)):
+                    #    button_list[i].change(board_width, board_height)
+                    pygame.display.update()
+
     elif volume_setting:
-        #배경 약간 어둡게
-        leaderboard_icon.draw(screen, (0, 0, 0)) #rgb(0,0,0) = 검정색#
-        pause_surface = screen.convert_alpha() #투명 가능하도록
-        pause_surface.fill((0, 0, 0, 0)) #투명한 검정색으로 덮기
-        pygame.draw.rect(pause_surface, (ui_variables.black_pause), [0, 0, int(board_width), int(board_height)]) #(screen, 색깔, 위치 x, y좌표, 너비, 높이)
-        screen.blit(pause_surface, (0, 0)) #위치 비율 고정
+        # 배경 약간 어둡게
+        leaderboard_icon.draw(screen, (0, 0, 0))  # rgb(0,0,0) = 검정색#
+        pause_surface = screen.convert_alpha()  # 투명 가능하도록
+        pause_surface.fill((0, 0, 0, 0))  # 투명한 검정색으로 덮기
+        pygame.draw.rect(pause_surface, (ui_variables.black_pause), [0, 0, int(
+            board_width), int(board_height)])  # (screen, 색깔, 위치 x, y좌표, 너비, 높이)
+        screen.blit(pause_surface, (0, 0))  # 위치 비율 고정
 
-        #draw_image(window, 이미지주소, x좌표, y좌표, 너비, 높이)
-        draw_image(screen, setting_board_image, board_width * 0.5, board_height * 0.5, int(board_height * 1.3), board_height)
-        draw_image(screen, number_board, board_width * 0.35, board_height * 0.53, int(board_width * 0.09), int(board_height * 0.1444))
-        draw_image(screen, number_board, board_width * 0.35, board_height * 0.73, int(board_width * 0.09), int(board_height * 0.1444))
-        mute_button.draw(screen, (0, 0, 0)) #rgb(0,0,0) = 검정색#
-
+        # draw_image(window, 이미지주소, x좌표, y좌표, 너비, 높이)
+        draw_image(screen, setting_board_image, board_width * 0.5,
+                   board_height * 0.5, int(board_height * 1.3), board_height)
+        draw_image(screen, number_board, board_width * 0.45, board_height *
+                   0.53, int(board_width * 0.09), int(board_height * 0.1444))
+        draw_image(screen, number_board, board_width * 0.45, board_height *
+                   0.73, int(board_width * 0.09), int(board_height * 0.1444))
+        mute_button.draw(screen, (0, 0, 0))  # rgb(0,0,0) = 검정색#
         effect_plus_button.draw(screen, (0, 0, 0))
         effect_minus_button.draw(screen, (0, 0, 0))
         sound_plus_button.draw(screen, (0, 0, 0))
@@ -2886,31 +2921,43 @@ while not done:
         BGM3_sound_on_button.draw(screen, (0, 0, 0))
         back_button.draw(screen, (0, 0, 0))
 
+        # render("텍스트이름", 안티에일리어싱 적용, 색깔), 즉 아래의 코드에서 숫자 1=안티에일리어싱 적용에 관한 코드
+        music_volume_text = ui_variables.h5.render(
+            'Music Volume', 1, ui_variables.grey_1)
+        effect_volume_text = ui_variables.h5.render(
+            'Effect Volume', 1, ui_variables.grey_1)
+        screen.blit(music_volume_text, (board_width *
+                    0.4, board_height * 0.4))  # 위치 비율 고정
+        screen.blit(effect_volume_text, (board_width *
+                    0.4, board_height * 0.6))  # 위치 비율 고정
 
-        #render("텍스트이름", 안티에일리어싱 적용, 색깔), 즉 아래의 코드에서 숫자 1=안티에일리어싱 적용에 관한 코드
-        music_volume_text = ui_variables.h5.render('Music Volume', 1, ui_variables.grey_1)
-        effect_volume_text = ui_variables.h5.render('Effect Volume', 1, ui_variables.grey_1)
-        screen.blit(music_volume_text, (board_width * 0.3, board_height * 0.4)) #위치 비율 고정
-        screen.blit(effect_volume_text, (board_width * 0.3, board_height * 0.6)) #위치 비율 고정
+        music_volume_text = ui_variables.h5.render(
+            'Music On/Off', 1, ui_variables.grey_1)
+        effect_volume_text = ui_variables.h5.render(
+            'Effect On/Off', 1, ui_variables.grey_1)
+        screen.blit(music_volume_text, (board_width *
+                    0.6, board_height * 0.4))  # 위치 비율 고정
+        screen.blit(effect_volume_text, (board_width *
+                    0.6, board_height * 0.6))  # 위치 비율 고정
 
-        music_volume_text = ui_variables.h5.render('Music On/Off', 1, ui_variables.grey_1)
-        effect_volume_text = ui_variables.h5.render('Effect On/Off', 1, ui_variables.grey_1)
-        screen.blit(music_volume_text, (board_width * 0.5, board_height * 0.4)) #위치 비율 고정
-        screen.blit(effect_volume_text, (board_width * 0.5, board_height * 0.6)) #위치 비율 고정
-
-        music_volume_size_text = ui_variables.h4.render(str(music_volume), 1, ui_variables.grey_1)
-        effect_volume_size_text = ui_variables.h4.render(str(effect_volume), 1, ui_variables.grey_1)
-        screen.blit(music_volume_size_text, (board_width * 0.33, board_height * 0.5)) #위치 비율 고정
-        screen.blit(effect_volume_size_text, (board_width * 0.33, board_height * 0.7)) #위치 비율 고정
-
+        music_volume_size_text = ui_variables.h4.render(
+            str(music_volume), 1, ui_variables.grey_1)
+        effect_volume_size_text = ui_variables.h4.render(
+            str(effect_volume), 1, ui_variables.grey_1)
+        screen.blit(music_volume_size_text, (board_width *
+                    0.43, board_height * 0.5))  # 위치 비율 고정
+        screen.blit(effect_volume_size_text, (board_width *
+                    0.43, board_height * 0.7))  # 위치 비율 고정
 
         BGM1_text = ui_variables.h5.render('BGM1', 1, ui_variables.grey_1)
         BGM2_text = ui_variables.h5.render('BGM2', 1, ui_variables.grey_1)
         BGM3_text = ui_variables.h5.render('BGM3', 1, ui_variables.grey_1)
-
-        screen.blit(BGM1_text, (board_width * 0.65, board_height * 0.3)) #위치 비율 고정
-        screen.blit(BGM2_text, (board_width * 0.65, board_height * 0.5)) #위치 비율 고정
-        screen.blit(BGM3_text, (board_width * 0.65, board_height * 0.7)) #위치 비율 고정
+        screen.blit(BGM1_text, (board_width * 0.75,
+                    board_height * 0.3))  # 위치 비율 고정
+        screen.blit(BGM2_text, (board_width * 0.75,
+                    board_height * 0.5))  # 위치 비율 고정
+        screen.blit(BGM3_text, (board_width * 0.75,
+                    board_height * 0.7))  # 위치 비율 고정
 
         for event in pygame.event.get():
             pos = pygame.mouse.get_pos()
