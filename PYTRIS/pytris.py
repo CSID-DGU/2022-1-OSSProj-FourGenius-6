@@ -173,6 +173,9 @@ clicked_hard_tutorial_button_image = 'assets/vector/clicked_hard_tutorial_button
 multi_tutorial_button_image = 'assets/vector/multi_tutorial_button.png'
 clicked_multi_tutorial_button_image = 'assets/vector/clicked_multi_tutorial_button.png'
 
+
+gameover_board_image = 'assets/vector/gameover_board.png'
+
 '''
 help_button_image = 'assets/vector/help_button.png'
 clicked_help_button_image = 'assets/vector/clicked_help_button.png'
@@ -1083,10 +1086,10 @@ def set_initial_values():
         'leaderboard.txt')]  # leaderboard.txt 한줄씩 읽어옴
 
     leaders = {'AAA': 0, 'BBB': 0, 'CCC': 0}
-    for i in lines:
+    '''for i in lines:
         leaders[i.split(' ')[0]] = int(i.split(' ')[1])
     leaders = sorted(leaders.items(), key=operator.itemgetter(1), reverse=True)
-
+    '''
     matrix = [[0 for y in range(height + 1)]
               for x in range(width)]  # Board matrix
     matrix_2P = [[0 for y in range(height + 1)]
@@ -1124,8 +1127,7 @@ while not done:
             # 화면 회색으로 약간 불투명하게
             pause_surface = screen.convert_alpha()  # 투명 가능하도록
             pause_surface.fill((0, 0, 0, 0))  # 투명한 검정색으로 덮기
-            pygame.draw.rect(pause_surface, (ui_variables.black_pause), [0, 0, int(
-                board_width), int(board_height)])  # (screen, 색깔, 위치 x, y좌표, 너비, 높이)
+            pygame.draw.rect(pause_surface, (ui_variables.black_pause), [0, 0, int(board_width), int(board_height)])  # (screen, 색깔, 위치 x, y좌표, 너비, 높이)
             screen.blit(pause_surface, (0, 0))
 
         if hard:
