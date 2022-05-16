@@ -49,9 +49,9 @@ initialize = True  # Start Screen 에서 set_initial_values()로 초기화할지
 
 class ui_variables:
     # Fonts
-    font_path = "assets/fonts/a옛날사진관2.ttf"
+    font_path = "assets/fonts/a옛날사진관3.ttf"
     font_path_b = "assets/fonts/a옛날사진관3.ttf"
-    font_path_i = "assets/fonts/Inconsolata/Inconsolata.otf"
+    font_path_i = "assets/fonts/a옛날사진관3.ttf"
 
     h1 = pygame.font.Font(font_path, 50)
     h2 = pygame.font.Font(font_path, 30)
@@ -299,8 +299,8 @@ pause_quit_button = button(board_width, board_height, 0.5, 0.83, 0.17, 0.2, quit
 pause_setting_button = button(board_width, board_height, 0.5, 0.63, 0.17, 0.2, pause_setting_button_image)
 
 leaderboard_icon = button(board_width, board_height, 0.77, 0.85, 0.15, 0.2, leaderboard_vector)
-mute_button = button(board_width, board_height, 0.5, 0.27, 0.25, 0.45, mute_button_image)
-default_button = button(board_width, board_height, 0.5, 0.27, 0.25, 0.45, default_button_image)
+mute_button = button(board_width, board_height, 0.5, 0.20, 0.15, 0.2, mute_button_image)
+default_button = button(board_width, board_height, 0.5, 0.27, 0.15, 0.2, default_button_image)
 
 
 
@@ -2791,9 +2791,9 @@ while not done:
         background3_check_button.draw(screen, (0, 0, 0))
         back_button.draw(screen, (0, 0, 0))
 
-        Background1_text = ui_variables.h5.render('HongKong', 1, ui_variables.grey_1)
-        Background2_text = ui_variables.h5.render('NewYork', 1, ui_variables.grey_1)
-        Background3_text = ui_variables.h5.render('London', 1, ui_variables.grey_1)
+        Background1_text = ui_variables.h5.render('HongKong', 1, ui_variables.white)
+        Background2_text = ui_variables.h5.render('NewYork', 1, ui_variables.white)
+        Background3_text = ui_variables.h5.render('London', 1, ui_variables.white)
         screen.blit(Background1_text, (board_width * 0.47, board_height * 0.33)) #위치 비율 고정
         screen.blit(Background2_text, (board_width * 0.47, board_height * 0.52)) #위치 비율 고정
         screen.blit(Background3_text, (board_width * 0.47, board_height * 0.73)) #위치 비율 고정
@@ -2871,13 +2871,13 @@ while not done:
 
 
         #render("텍스트이름", 안티에일리어싱 적용, 색깔), 즉 아래의 코드에서 숫자 1=안티에일리어싱 적용에 관한 코드
-        music_volume_text = ui_variables.h5.render('Music Volume', 1, ui_variables.grey_1)
-        effect_volume_text = ui_variables.h5.render('Effect Volume', 1, ui_variables.grey_1)
+        music_volume_text = ui_variables.h5.render('Music Volume', 1, ui_variables.white)
+        effect_volume_text = ui_variables.h5.render('Effect Volume', 1, ui_variables.white)
         screen.blit(music_volume_text, (board_width * 0.3, board_height * 0.4)) #위치 비율 고정
         screen.blit(effect_volume_text, (board_width * 0.3, board_height * 0.6)) #위치 비율 고정
 
-        music_volume_text = ui_variables.h5.render('Music On/Off', 1, ui_variables.grey_1)
-        effect_volume_text = ui_variables.h5.render('Effect On/Off', 1, ui_variables.grey_1)
+        music_volume_text = ui_variables.h5.render('Music On/Off', 1, ui_variables.white)
+        effect_volume_text = ui_variables.h5.render('Effect On/Off', 1, ui_variables.white)
         screen.blit(music_volume_text, (board_width * 0.5, board_height * 0.4)) #위치 비율 고정
         screen.blit(effect_volume_text, (board_width * 0.5, board_height * 0.6)) #위치 비율 고정
 
@@ -2887,9 +2887,9 @@ while not done:
         screen.blit(effect_volume_size_text, (board_width * 0.33, board_height * 0.7)) #위치 비율 고정
 
 
-        BGM1_text = ui_variables.h5.render('BGM1', 1, ui_variables.grey_1)
-        BGM2_text = ui_variables.h5.render('BGM2', 1, ui_variables.grey_1)
-        BGM3_text = ui_variables.h5.render('BGM3', 1, ui_variables.grey_1)
+        BGM1_text = ui_variables.h5.render('BGM1', 1, ui_variables.white)
+        BGM2_text = ui_variables.h5.render('BGM2', 1, ui_variables.white)
+        BGM3_text = ui_variables.h5.render('BGM3', 1, ui_variables.white)
 
         screen.blit(BGM1_text, (board_width * 0.65, board_height * 0.3)) #위치 비율 고정
         screen.blit(BGM2_text, (board_width * 0.65, board_height * 0.5)) #위치 비율 고정
