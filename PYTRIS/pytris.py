@@ -241,23 +241,30 @@ clicked_leaderboard_vector = 'assets/vector/clicked_leaderboard_vector.png'
 leaderboard_vector = 'assets/vector/leaderboard_vector.png'
 clicked_leaderboard_vector = 'assets/vector/clicked_leaderboard_vector.png'
 
-class button(): #버튼객체
-    def __init__(self, board_width, board_height, x_rate, y_rate, width_rate, height_rate, img=''): #버튼생성
-        self.x = board_width * x_rate #버튼 x좌표 (버튼이미지의 정중앙)
-        self.y = board_height * y_rate #버튼 y좌표 (버튼이미지의 정중앙)
-        self.width = int(board_width * width_rate) #버튼 너비
-        self.height = int(board_height * height_rate) #버튼 높이
-        self.x_rate = x_rate #board_width * x_rate = x좌표
-        self.y_rate = y_rate #board_height * y_rate = y좌표
-        self.width_rate = width_rate #board_width * width_rate = 버튼 너비
-        self.height_rate = height_rate #board_height * height_rate = 버튼 높이
-        self.image = img #불러올 버튼 이미지
-    def change(self, board_width, board_height): #버튼 위치, 크기 바꾸기
-        self.x = board_width * self.x_rate #x좌표
-        self.y = board_height * self.y_rate #y좌표
-        self.width = int(board_width * self.width_rate) #너비
-        self.height = int(board_height * self.height_rate) #높이
-    def draw(self, win, outline=None): #버튼 보이게 만들기
+multi_gameover_image = 'assets/vector/multi_game_over.png'
+multi_win_image = 'assets/vector/multi_win.png'
+multi_lose_image = 'assets/vector/multi_lose.png'
+
+
+class button():  # 버튼객체
+    def __init__(self, board_width, board_height, x_rate, y_rate, width_rate, height_rate, img=''):  # 버튼생성
+        self.x = board_width * x_rate  # 버튼 x좌표 (버튼이미지의 정중앙)
+        self.y = board_height * y_rate  # 버튼 y좌표 (버튼이미지의 정중앙)
+        self.width = int(board_width * width_rate)  # 버튼 너비
+        self.height = int(board_height * height_rate)  # 버튼 높이
+        self.x_rate = x_rate  # board_width * x_rate = x좌표
+        self.y_rate = y_rate  # board_height * y_rate = y좌표
+        self.width_rate = width_rate  # board_width * width_rate = 버튼 너비
+        self.height_rate = height_rate  # board_height * height_rate = 버튼 높이
+        self.image = img  # 불러올 버튼 이미지
+
+    def change(self, board_width, board_height):  # 버튼 위치, 크기 바꾸기
+        self.x = board_width * self.x_rate  # x좌표
+        self.y = board_height * self.y_rate  # y좌표
+        self.width = int(board_width * self.width_rate)  # 너비
+        self.height = int(board_height * self.height_rate)  # 높이
+
+    def draw(self, win, outline=None):  # 버튼 보이게 만들기
 
         if outline:
             draw_image(screen, self.image, self.x,
@@ -280,65 +287,109 @@ class button(): #버튼객체
         return False
 # 메뉴 버튼
 
-select_mode_button = button(board_width, board_height, 0.2, 0.2, 0.22, 0.2, select_mode_button_image)
-setting_button = button(board_width, board_height, 0.2, 0.8, 0.22, 0.2, setting_button_image)
 
-quit_button = button(board_width, board_height, 0.8, 0.8, 0.22, 0.2, quit_button_image)
-score_board_button = button(board_width, board_height, 0.8, 0.2, 0.22, 0.2, score_board_button_image)
+select_mode_button = button(
+    board_width, board_height, 0.2, 0.2, 0.22, 0.2, select_mode_button_image)
+setting_button = button(board_width, board_height, 0.2,
+                        0.8, 0.22, 0.2, setting_button_image)
 
-single_button = button(board_width,board_height, 0.25, 0.35, 0.22, 0.2, single_button_image)
-hard_button = button(board_width, board_height, 0.5, 0.35, 0.22, 0.2, hard_button_image)
-pvp_button = button(board_width, board_height, 0.75, 0.35, 0.22, 0.2, pvp_button_image)
-hard_tutorial_button = button(board_width, board_height, 0.37, 0.65, 0.22, 0.2, hard_tutorial_button_image)
-multi_tutorial_button = button(board_width, board_height, 0.63, 0.65, 0.22, 0.2, multi_tutorial_button_image)
-resume_button = button(board_width, board_height, 0.5, 0.23, 0.17, 0.2, resume_button_image)
-menu_button2 = button(board_width, board_height, 0.5, 0.43, 0.17, 0.2, menu_button_image)
-help_button = button(board_width, board_height, 0.5, 0.63, 0.17, 0.2, help_button_image)
+quit_button = button(board_width, board_height, 0.8,
+                     0.8, 0.22, 0.2, quit_button_image)
+score_board_button = button(
+    board_width, board_height, 0.8, 0.2, 0.22, 0.2, score_board_button_image)
 
-pause_quit_button = button(board_width, board_height, 0.5, 0.83, 0.17, 0.2, quit_button_image)
-pause_setting_button = button(board_width, board_height, 0.5, 0.63, 0.17, 0.2, pause_setting_button_image)
+single_button = button(board_width, board_height, 0.25,
+                       0.35, 0.22, 0.2, single_button_image)
+hard_button = button(board_width, board_height, 0.5,
+                     0.35, 0.22, 0.2, hard_button_image)
+pvp_button = button(board_width, board_height, 0.75,
+                    0.35, 0.22, 0.2, pvp_button_image)
+hard_tutorial_button = button(
+    board_width, board_height, 0.37, 0.65, 0.22, 0.2, hard_tutorial_button_image)
+multi_tutorial_button = button(
+    board_width, board_height, 0.63, 0.65, 0.22, 0.2, multi_tutorial_button_image)
+resume_button = button(board_width, board_height, 0.5,
+                       0.23, 0.17, 0.2, resume_button_image)
+menu_button2 = button(board_width, board_height, 0.5,
+                      0.43, 0.17, 0.2, menu_button_image)
+help_button = button(board_width, board_height, 0.5,
+                     0.63, 0.17, 0.2, help_button_image)
 
-leaderboard_icon = button(board_width, board_height, 0.77, 0.85, 0.15, 0.2, leaderboard_vector)
-mute_button = button(board_width, board_height, 0.5, 0.20, 0.15, 0.2, mute_button_image)
-default_button = button(board_width, board_height, 0.5, 0.27, 0.15, 0.2, default_button_image)
+pause_quit_button = button(board_width, board_height,
+                           0.5, 0.83, 0.17, 0.2, quit_button_image)
+pause_setting_button = button(
+    board_width, board_height, 0.5, 0.63, 0.17, 0.2, pause_setting_button_image)
+
+leaderboard_icon = button(board_width, board_height,
+                          0.77, 0.85, 0.15, 0.2, leaderboard_vector)
+mute_button = button(board_width, board_height, 0.5,
+                     0.20, 0.15, 0.2, mute_button_image)
+default_button = button(board_width, board_height, 0.5,
+                        0.27, 0.15, 0.2, default_button_image)
 
 
+restart_button = button(board_width, board_height, 0.5,
+                        0.23, 0.17, 0.2, restart_button_image)
+back_button = button(board_width, board_height, 0.5,
+                     0.85, 0.1, 0.12, back_button_image)
+ok_button = button(board_width, board_height, 0.5,
+                   0.83, 0.15, 0.2, ok_button_image)
 
-restart_button = button(board_width, board_height, 0.5, 0.23, 0.17, 0.2, restart_button_image)
-back_button = button(board_width, board_height, 0.5, 0.85, 0.1, 0.12, back_button_image)
-ok_button = button(board_width, board_height, 0.5, 0.83, 0.15, 0.2, ok_button_image)
+# 멀티모드 게임오버화면 버튼
+multi_menu_button = button(board_width, board_height,
+                           0.35, 0.8, 0.2, 0.2, menu_button_image)
+multi_restart_button = button(
+    board_width, board_height, 0.65, 0.8, 0.2, 0.2, restart_button_image)
+#
 
 volume = 1.0
 
 
-effect_plus_button = button(board_width, board_height, 0.27, 0.73, 0.0625, 0.1111, plus_button_image)
-effect_minus_button = button(board_width, board_height, 0.42, 0.73, 0.0625, 0.1111, minus_button_image)
+effect_plus_button = button(
+    board_width, board_height, 0.27, 0.73, 0.0625, 0.1111, plus_button_image)
+effect_minus_button = button(
+    board_width, board_height, 0.42, 0.73, 0.0625, 0.1111, minus_button_image)
 
-sound_plus_button = button(board_width, board_height, 0.27, 0.53, 0.0625, 0.1111, plus_button_image)
-sound_minus_button = button(board_width, board_height, 0.42, 0.53, 0.0625, 0.1111, minus_button_image)
+sound_plus_button = button(board_width, board_height,
+                           0.27, 0.53, 0.0625, 0.1111, plus_button_image)
+sound_minus_button = button(
+    board_width, board_height, 0.42, 0.53, 0.0625, 0.1111, minus_button_image)
 
 
-mute_check_button = button(board_width, board_height, 0.2, 0.4, 0.0625, 0.1111, check_button_image)
+mute_check_button = button(board_width, board_height,
+                           0.2, 0.4, 0.0625, 0.1111, check_button_image)
 
-background1_check_button = button(board_width, board_height, 0.5, 0.25, 0.1875, 0.1444, background1_image)
-background2_check_button = button(board_width, board_height, 0.5, 0.45, 0.1875, 0.1444, background2_image)
-background3_check_button = button(board_width, board_height, 0.5, 0.65, 0.1875, 0.1444, background3_image)
+background1_check_button = button(
+    board_width, board_height, 0.5, 0.25, 0.1875, 0.1444, background1_image)
+background2_check_button = button(
+    board_width, board_height, 0.5, 0.45, 0.1875, 0.1444, background2_image)
+background3_check_button = button(
+    board_width, board_height, 0.5, 0.65, 0.1875, 0.1444, background3_image)
 
-volume_icon = button(board_width, board_height, 0.4, 0.5, 0.12, 0.23, volume_vector)
-screen_icon = button(board_width, board_height, 0.6, 0.5, 0.12, 0.23, screen_vector)
-
+volume_icon = button(board_width, board_height, 0.4,
+                     0.5, 0.12, 0.23, volume_vector)
+screen_icon = button(board_width, board_height, 0.6,
+                     0.5, 0.12, 0.23, screen_vector)
 
 
 #음소거 추가#
-effect_sound_off_button = button(board_width, board_height, 0.55, 0.73, 0.08, 0.15, sound_off_button_image)
-music_sound_off_button = button(board_width, board_height, 0.55, 0.53, 0.08, 0.15, sound_off_button_image)
-effect_sound_on_button = button(board_width, board_height, 0.55, 0.73, 0.08, 0.15, sound_on_button_image)
-music_sound_on_button = button(board_width, board_height, 0.55, 0.53, 0.08, 0.15, sound_on_button_image)
+effect_sound_off_button = button(
+    board_width, board_height, 0.55, 0.73, 0.08, 0.15, sound_off_button_image)
+music_sound_off_button = button(
+    board_width, board_height, 0.55, 0.53, 0.08, 0.15, sound_off_button_image)
+effect_sound_on_button = button(
+    board_width, board_height, 0.55, 0.73, 0.08, 0.15, sound_on_button_image)
+music_sound_on_button = button(
+    board_width, board_height, 0.55, 0.53, 0.08, 0.15, sound_on_button_image)
 
 #BGM 선택 추가#
-BGM1_sound_on_button = button(board_width, board_height, 0.67, 0.43, 0.08, 0.15, backgroundmusic_select_image)
-BGM2_sound_on_button = button(board_width, board_height, 0.67, 0.63, 0.08, 0.15, backgroundmusic_select_image)
-BGM3_sound_on_button = button(board_width, board_height, 0.67, 0.83, 0.08, 0.15, backgroundmusic_select_image)
+BGM1_sound_on_button = button(
+    board_width, board_height, 0.67, 0.43, 0.08, 0.15, backgroundmusic_select_image)
+BGM2_sound_on_button = button(
+    board_width, board_height, 0.67, 0.63, 0.08, 0.15, backgroundmusic_select_image)
+BGM3_sound_on_button = button(
+    board_width, board_height, 0.67, 0.83, 0.08, 0.15, backgroundmusic_select_image)
+
 
 def set_volume():
     # set_volume의 argument는 0.0~1.0으로 이루어져야하기 때문에 소수로 만들어주기 위해 10으로 나눔#
@@ -1021,7 +1072,7 @@ def set_vol(val):
 
 
 def set_initial_values():
-    global combo_count, combo_count_2P, score, level, goal, score_2P, level_2P, goal_2P, bottom_count, bottom_count_2P, hard_drop, hard_drop_2P, attack_point, attack_point_2P, dx, dy, dx_2P, dy_2P, rotation, rotation_2P, mino, mino_2P, next_mino1, next_mino2, next_mino1_2P, hold, hold_2P, hold_mino, hold_mino_2P, framerate, framerate_2P, matrix, matrix_2P, Change_RATE, blink, start, pause, done, game_over, leader_board, setting, volume_setting, screen_setting, pvp, help, gravity_mode, debug, d, e, b, u, g, start_ticks, textsize, CHANNELS, swidth, name_location, name, previous_time, current_time, pause_time, lines, leaders, volume, game_status, framerate_blockmove, framerate_2P_blockmove, game_speed, game_speed_2P, select_mode, hard, hard_tutorial, multi_tutorial, hard_time_setting, game_over_multi, winner
+    global combo_count, combo_count_2P, score, level, goal, score_2P, level_2P, goal_2P, bottom_count, bottom_count_2P, hard_drop, hard_drop_2P, attack_point, attack_point_2P, dx, dy, dx_2P, dy_2P, rotation, rotation_2P, mino, mino_2P, next_mino1, next_mino2, next_mino1_2P, hold, hold_2P, hold_mino, hold_mino_2P, framerate, framerate_2P, matrix, matrix_2P, Change_RATE, blink, start, pause, done, game_over, leader_board, setting, volume_setting, screen_setting, pvp, help, gravity_mode, debug, d, e, b, u, g, start_ticks, textsize, CHANNELS, swidth, name_location, name, previous_time, current_time, pause_time, lines, leaders, volume, game_status, framerate_blockmove, framerate_2P_blockmove, game_speed, game_speed_2P, select_mode, hard, hard_tutorial, multi_tutorial, hard_time_setting, winner
     framerate = 30  # Bigger -> Slower  기본 블록 하강 속도, 2도 할만 함, 0 또는 음수 이상이어야 함
     framerate_blockmove = framerate * 3  # 블록 이동 시 속도
     game_speed = framerate * 20  # 게임 기본 속도
@@ -1053,7 +1104,6 @@ def set_initial_values():
     u = False
     g = False
     hard_time_setting = False  # 하드모드 시작하였을 때 타임 세팅을 시작하여 경과 시간을 계산하기 위해 추가한 변수
-    game_over_multi = False  # multi mode에서 게임이 종료됐을 때
     winner = 0  # multi mode에서 1P가 이기면 1, 2P가 이기면 2 (기본값은 0)
     start_ticks = pygame.time.get_ticks()
     textsize = False
@@ -1149,7 +1199,8 @@ while not done:
             # 화면 회색으로 약간 불투명하게
             pause_surface = screen.convert_alpha()  # 투명 가능하도록
             pause_surface.fill((0, 0, 0, 0))  # 투명한 검정색으로 덮기
-            pygame.draw.rect(pause_surface, (ui_variables.black_pause), [0, 0, int(board_width), int(board_height)])  # (screen, 색깔, 위치 x, y좌표, 너비, 높이)
+            pygame.draw.rect(pause_surface, (ui_variables.black_pause), [0, 0, int(
+                board_width), int(board_height)])  # (screen, 색깔, 위치 x, y좌표, 너비, 높이)
             screen.blit(pause_surface, (0, 0))
 
         if hard:
@@ -1814,12 +1865,13 @@ while not done:
         pygame.display.update()
 
     elif pvp:
+
         for event in pygame.event.get():
             if event.type == QUIT:
                 done = True
             elif event.type == USEREVENT:
                 # Set speed
-                if not game_over_multi:
+                if not game_over:
                     keys_pressed = pygame.key.get_pressed()
                     if keys_pressed[K_s]:  # 프레임만큼의 시간으로 소프트드롭 되도록 함
                         pygame.time.set_timer(pygame.USEREVENT, framerate)
@@ -1837,20 +1889,22 @@ while not done:
                                 goal, goal_2P)
 
                 # Erase a mino
-                if not game_over_multi:
+                if not game_over:
                     erase_mino(dx, dy, mino, rotation, matrix)
                     erase_mino(dx_2P, dy_2P, mino_2P, rotation_2P, matrix_2P)
 
                 if combo_count == 2:  # 5줄을 먼저 깨면 게임 종료
                     winner = 1
+                    game_status = 'pvp'
                     pvp = False
-                    game_over_multi = True
+                    game_over = True
                     pygame.time.set_timer(pygame.USEREVENT, 1)
 
                 if combo_count_2P == 2:  # 5줄을 먼저 깨면 게임 종료
                     winner = 2
+                    game_status = 'pvp'
                     pvp = False
-                    game_over_multi = True
+                    game_over = True
                     pygame.time.set_timer(pygame.USEREVENT, 1)
                 ### 1P ###
                 # Move mino down
@@ -1874,8 +1928,9 @@ while not done:
                             score += 10 * level
                         else:  # 더이상 쌓을 수 없으면 게임오버
                             winner = 2
+                            game_status = 'pvp'
                             pvp = False
-                            game_over_multi = True
+                            game_over = True
                             pygame.time.set_timer(pygame.USEREVENT, 1)
                     else:
                         bottom_count += 1
@@ -1903,8 +1958,9 @@ while not done:
                             score_2P += 10 * level_2P
                         else:  # 더이상 쌓을 수 없으면 게임오버
                             winner = 1
+                            game_status = 'pvp'
                             pvp = False
-                            game_over_multi = True
+                            game_over = True
                             pygame.time.set_timer(pygame.USEREVENT, 1)
                     else:
                         bottom_count_2P += 1
@@ -2356,51 +2412,6 @@ while not done:
 
         pygame.display.update()
 
-    elif game_over_multi:
-        # 기존 화면 약간 어둡게 처리
-        draw_image(screen, gamebackground_image, board_width * 0.5, board_height *
-                   0.5, board_width, board_height)  # (window, 이미지주소, x좌표, y좌표, 너비, 높이)
-        draw_multiboard(next_mino1, hold_mino, next_mino1_2P, hold_mino_2P,
-                        score, score_2P, level, level_2P, goal, goal_2P)
-        pause_surface = screen.convert_alpha()  # 투명 가능하도록
-        pause_surface.fill((0, 0, 0, 0))  # 투명한 검정색으로 덮기
-        pygame.draw.rect(pause_surface, (ui_variables.black_pause), [0, 0, int(
-            board_width), int(board_height)])  # (screen, 색깔, 위치 x, y좌표, 너비, 높이)
-        screen.blit(pause_surface, (0, 0))
-        pygame.display.update()
-
-        for event in pygame.event.get():
-            if event.type == QUIT:
-                done = True
-            elif event.type == USEREVENT:
-
-                draw_image(screen, gameover_image, board_width * 0.5, board_height * 0.2,
-                           int(board_width * 0.5),
-                           int(board_height * 0.6))  # (window, 이미지주소, x좌표, y좌표, 너비, 높이)  # (window, 이미지주소, x좌표, y좌표, 너비, 높이)
-
-                if winner == 1:
-                    draw_image(screen, pvp_win_image, board_width * 0.2, board_height * 0.5,
-                               int(board_width * 0.4),
-                               int(board_height * 0.5))
-                    draw_image(screen, pvp_lose_image, board_width * 0.7, board_height * 0.5,
-                               int(board_width * 0.4),
-                               int(board_height * 0.5))
-                if winner == 2:
-                    draw_image(screen, pvp_win_image, board_width * 0.7, board_height * 0.5,
-                               int(board_width * 0.4),
-                               int(board_height * 0.5))
-                    draw_image(screen, pvp_lose_image, board_width * 0.2, board_height * 0.5,
-                               int(board_width * 0.4),
-                               int(board_height * 0.5))
-
-                pygame.display.update()
-
-            elif event.type == KEYDOWN:
-                if event.key == K_RETURN:
-                    ui_variables.click_sound.play()
-                    game_over_multi = False
-                    pygame.time.set_timer(pygame.USEREVENT, 1)
-
     # new game over screen
     elif game_over:
         for event in pygame.event.get():
@@ -2412,94 +2423,126 @@ while not done:
                 pygame.mixer.music.stop()
                 pygame.time.set_timer(pygame.USEREVENT, 300)  # 0.3초
 
-                draw_image(screen, gameover_board_image, board_width * 0.5, board_height * 0.5,
-                           int(board_height * 1), board_height)  # (window, 이미지주소, x좌표, y좌표, 너비, 높이)
-                menu_button2.draw(screen, (0, 0, 0))  # rgb(0,0,0) = 검정색
-                restart_button.draw(screen, (0, 0, 0))
-                ok_button.draw(screen, (0, 0, 0))
+                if game_status == 'pvp':
+                    # 기존 화면 약간 어둡게 처리
+                    draw_image(screen, gamebackground_image, board_width * 0.5, board_height *
+                               0.5, board_width, board_height)  # (window, 이미지주소, x좌표, y좌표, 너비, 높이)
+                    draw_multiboard(next_mino1, hold_mino, next_mino1_2P, hold_mino_2P,
+                                    score, score_2P, level, level_2P, goal, goal_2P)
+                    pause_surface = screen.convert_alpha()  # 투명 가능하도록
+                    pause_surface.fill((0, 0, 0, 0))  # 투명한 검정색으로 덮기
+                    pygame.draw.rect(pause_surface, (ui_variables.black_pause), [0, 0, int(
+                        board_width), int(board_height)])  # (screen, 색깔, 위치 x, y좌표, 너비, 높이)
+                    screen.blit(pause_surface, (0, 0))
+                    #
 
-                # render("텍스트이름", 안티에일리어싱 적용, 색깔), 즉 아래의 코드에서 숫자 1=안티에일리어싱 적용에 관한 코드
-                name_1 = ui_variables.h1_b.render(
-                    chr(name[0]), 1, ui_variables.white)
-                name_2 = ui_variables.h1_b.render(
-                    chr(name[1]), 1, ui_variables.white)
-                name_3 = ui_variables.h1_b.render(
-                    chr(name[2]), 1, ui_variables.white)
+                    draw_image(screen, multi_gameover_image, board_width * 0.5, board_height * 0.2,
+                               int(board_height * 0.7), int(board_height * 0.2))  # (window, 이미지주소, x좌표, y좌표, 너비, 높이)
+                    if winner == 1:  # 1P가 이기면
+                        draw_image(screen, multi_win_image, board_width * 0.2, board_height * 0.5,
+                                   int(board_height * 0.3), int(board_height * 0.25))  # (window, 이미지주소, x좌표, y좌표, 너비, 높이)
+                        draw_image(screen, multi_lose_image, board_width * 0.8, board_height * 0.5,
+                                   int(board_height * 0.3), int(board_height * 0.25))  # (window, 이미지주소, x좌표, y좌표, 너비, 높이)
+                    elif winner == 2:  # 2P가 이기면
+                        draw_image(screen, multi_win_image, board_width * 0.8, board_height * 0.5,
+                                   int(board_height * 0.3), int(board_height * 0.25))  # (window, 이미지주소, x좌표, y좌표, 너비, 높이)
+                        draw_image(screen, multi_lose_image, board_width * 0.2, board_height * 0.5,
+                                   int(board_height * 0.3), int(board_height * 0.25))  # (window, 이미지주소, x좌표, y좌표, 너비, 높이)
 
-                underbar_1 = ui_variables.h1_b.render(
-                    "_", 1, ui_variables.white)
-                underbar_2 = ui_variables.h1_b.render(
-                    "_", 1, ui_variables.white)
-                underbar_3 = ui_variables.h1_b.render(
-                    "_", 1, ui_variables.white)
+                    multi_menu_button.draw(screen, (0, 0, 0))
+                    multi_restart_button.draw(screen, (0, 0, 0))
 
-                # blit(요소, 위치), 각각 전체 board의 가로길이, 세로길이에다가 원하는 비율을 곱해줌
-                screen.blit(name_1, (int(board_width * 0.434),
-                            int(board_height * 0.55)))
-                screen.blit(name_2, (int(board_width * 0.494),
-                            int(board_height * 0.55)))  # blit(요소, 위치)
-                screen.blit(name_3, (int(board_width * 0.545),
-                            int(board_height * 0.55)))  # blit(요소, 위치)
+                elif game_status != 'pvp':
 
-                if blink:
-                    blink = False
-                else:
-                    if name_location == 0:
-                        # 위치 비율 고정
-                        screen.blit(
-                            underbar_1, ((int(board_width * 0.437), int(board_height * 0.56))))
-                    elif name_location == 1:
-                        # 위치 비율 고정
-                        screen.blit(
-                            underbar_2, ((int(board_width * 0.497), int(board_height * 0.56))))
-                    elif name_location == 2:
-                        # 위치 비율 고정
-                        screen.blit(
-                            underbar_3, ((int(board_width * 0.557), int(board_height * 0.56))))
-                    blink = True
+                    draw_image(screen, gameover_board_image, board_width * 0.5, board_height * 0.5,
+                               int(board_height * 1), board_height)  # (window, 이미지주소, x좌표, y좌표, 너비, 높이)
+                    menu_button2.draw(screen, (0, 0, 0))  # rgb(0,0,0) = 검정색
+                    restart_button.draw(screen, (0, 0, 0))
+                    ok_button.draw(screen, (0, 0, 0))
+
+                    # render("텍스트이름", 안티에일리어싱 적용, 색깔), 즉 아래의 코드에서 숫자 1=안티에일리어싱 적용에 관한 코드
+                    name_1 = ui_variables.h1_b.render(
+                        chr(name[0]), 1, ui_variables.white)
+                    name_2 = ui_variables.h1_b.render(
+                        chr(name[1]), 1, ui_variables.white)
+                    name_3 = ui_variables.h1_b.render(
+                        chr(name[2]), 1, ui_variables.white)
+
+                    underbar_1 = ui_variables.h1_b.render(
+                        "_", 1, ui_variables.white)
+                    underbar_2 = ui_variables.h1_b.render(
+                        "_", 1, ui_variables.white)
+                    underbar_3 = ui_variables.h1_b.render(
+                        "_", 1, ui_variables.white)
+
+                    # blit(요소, 위치), 각각 전체 board의 가로길이, 세로길이에다가 원하는 비율을 곱해줌
+                    screen.blit(name_1, (int(board_width * 0.434),
+                                int(board_height * 0.55)))
+                    screen.blit(name_2, (int(board_width * 0.494),
+                                int(board_height * 0.55)))  # blit(요소, 위치)
+                    screen.blit(name_3, (int(board_width * 0.545),
+                                int(board_height * 0.55)))  # blit(요소, 위치)
+
+                    if blink:
+                        blink = False
+                    else:
+                        if name_location == 0:
+                            # 위치 비율 고정
+                            screen.blit(
+                                underbar_1, ((int(board_width * 0.437), int(board_height * 0.56))))
+                        elif name_location == 1:
+                            # 위치 비율 고정
+                            screen.blit(
+                                underbar_2, ((int(board_width * 0.497), int(board_height * 0.56))))
+                        elif name_location == 2:
+                            # 위치 비율 고정
+                            screen.blit(
+                                underbar_3, ((int(board_width * 0.557), int(board_height * 0.56))))
+                        blink = True
 
                 pygame.display.update()
 
             elif event.type == KEYDOWN:
-                if event.key == K_RETURN:
-                    ui_variables.click_sound.play()
+                if game_status != 'pvp':
+                    if event.key == K_RETURN:
+                        ui_variables.click_sound.play()
 
-                    # 1p점수만 저장함
-                    outfile = open('leaderboard.txt', 'a')
-                    outfile.write(
-                        chr(name[0]) + chr(name[1]) + chr(name[2]) + ' ' + str(score) + '\n')
-                    outfile.close()
+                        # 1p점수만 저장함
+                        outfile = open('leaderboard.txt', 'a')
+                        outfile.write(
+                            chr(name[0]) + chr(name[1]) + chr(name[2]) + ' ' + str(score) + '\n')
+                        outfile.close()
 
-                    game_over = False
-                    pygame.time.set_timer(pygame.USEREVENT, 1)  # 0.001초
+                        game_over = False
+                        pygame.time.set_timer(pygame.USEREVENT, 1)  # 0.001초
 
-                # name은 3글자로 name_locationd은 0~2, name[name_location]은 영어 아스키코드로 65~90.
-                elif event.key == K_RIGHT:
-                    if name_location != 2:
-                        name_location += 1
-                    else:
-                        name_location = 0
-                    pygame.time.set_timer(pygame.USEREVENT, 1)  # 0.001초
-                elif event.key == K_LEFT:
-                    if name_location != 0:
-                        name_location -= 1
-                    else:
-                        name_location = 2
-                    pygame.time.set_timer(pygame.USEREVENT, 1)
-                elif event.key == K_UP:
-                    ui_variables.click_sound.play()
-                    if name[name_location] != 90:
-                        name[name_location] += 1
-                    else:
-                        name[name_location] = 65
-                    pygame.time.set_timer(pygame.USEREVENT, 1)
-                elif event.key == K_DOWN:
-                    ui_variables.click_sound.play()
-                    if name[name_location] != 65:
-                        name[name_location] -= 1
-                    else:
-                        name[name_location] = 90
-                    pygame.time.set_timer(pygame.USEREVENT, 1)
+                    # name은 3글자로 name_locationd은 0~2, name[name_location]은 영어 아스키코드로 65~90.
+                    elif event.key == K_RIGHT:
+                        if name_location != 2:
+                            name_location += 1
+                        else:
+                            name_location = 0
+                        pygame.time.set_timer(pygame.USEREVENT, 1)  # 0.001초
+                    elif event.key == K_LEFT:
+                        if name_location != 0:
+                            name_location -= 1
+                        else:
+                            name_location = 2
+                        pygame.time.set_timer(pygame.USEREVENT, 1)
+                    elif event.key == K_UP:
+                        ui_variables.click_sound.play()
+                        if name[name_location] != 90:
+                            name[name_location] += 1
+                        else:
+                            name[name_location] = 65
+                        pygame.time.set_timer(pygame.USEREVENT, 1)
+                    elif event.key == K_DOWN:
+                        ui_variables.click_sound.play()
+                        if name[name_location] != 65:
+                            name[name_location] -= 1
+                        else:
+                            name[name_location] = 90
+                        pygame.time.set_timer(pygame.USEREVENT, 1)
 
             elif event.type == pygame.MOUSEMOTION:
                 if resume_button.isOver_2(pos):
@@ -2517,43 +2560,66 @@ while not done:
                 else:
                     ok_button.image = ok_button_image
 
+                # 멀티모드 게임오버 화면 버튼
+                if multi_menu_button.isOver_2(pos):
+                    multi_menu_button.image = clicked_menu_button_image
+                else:
+                    multi_menu_button.image = menu_button_image
+
+                if multi_restart_button.isOver_2(pos):
+                    multi_restart_button.image = clicked_restart_button_image
+                else:
+                    multi_restart_button.image = restart_button_image
+
                 pygame.display.update()
             elif event.type == pygame.MOUSEBUTTONDOWN:
-                if ok_button.isOver(pos):
-                    ui_variables.click_sound.play()
-                    # 현재 1p점수만 저장함
-                    outfile = open('leaderboard.txt', 'a')
-                    outfile.write(
-                        chr(name[0]) + chr(name[1]) + chr(name[2]) + ' ' + str(score) + '\n')
-                    outfile.close()
-                    game_over = False
-                    pygame.time.set_timer(pygame.USEREVENT, 1)
+                if game_status != 'pvp':
+                    if ok_button.isOver(pos):
+                        ui_variables.click_sound.play()
+                        # 현재 1p점수만 저장함
+                        outfile = open('leaderboard.txt', 'a')
+                        outfile.write(
+                            chr(name[0]) + chr(name[1]) + chr(name[2]) + ' ' + str(score) + '\n')
+                        outfile.close()
+                        game_over = False
+                        pygame.time.set_timer(pygame.USEREVENT, 1)
 
-                if menu_button2.isOver(pos):
-                    ui_variables.click_sound.play()
-                    game_over = False
+                    if menu_button2.isOver(pos):
+                        ui_variables.click_sound.play()
+                        game_over = False
 
-                if restart_button.isOver_2(pos):
-                    if game_status == 'start':
-                        start = True
-                        pygame.mixer.music.play(-1)  # play(-1) = 노래 반복재생
-                    if game_status == 'pvp':
+                    if restart_button.isOver_2(pos):
+                        if game_status == 'start':
+                            # initialize = True
+                            start = True
+                            pygame.mixer.music.play(-1)  # play(-1) = 노래 반복재생
+                        # if game_status == 'pvp':
+                        #     pvp = True
+                        #     pygame.mixer.music.play(-1)
+                        # if game_status == 'gravity_mode':
+                        #     gravity_mode = True
+                        #     pygame.mixer.music.play(-1)
+                        # if game_status == 'time_attack':
+                        #     time_attack = True
+                        #     pygame.mixer.music.play(-1)
+                        ui_variables.click_sound.play()
+                        game_over = False
+                        pause = False
+
+                    if resume_button.isOver_2(pos):
+                        pause = False
+                        ui_variables.click_sound.play()
+                        pygame.time.set_timer(pygame.USEREVENT, 1)  # 0.001초
+
+                # 멀티모드 게임오버 화면 버튼
+                if game_status == 'pvp':
+                    if multi_menu_button.isOver_2(pos):
+                        ui_variables.click_sound.play()
+                        game_over = False
+                    if multi_restart_button.isOver_2(pos):
+                        # initialize = True
                         pvp = True
                         pygame.mixer.music.play(-1)
-                    if game_status == 'gravity_mode':
-                        gravity_mode = True
-                        pygame.mixer.music.play(-1)
-                    if game_status == 'time_attack':
-                        time_attack = True
-                        pygame.mixer.music.play(-1)
-                    ui_variables.click_sound.play()
-                    game_over = False
-                    pause = False
-
-                if resume_button.isOver_2(pos):
-                    pause = False
-                    ui_variables.click_sound.play()
-                    pygame.time.set_timer(pygame.USEREVENT, 1)  # 0.001초
 
             elif event.type == VIDEORESIZE:
                 board_width = event.w
@@ -2854,20 +2920,27 @@ while not done:
             board_width), int(board_height)])  # (screen, 색깔, 위치 x, y좌표, 너비, 높이)
 
         screen.blit(pause_surface, (0, 0))
-        
-        draw_image(screen, setting_board_image, board_width * 0.5, board_height * 0.5, int(board_height * 1.3), board_height) #(window, 이미지주소, x좌표, y좌표, 너비, 높이)
+
+        draw_image(screen, setting_board_image, board_width * 0.5, board_height * 0.5,
+                   int(board_height * 1.3), board_height)  # (window, 이미지주소, x좌표, y좌표, 너비, 높이)
         background1_check_button.draw(screen, (0, 0, 0))
         background2_check_button.draw(screen, (0, 0, 0))
         background3_check_button.draw(screen, (0, 0, 0))
         back_button.draw(screen, (0, 0, 0))
 
-        Background1_text = ui_variables.h5.render('HongKong', 1, ui_variables.white)
-        Background2_text = ui_variables.h5.render('NewYork', 1, ui_variables.white)
-        Background3_text = ui_variables.h5.render('London', 1, ui_variables.white)
-        screen.blit(Background1_text, (board_width * 0.47, board_height * 0.33)) #위치 비율 고정
-        screen.blit(Background2_text, (board_width * 0.47, board_height * 0.52)) #위치 비율 고정
-        screen.blit(Background3_text, (board_width * 0.47, board_height * 0.73)) #위치 비율 고정
-            
+        Background1_text = ui_variables.h5.render(
+            'HongKong', 1, ui_variables.white)
+        Background2_text = ui_variables.h5.render(
+            'NewYork', 1, ui_variables.white)
+        Background3_text = ui_variables.h5.render(
+            'London', 1, ui_variables.white)
+        screen.blit(Background1_text, (board_width * 0.47,
+                    board_height * 0.33))  # 위치 비율 고정
+        screen.blit(Background2_text, (board_width * 0.47,
+                    board_height * 0.52))  # 위치 비율 고정
+        screen.blit(Background3_text, (board_width * 0.47,
+                    board_height * 0.73))  # 위치 비율 고정
+
         for event in pygame.event.get():
             pos = pygame.mouse.get_pos()
 
@@ -2904,28 +2977,32 @@ while not done:
                     ui_variables.click_sound.play()
                     screen_setting = False
                 if background1_check_button.isOver(pos):
-                    gamebackground_image='assets/images/background_hongkong.png'
-                    
+                    gamebackground_image = 'assets/images/background_hongkong.png'
+
                 if background2_check_button.isOver(pos):
-                    gamebackground_image='assets/images/background_nyc.png'
+                    gamebackground_image = 'assets/images/background_nyc.png'
 
                 if background3_check_button.isOver(pos):
-                    gamebackground_image='assets/images/background_uk.png'
+                    gamebackground_image = 'assets/images/background_uk.png'
                 pygame.display.update()
-                        
+
     elif volume_setting:
-        #배경 약간 어둡게
-        leaderboard_icon.draw(screen, (0, 0, 0)) #rgb(0,0,0) = 검정색#
-        pause_surface = screen.convert_alpha() #투명 가능하도록
-        pause_surface.fill((0, 0, 0, 0)) #투명한 검정색으로 덮기
-        pygame.draw.rect(pause_surface, (ui_variables.black_pause), [0, 0, int(board_width), int(board_height)]) #(screen, 색깔, 위치 x, y좌표, 너비, 높이)
-        screen.blit(pause_surface, (0, 0)) #위치 비율 고정
+        # 배경 약간 어둡게
+        leaderboard_icon.draw(screen, (0, 0, 0))  # rgb(0,0,0) = 검정색#
+        pause_surface = screen.convert_alpha()  # 투명 가능하도록
+        pause_surface.fill((0, 0, 0, 0))  # 투명한 검정색으로 덮기
+        pygame.draw.rect(pause_surface, (ui_variables.black_pause), [0, 0, int(
+            board_width), int(board_height)])  # (screen, 색깔, 위치 x, y좌표, 너비, 높이)
+        screen.blit(pause_surface, (0, 0))  # 위치 비율 고정
 
         #draw_image(window, 이미지주소, x좌표, y좌표, 너비, 높이)
-        draw_image(screen, setting_board_image, board_width * 0.5, board_height * 0.5, int(board_height * 1.3), board_height)
-        draw_image(screen, number_board, board_width * 0.35, board_height * 0.53, int(board_width * 0.09), int(board_height * 0.1444))
-        draw_image(screen, number_board, board_width * 0.35, board_height * 0.73, int(board_width * 0.09), int(board_height * 0.1444))
-        mute_button.draw(screen, (0, 0, 0)) #rgb(0,0,0) = 검정색#
+        draw_image(screen, setting_board_image, board_width * 0.5,
+                   board_height * 0.5, int(board_height * 1.3), board_height)
+        draw_image(screen, number_board, board_width * 0.35, board_height *
+                   0.53, int(board_width * 0.09), int(board_height * 0.1444))
+        draw_image(screen, number_board, board_width * 0.35, board_height *
+                   0.73, int(board_width * 0.09), int(board_height * 0.1444))
+        mute_button.draw(screen, (0, 0, 0))  # rgb(0,0,0) = 검정색#
 
         effect_plus_button.draw(screen, (0, 0, 0))
         effect_minus_button.draw(screen, (0, 0, 0))
@@ -2939,31 +3016,44 @@ while not done:
         BGM3_sound_on_button.draw(screen, (0, 0, 0))
         back_button.draw(screen, (0, 0, 0))
 
+        # render("텍스트이름", 안티에일리어싱 적용, 색깔), 즉 아래의 코드에서 숫자 1=안티에일리어싱 적용에 관한 코드
+        music_volume_text = ui_variables.h5.render(
+            'Music Volume', 1, ui_variables.white)
+        effect_volume_text = ui_variables.h5.render(
+            'Effect Volume', 1, ui_variables.white)
+        screen.blit(music_volume_text, (board_width *
+                    0.3, board_height * 0.4))  # 위치 비율 고정
+        screen.blit(effect_volume_text, (board_width *
+                    0.3, board_height * 0.6))  # 위치 비율 고정
 
-        #render("텍스트이름", 안티에일리어싱 적용, 색깔), 즉 아래의 코드에서 숫자 1=안티에일리어싱 적용에 관한 코드
-        music_volume_text = ui_variables.h5.render('Music Volume', 1, ui_variables.white)
-        effect_volume_text = ui_variables.h5.render('Effect Volume', 1, ui_variables.white)
-        screen.blit(music_volume_text, (board_width * 0.3, board_height * 0.4)) #위치 비율 고정
-        screen.blit(effect_volume_text, (board_width * 0.3, board_height * 0.6)) #위치 비율 고정
+        music_volume_text = ui_variables.h5.render(
+            'Music On/Off', 1, ui_variables.white)
+        effect_volume_text = ui_variables.h5.render(
+            'Effect On/Off', 1, ui_variables.white)
+        screen.blit(music_volume_text, (board_width *
+                    0.5, board_height * 0.4))  # 위치 비율 고정
+        screen.blit(effect_volume_text, (board_width *
+                    0.5, board_height * 0.6))  # 위치 비율 고정
 
-        music_volume_text = ui_variables.h5.render('Music On/Off', 1, ui_variables.white)
-        effect_volume_text = ui_variables.h5.render('Effect On/Off', 1, ui_variables.white)
-        screen.blit(music_volume_text, (board_width * 0.5, board_height * 0.4)) #위치 비율 고정
-        screen.blit(effect_volume_text, (board_width * 0.5, board_height * 0.6)) #위치 비율 고정
-
-        music_volume_size_text = ui_variables.h4.render(str(music_volume), 1, ui_variables.grey_1)
-        effect_volume_size_text = ui_variables.h4.render(str(effect_volume), 1, ui_variables.grey_1)
-        screen.blit(music_volume_size_text, (board_width * 0.33, board_height * 0.5)) #위치 비율 고정
-        screen.blit(effect_volume_size_text, (board_width * 0.33, board_height * 0.7)) #위치 비율 고정
-
+        music_volume_size_text = ui_variables.h4.render(
+            str(music_volume), 1, ui_variables.grey_1)
+        effect_volume_size_text = ui_variables.h4.render(
+            str(effect_volume), 1, ui_variables.grey_1)
+        screen.blit(music_volume_size_text, (board_width *
+                    0.33, board_height * 0.5))  # 위치 비율 고정
+        screen.blit(effect_volume_size_text, (board_width *
+                    0.33, board_height * 0.7))  # 위치 비율 고정
 
         BGM1_text = ui_variables.h5.render('BGM1', 1, ui_variables.white)
         BGM2_text = ui_variables.h5.render('BGM2', 1, ui_variables.white)
         BGM3_text = ui_variables.h5.render('BGM3', 1, ui_variables.white)
 
-        screen.blit(BGM1_text, (board_width * 0.65, board_height * 0.3)) #위치 비율 고정
-        screen.blit(BGM2_text, (board_width * 0.65, board_height * 0.5)) #위치 비율 고정
-        screen.blit(BGM3_text, (board_width * 0.65, board_height * 0.7)) #위치 비율 고정
+        screen.blit(BGM1_text, (board_width * 0.65,
+                    board_height * 0.3))  # 위치 비율 고정
+        screen.blit(BGM2_text, (board_width * 0.65,
+                    board_height * 0.5))  # 위치 비율 고정
+        screen.blit(BGM3_text, (board_width * 0.65,
+                    board_height * 0.7))  # 위치 비율 고정
 
         for event in pygame.event.get():
             pos = pygame.mouse.get_pos()
