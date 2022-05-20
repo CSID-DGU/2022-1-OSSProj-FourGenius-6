@@ -85,6 +85,8 @@ class ui_variables:
     LevelUp_sound = pygame.mixer.Sound("assets/sounds/SFX_LevelUp.wav")
     GameOver_sound = pygame.mixer.Sound("assets/sounds/SFX_GameOver.wav")
 
+    #레벨업 이미지
+    LevelUp_vector = pygame.image.load('assets/vector/Level_Up.png')
     # # Combo graphic
     # combos = []
     # large_combos = []
@@ -1385,6 +1387,9 @@ while not done:
                 if goal < 1 and level < 15:
                     level += 1
                     goal += level * 5
+                    screen.blit(ui_variables.LevelUp_vector, (board_width * 0.28, board_height * 0.1)) #blit(이미지, 위치)
+                    pygame.display.update()
+                    pygame.time.delay(400) #0.4초
                     framerate = int(framerate * 0.8)
 
             elif event.type == KEYDOWN:
