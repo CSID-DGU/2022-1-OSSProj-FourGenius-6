@@ -1202,17 +1202,12 @@ while not done:
 
         if hard:
             screen.fill(ui_variables.real_white)
-
-            draw_image(screen, gamebackground_image, board_width * 0.5, board_height *
-                       0.5, board_width, board_height)  # (window, 이미지주소, x좌표, y좌표, 너비, 높이)
-            draw_board(next_mino1, next_mino2, hold_mino,
-                       score, level, remaining_time)
-            # 화면 회색으로 약간 불투명하게
-            pause_surface = screen.convert_alpha()  # 투명 가능하도록
-            pause_surface.fill((0, 0, 0, 0))  # 투명한 검정색으로 덮기
-            pygame.draw.rect(pause_surface, (ui_variables.black_pause), [0, 0, int(
-                board_width), int(board_height)])  # (screen, 색깔, 위치 x, y좌표, 너비, 높이)
-
+            draw_image(screen, gamebackground_image, board_width * 0.5, board_height * 0.5, board_width, board_height) #(window, 이미지주소, x좌표, y좌표, 너비, 높이)
+            draw_hardboard(next_mino1, next_mino2, hold_mino, score, level, remaining_time, line_count)
+            #화면 회색으로 약간 불투명하게
+            pause_surface = screen.convert_alpha() #투명 가능하도록
+            pause_surface.fill((0, 0, 0, 0))  #투명한 검정색으로 덮기
+            pygame.draw.rect(pause_surface, (ui_variables.black_pause), [0, 0, int(board_width), int(board_height)])  #(screen, 색깔, 위치 x, y좌표, 너비, 높이)
             screen.blit(pause_surface, (0, 0))
 
         if pvp:
@@ -1573,7 +1568,7 @@ while not done:
                             hold = False
                         else:
                             ui_variables.GameOver_sound.play()
-                            start = False
+                            hard = False
                             game_status = 'start'
                             game_over = True
                             pygame.time.set_timer(
@@ -2597,6 +2592,21 @@ while not done:
                         # initialize = True
                         pvp = True
                         pygame.mixer.music.play(-1)
+                    if game_status == 'gravity_mode':
+                        gravity_mode = True
+                        pygame.mixer.music.play(-1)
+                    if game_status == 'hard':
+                        hard = True
+                        pygame.mixer.music.play(-1)
+                    ui_variables.click_sound.play()
+                    game_over = False
+                    pause = False
+
+                if resume_button.isOver_2(pos):
+                    pause = False
+                    ui_variables.click_sound.play()
+                    pygame.time.set_timer(pygame.USEREVENT, 1) #0.001초
+
 
             elif event.type == VIDEORESIZE:
                 board_width = event.w
