@@ -338,6 +338,24 @@ BGM1_sound_on_button = button(board_width, board_height, 0.67, 0.43, 0.08, 0.15,
 BGM2_sound_on_button = button(board_width, board_height, 0.67, 0.63, 0.08, 0.15, backgroundmusic_select_image)
 BGM3_sound_on_button = button(board_width, board_height, 0.67, 0.83, 0.08, 0.15, backgroundmusic_select_image)
 
+
+#게임 중 버튼 생성하기위한 버튼객체 리스트 (버튼 전체)
+'''button_list = [mute_button, default_button, single_button, pvp_button, help_button, quit_button, gravity_button, timeattack_button, resume_button, restart_button, setting_button, pause_quit_button, back_button,
+        ok_button, menu_button, gameover_quit_button, effect_plus_button, effect_minus_button, sound_plus_button, sound_minus_button, level_plus_button,
+        effect_sound_off_button, music_sound_off_button, effect_sound_on_button, music_sound_on_button, mute_check_button, smallsize_check_button, midiumsize_check_button, bigsize_check_button,
+        setting_icon, leaderboard_icon, volume_icon, screen_icon, level_minus_button, combo_minus_button, combo_plus_button, speed_minus_button, speed_plus_button]
+'''
+
+button_list = [
+select_mode_button, setting_button, quit_button, score_board_button, single_button, hard_button, pvp_button,
+hard_tutorial_button, multi_tutorial_button, resume_button, menu_button2, help_button , pause_quit_button ,pause_setting_button,
+leaderboard_icon, mute_button, default_button , restart_button, back_button, ok_button, effect_plus_button, effect_minus_button,
+sound_plus_button ,sound_minus_button, mute_check_button , background1_check_button, background2_check_button ,background3_check_button,
+volume_icon, screen_icon, effect_sound_off_button ,music_sound_off_button ,effect_sound_on_button , music_sound_on_button,
+BGM1_sound_on_button, BGM2_sound_on_button, BGM3_sound_on_button ]
+
+
+
 def set_volume():
     # set_volume의 argument는 0.0~1.0으로 이루어져야하기 때문에 소수로 만들어주기 위해 10으로 나눔#
     ui_variables.fall_sound.set_volume(effect_volume / 10)
@@ -1226,6 +1244,28 @@ while not done:
                     ui_variables.click_sound.play()
                     pygame.time.set_timer(pygame.USEREVENT, 1)  # 0.001초
 
+            # 리사이징
+            elif event.type == VIDEORESIZE:
+                board_width = event.w
+                board_height = event.h
+                if board_width < min_width or board_height < min_height: #최소 너비 또는 높이를 설정하려는 경우
+                    board_width = min_width
+                    board_height = min_height
+                if not ((board_rate-0.1) < (board_height/board_width) < (board_rate+0.05)): #높이 또는 너비가 비율의 일정수준 이상을 넘어서게 되면
+                    board_width = int(board_height / board_rate) #너비를 적정 비율로 바꿔줌
+                    board_height = int(board_width*board_rate) #높이를 적정 비율로 바꿔줌
+                if board_width>= mid_width: #화면 사이즈가 큰 경우
+                    textsize=True #큰 글자크기 사용
+                if board_width < mid_width: #화면 사이즈가 작은 경우
+                    textsize=False #작은 글자크기 사용
+
+                block_size = int(board_height * 0.045) #블록 크기 고정
+                screen = pygame.display.set_mode((board_width, board_height), pygame.RESIZABLE)
+
+                for i in range(len(button_list)):
+                        button_list[i].change(board_width, board_height)
+                pygame.display.update()
+
     # Game screen
     elif start:
 
@@ -1766,8 +1806,8 @@ while not done:
                 screen = pygame.display.set_mode(
                     (board_width, board_height), pygame.RESIZABLE)
 
-                # for i in range(len(button_list)):
-                #         button_list[i].change(board_width, board_height)
+                for i in range(len(button_list)):
+                    button_list[i].change(board_width, board_height)
 
         if total_time - elapsed_time < 0:  # 60초가 지났으면
             ui_variables.GameOver_sound.play()
@@ -2313,8 +2353,8 @@ while not done:
                 screen = pygame.display.set_mode(
                     (board_width, board_height), pygame.RESIZABLE)
 
-                #for i in range(len(button_list)):
-                #    button_list[i].change(board_width, board_height)
+                for i in range(len(button_list)):
+                    button_list[i].change(board_width, board_height)
 
         pygame.display.update()
     elif game_over_multi:
@@ -2511,8 +2551,8 @@ while not done:
                 block_size = int(board_height * 0.045) #블록 크기비율 고정
                 screen = pygame.display.set_mode((board_width, board_height), pygame.RESIZABLE)
 
-                #for i in range(len(button_list)):
-                #        button_list[i].change(board_width, board_height)
+                for i in range(len(button_list)):
+                        button_list[i].change(board_width, board_height)
 
         '''
 
@@ -3108,10 +3148,10 @@ while not done:
                 block_size = int(board_height * 0.045)  # 블록 크기 고정
                 screen = pygame.display.set_mode(
                     (board_width, board_height), pygame.RESIZABLE)
-                '''
+
                 for i in range(len(button_list)):
                         button_list[i].change(board_width, board_height)
-                '''
+
 
     elif pause:
         pygame.mixer.music.pause()
