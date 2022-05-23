@@ -1325,7 +1325,7 @@ while not done:
             draw_image(screen, gamebackground_image, board_width * 0.5, board_height *
                        0.5, board_width, board_height)  # (window, 이미지주소, x좌표, y좌표, 너비, 높이)
             draw_hardboard(next_mino1, next_mino2, hold_mino,
-                           score, level, remaining_time, line_count)
+                           score, remaining_time, line_count)
             # 화면 회색으로 약간 불투명하게
             pause_surface = screen.convert_alpha()  # 투명 가능하도록
             pause_surface.fill((0, 0, 0, 0))  # 투명한 검정색으로 덮기
@@ -1407,9 +1407,8 @@ while not done:
                         pvp = False
                     if hard:
                         hard = False
-
-                    if hard:
-                        hard = False
+                    #if hard:
+                        #hard = False
 
                 if resume_button.isOver_2(pos):
                     pygame.mixer.music.unpause()
