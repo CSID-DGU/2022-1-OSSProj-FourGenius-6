@@ -2654,7 +2654,7 @@ while not done:
 
         pygame.display.update()
     
-   elif multi_tutorial :
+    elif multi_tutorial :
         for event in pygame.event.get():
             if event.type == QUIT:
                 done = True
