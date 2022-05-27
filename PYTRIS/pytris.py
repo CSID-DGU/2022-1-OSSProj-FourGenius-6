@@ -1423,8 +1423,8 @@ while not done:
             screen.blit(pause_surface, (0, 0))
 
         if pvp:
-            draw_multiboard(next_1P, hold_1P, next_2P, hold_2P,
-                            current_key, current_key_2P)
+            draw_multiboard(next_mino1, hold_mino, next_mino1_2P,
+                            hold_mino_2P, current_key, current_key_2P)
             # 화면 회색으로 약간 불투명하게
             pause_surface = screen.convert_alpha()  # 투명 가능하도록
             pause_surface.fill((0, 0, 0, 0))  # 투명한 검정색으로 덮기
@@ -1442,7 +1442,7 @@ while not done:
             screen.blit(pause_surface, (0, 0))
 
         if multi_tutorial:
-            draw_multiboard(next_1P, hold_1P, next_2P, hold_2P,
+            draw_multiboard(next_mino1, hold_mino, next_mino1_2P, hold_mino_2P,
                             current_key, current_key_2P)
             # 화면 회색으로 약간 불투명하게
             pause_surface = screen.convert_alpha()  # 투명 가능하도록
@@ -1812,13 +1812,12 @@ while not done:
                            0.5, board_width, board_height)  # (window, 이미지주소, x좌표, y좌표, 너비, 높이)
                 # change가 홀수이면 위아래전환, 아니면 원래대로
                 if change % 2 == 1:
-                    draw_image(screen, )
                     draw_hardboard_change(
                         next_mino1, next_mino2, hold_mino, score, remaining_time, line_count)
                 else:
                     draw_hardboard(next_mino1, next_mino2, hold_mino,
                                    score, remaining_time, line_count)
-                pygame.display.update()
+                    pygame.display.update()
 
                 current_time = pygame.time.get_ticks()
                 # Erase a mino
@@ -1844,7 +1843,7 @@ while not done:
                         else:
                             draw_hardboard(
                                 next_mino1, next_mino2, hold_mino, score, remaining_time, line_count)
-                        pygame.display.update()
+                            pygame.display.update()
 
                         if is_stackable(next_mino1, matrix):
                             mino = next_mino1
@@ -1876,6 +1875,13 @@ while not done:
                     if is_full:  # 한 줄 꽉 찼을 때
                         erase_count += 1
                         line_count += 1
+                        # 화면이 뒤집히는 순간 (line_count가 3의 배수)
+                        if line_count % 3 == 0 and line_count > 0:
+                            # 화면 위아래 뒤집힌 알림 띄우기
+                            draw_image(screen, hard_flipped_image, board_width * 0.4,
+                                       board_height * 0.2, int(board_width*0.3), int(board_height*0.1))
+                        pygame.display.update()
+                        pygame.time.delay(400)
                         k = j
 
                         for i in range(board_x):
@@ -1919,6 +1925,8 @@ while not done:
                 # 10초마다 속도 빨라지게
                 if (remaining_time % 10 == 0) and (remaining_time != 60):
                     ui_variables.LevelUp_sound.play()
+                    draw_image(screen, hard_speed_up_image, board_width * 0.4,
+                               board_height * 0.2, int(board_width*0.3), int(board_height*0.1))
                     framerate = int(framerate - speed_change)
                     # Change_RATE += 1
                     # set_music_playing_speed(CHANNELS, swidth, Change_RATE)
@@ -1947,8 +1955,6 @@ while not done:
                     else:
                         draw_hardboard(next_mino1, next_mino2, hold_mino,
                                        score, remaining_time, line_count)
-
-                    pygame.display.update()
                 elif event.key == K_j:
                     framerate = int(framerate-speed_change)
                     print(framerate)
@@ -2290,6 +2296,7 @@ while not done:
                         draw_image(screen, multi_key_reverse_image, board_width * 0.8,
                                    board_height * 0.2, int(board_width * 0.3), int(board_height * 0.12))
                         pygame.display.update()
+                        pygame.time.delay(400)
                         ui_variables.break_sound.play()
                         k = j
 
@@ -2314,6 +2321,7 @@ while not done:
                         draw_image(screen, multi_key_reverse_image, board_width * 0.2,
                                    board_height * 0.2, int(board_width * 0.28), int(board_height * 0.1))
                         pygame.display.update()
+                        pygame.time.delay(400)
                         ui_variables.break_sound.play()
                         k = j
                         while k > 0:  # y좌표가 matrix 안에 있는 동안
@@ -2645,8 +2653,8 @@ while not done:
                 # Draw a mino
                 draw_mino(dx, dy, mino, rotation, matrix)
                 draw_mino(dx_2P, dy_2P, mino_2P, rotation_2P, matrix_2P)
-                draw_multiboard(next_mino1, hold_mino, next_mino1_2P, hold_mino_2P, score, score_2P, level, level_2P,
-                                goal, goal_2P)
+                draw_multiboard(next_mino1, hold_mino, next_mino1_2P,
+                                hold_mino_2P, current_key, current_key_2P)
 
                 # Erase a mino
                 if not game_over:
@@ -3467,7 +3475,7 @@ while not done:
                     draw_image(screen, gamebackground_image, board_width * 0.5, board_height *
                                0.5, board_width, board_height)  # (window, 이미지주소, x좌표, y좌표, 너비, 높이)
                     draw_multiboard(next_mino1, hold_mino, next_mino1_2P, hold_mino_2P,
-                                    score, score_2P, level, level_2P, goal, goal_2P)
+                                    current_key, current_key_2P)
                     pause_surface = screen.convert_alpha()  # 투명 가능하도록
                     pause_surface.fill((0, 0, 0, 0))  # 투명한 검정색으로 덮기
                     pygame.draw.rect(pause_surface, (ui_variables.black_pause), [0, 0, int(
