@@ -68,9 +68,10 @@ class ui_variables:
     h5_i = pygame.font.Font(font_path_i, 13)
 
     # Sounds
-    pygame.mixer.music.load("assets/sounds/SFX_Fall.wav")  # 음악 불러옴
+    pygame.mixer.music.load("assets/sounds/BGM1.wav")  # 음악 불러옴
     pygame.mixer.music.set_volume(0.5)  # 이 부분도 필요 없음, set_volume에 추가해야 함
-    intro_sound = pygame.mixer.Sound("assets/sounds/BGM1.wav")
+    intro_sound = pygame.mixer.Sound("assets/sounds/intro.wav")
+    background_sound = pygame.mixer.Sound("assets/sounds/BGM1.wav")
     fall_sound = pygame.mixer.Sound("assets/sounds/SFX_Fall.wav")
     break_sound = pygame.mixer.Sound("assets/sounds/SFX_Break.wav")
     click_sound = pygame.mixer.Sound("assets/sounds/SFX_ButtonUp.wav")  # 여기부터
@@ -433,6 +434,7 @@ def set_volume():
     ui_variables.LevelUp_sound.set_volume(effect_volume / 10)
     ui_variables.GameOver_sound.set_volume(music_volume / 10)
     ui_variables.intro_sound.set_volume(music_volume / 10)
+    ui_variables.background_sound.set_volume(music_volume / 10)
     pygame.mixer.music.set_volume(music_volume / 10)
 
 
@@ -1291,7 +1293,8 @@ def set_initial_values():
     winner = 0  # multi mode에서 1P가 이기면 1, 2P가 이기면 2 (기본값은 0)
     start_ticks = pygame.time.get_ticks()
     textsize = False
-    tutorial_event = '' # 튜토리얼에서 발생한 이벤트 상태 저장용 변수 (hard_10s, hard_3line, multi_break, multi_5break)
+    # 튜토리얼에서 발생한 이벤트 상태 저장용 변수 (hard_10s, hard_3line, multi_break, multi_5break, multi_start)
+    tutorial_event = ''
 
     # 게임 음악 속도 조절 관련 변수
     CHANNELS = 1
@@ -1381,7 +1384,7 @@ def set_initial_values():
         effect_volume / 10)  # 소리 설정 부분도 set_volume 함수에 넣으면 됨
     ui_variables.intro_sound.play()
     game_status = ''
-    pygame.mixer.music.load("assets/sounds/SFX_BattleMusic.wav")
+    pygame.mixer.music.load("assets/sounds/BGM1.wav")
 
 
 set_initial_values()
@@ -1395,8 +1398,8 @@ pygame.time.set_timer(pygame.USEREVENT, 10)
 while not done:
     # Pause screen
     if pause:
-        ui_variables.intro_sound.stop()
-        # pygame.mixer.music.pause()
+        # ui_variables.background_sound.stop()
+        pygame.mixer.music.pause()
         if start:
             screen.fill(ui_variables.real_white)
             draw_image(screen, gamebackground_image, board_width * 0.5, board_height *
@@ -1419,7 +1422,8 @@ while not done:
             # 화면 회색으로 약간 불투명하게
             pause_surface = screen.convert_alpha()  # 투명 가능하도록
             pause_surface.fill((0, 0, 0, 0))  # 투명한 검정색으로 덮기
-            pygame.draw.rect(pause_surface, (ui_variables.black_pause), [0, 0, int(board_width), int(board_height)])  # (screen, 색깔, 위치 x, y좌표, 너비, 높이)
+            pygame.draw.rect(pause_surface, (ui_variables.black_pause), [0, 0, int(
+                board_width), int(board_height)])  # (screen, 색깔, 위치 x, y좌표, 너비, 높이)
             screen.blit(pause_surface, (0, 0))
 
         if pvp:
@@ -1428,17 +1432,21 @@ while not done:
             # 화면 회색으로 약간 불투명하게
             pause_surface = screen.convert_alpha()  # 투명 가능하도록
             pause_surface.fill((0, 0, 0, 0))  # 투명한 검정색으로 덮기
-            pygame.draw.rect(pause_surface, (ui_variables.black_pause), [0, 0, int(board_width), int(board_height)])  # (screen, 색깔, 위치 x, y좌표, 너비, 높이)
+            pygame.draw.rect(pause_surface, (ui_variables.black_pause), [0, 0, int(
+                board_width), int(board_height)])  # (screen, 색깔, 위치 x, y좌표, 너비, 높이)
             screen.blit(pause_surface, (0, 0))
 
         if hard_tutorial:
             screen.fill(ui_variables.real_white)
-            draw_image(screen, gamebackground_image, board_width * 0.5, board_height *0.5, board_width, board_height)  # (window, 이미지주소, x좌표, y좌표, 너비, 높이)
-            draw_hardboard(next_mino1, next_mino2, hold_mino, score, level, remaining_time, line_count)
+            draw_image(screen, gamebackground_image, board_width * 0.5, board_height *
+                       0.5, board_width, board_height)  # (window, 이미지주소, x좌표, y좌표, 너비, 높이)
+            draw_hardboard(next_mino1, next_mino2, hold_mino,
+                           score, level, remaining_time, line_count)
             # 화면 회색으로 약간 불투명하게
             pause_surface = screen.convert_alpha()  # 투명 가능하도록
             pause_surface.fill((0, 0, 0, 0))  # 투명한 검정색으로 덮기
-            pygame.draw.rect(pause_surface, (ui_variables.black_pause), [0, 0, int(board_width), int(board_height)])  # (screen, 색깔, 위치 x, y좌표, 너비, 높이)
+            pygame.draw.rect(pause_surface, (ui_variables.black_pause), [0, 0, int(
+                board_width), int(board_height)])  # (screen, 색깔, 위치 x, y좌표, 너비, 높이)
             screen.blit(pause_surface, (0, 0))
 
         if multi_tutorial:
@@ -1470,10 +1478,11 @@ while not done:
             elif event.type == KEYDOWN:
                 erase_mino(dx, dy, mino, rotation, matrix)
                 if event.key == K_ESCAPE:
+                    pygame.mixer.music.unpause()
+                    # ui_variables.background_sound.play()
                     pause = False
                     ui_variables.click_sound.play()
-                    # pygame.mixer.music.unpause()
-                    pygame.time.set_timer(pygame.USEREVENT, 1)
+                    pygame.time.set_timer(pygame.USEREVENT, 1)  # 0.001초
 
             elif event.type == pygame.MOUSEMOTION:
                 if resume_button.isOver_2(pos):
@@ -1515,7 +1524,7 @@ while not done:
                         pvp = False
                     if hard:
                         hard = False
-                        
+
                     if hard_tutorial:
                         hard_tutorial = False
 
@@ -1525,10 +1534,9 @@ while not done:
                     # if hard:
                         #hard = False
 
-
                 if resume_button.isOver_2(pos):
-                    # pygame.mixer.music.unpause()
-                    ui_variables.intro_sound.play()
+                    pygame.mixer.music.unpause()
+                    # ui_variables.background_sound.play()
                     pause = False
                     ui_variables.click_sound.play()
                     pygame.time.set_timer(pygame.USEREVENT, 1)  # 0.001초
@@ -1561,7 +1569,6 @@ while not done:
 
     # Game screen
     elif start:
-
         for event in pygame.event.get():
             pos = pygame.mouse.get_pos()
             if event.type == QUIT:
@@ -1611,11 +1618,10 @@ while not done:
                             rotation = 0
                             hold = False
                         else:
-                            ui_variables.intro_sound.stop()
-                            ui_variables.GameOver_sound.play()
                             start = False
                             game_status = 'start'
                             game_over = True
+                            ui_variables.GameOver_sound.play()
                             pygame.time.set_timer(pygame.USEREVENT, 1)
                     else:
                         bottom_count += 1
@@ -1853,11 +1859,10 @@ while not done:
                             rotation = 0
                             hold = False
                         else:
-                            ui_variables.intro_sound.stop()
-                            ui_variables.GameOver_sound.play()
                             hard = False
                             game_status = 'hard'
                             game_over = True
+                            ui_variables.GameOver_sound.play()
                             pygame.time.set_timer(
                                 pygame.USEREVENT, 1)  # 0.001초
                     else:
@@ -2156,11 +2161,10 @@ while not done:
                     button_list[i].change(board_width, board_height)
 
         if total_time - elapsed_time < 0:  # 60초가 지났으면
-            ui_variables.intro_sound.stop()
-            ui_variables.GameOver_sound.play()
             hard = False
             game_status = 'hard'
             game_over = True
+            ui_variables.GameOver_sound.play()
             pygame.time.set_timer(pygame.USEREVENT, 1)
 
         pygame.display.update()
@@ -2195,21 +2199,19 @@ while not done:
                     erase_mino(dx_2P, dy_2P, mino_2P, rotation_2P, matrix_2P)
 
                 if combo_count == 5:  # 5줄을 먼저 깨면 게임 종료
-                    ui_variables.intro_sound.stop()
-                    ui_variables.GameOver_sound.play()
                     winner = 1
                     game_status = 'pvp'
                     pvp = False
                     game_over = True
+                    ui_variables.GameOver_sound.play()
                     pygame.time.set_timer(pygame.USEREVENT, 1)
 
                 if combo_count_2P == 5:  # 5줄을 먼저 깨면 게임 종료
-                    ui_variables.intro_sound.stop()
-                    ui_variables.GameOver_sound.play()
                     winner = 2
                     game_status = 'pvp'
                     pvp = False
                     game_over = True
+                    ui_variables.GameOver_sound.play()
                     pygame.time.set_timer(pygame.USEREVENT, 1)
                 ### 1P ###
                 # Move mino down
@@ -2232,12 +2234,11 @@ while not done:
                             hold = False
                             score += 10 * level
                         else:  # 더이상 쌓을 수 없으면 게임오버
-                            ui_variables.intro_sound.stop()
-                            ui_variables.GameOver_sound.play()
                             winner = 2
                             game_status = 'pvp'
                             pvp = False
                             game_over = True
+                            ui_variables.GameOver_sound.play()
                             pygame.time.set_timer(pygame.USEREVENT, 1)
                     else:
                         bottom_count += 1
@@ -2264,11 +2265,11 @@ while not done:
                             hold_2P = False
                             score_2P += 10 * level_2P
                         else:  # 더이상 쌓을 수 없으면 게임오버
-                            ui_variables.intro_sound.stop()
                             winner = 1
                             game_status = 'pvp'
                             pvp = False
                             game_over = True
+                            ui_variables.GameOver_sound.play()
                             pygame.time.set_timer(pygame.USEREVENT, 1)
                     else:
                         bottom_count_2P += 1
@@ -2631,8 +2632,10 @@ while not done:
 
     elif multi_tutorial:
         #
-        tutorial_event = 'multi_start'
-        pause_tutorial = True
+        # 시작하는 순간 바로 설명이미지 띄우기
+        # tutorial_event = 'multi_start'
+        # pause_tutorial = True
+        # multi_tutorial = False
         #
         for event in pygame.event.get():
             if event.type == QUIT:
@@ -2655,6 +2658,13 @@ while not done:
                 draw_mino(dx_2P, dy_2P, mino_2P, rotation_2P, matrix_2P)
                 draw_multiboard(next_mino1, hold_mino, next_mino1_2P,
                                 hold_mino_2P, current_key, current_key_2P)
+                #
+                text_break_one = ui_variables.h1.render(
+                    "Break 1 line", 1, ui_variables.cyan)
+                # 각각 전체 board의 가로길이, 세로길이에 대해 원하는 비율을 곱해줌
+                screen.blit(text_break_one, (int(
+                    board_width * 0.25), int(board_height * 0.015)))
+                #
 
                 # Erase a mino
                 if not game_over:
@@ -2662,21 +2672,31 @@ while not done:
                     erase_mino(dx_2P, dy_2P, mino_2P, rotation_2P, matrix_2P)
 
                 if combo_count == 5:  # 5줄을 먼저 깨면 게임 종료
-                    ui_variables.intro_sound.stop()
-                    ui_variables.GameOver_sound.play()
                     winner = 1
+                    #
+                    tutorial_event = 'multi_5break'
+                    multi_tutorial = False
+                    # pause_tutorial = True
+                    pause = True
+                    #
                     game_status = 'pvp'
-                    pvp = False
+                    multi_tutorial = False
                     game_over = True
+                    ui_variables.GameOver_sound.play()
                     pygame.time.set_timer(pygame.USEREVENT, 1)
 
                 if combo_count_2P == 5:  # 5줄을 먼저 깨면 게임 종료
-                    ui_variables.intro_sound.stop()
-                    ui_variables.GameOver_sound.play()
                     winner = 2
+                    #
+                    tutorial_event = 'multi_5break'
+                    multi_tutorial = False
+                    # pause_tutorial = True
+                    pause = True
+                    #
                     game_status = 'pvp'
                     pvp = False
                     game_over = True
+                    ui_variables.GameOver_sound.play()
                     pygame.time.set_timer(pygame.USEREVENT, 1)
                 ### 1P ###
                 # Move mino down
@@ -2699,12 +2719,11 @@ while not done:
                             hold = False
                             score += 10 * level
                         else:  # 더이상 쌓을 수 없으면 게임오버
-                            ui_variables.intro_sound.stop()
-                            ui_variables.GameOver_sound.play()
                             winner = 2
                             game_status = 'pvp'
                             pvp = False
                             game_over = True
+                            ui_variables.GameOver_sound.play()
                             pygame.time.set_timer(pygame.USEREVENT, 1)
                     else:
                         bottom_count += 1
@@ -2731,11 +2750,11 @@ while not done:
                             hold_2P = False
                             score_2P += 10 * level_2P
                         else:  # 더이상 쌓을 수 없으면 게임오버
-                            ui_variables.intro_sound.stop()
                             winner = 1
                             game_status = 'pvp'
                             pvp = False
                             game_over = True
+                            ui_variables.GameOver_sound.play()
                             pygame.time.set_timer(pygame.USEREVENT, 1)
                     else:
                         bottom_count_2P += 1
@@ -2803,6 +2822,12 @@ while not done:
                     draw_multiboard(next_mino1, hold_mino, next_mino1_2P,
                                     hold_mino_2P, current_key, current_key_2P)
                     pygame.display.update()
+                    #
+                    tutorial_event = 'multi_break'
+                    multi_tutorial = False
+                    # pause_tutorial = True
+                    pause = True
+                    #
                 if key_reverse_2P:
                     current_key_2P = not current_key_2P
                     key2 = multi_reverse_key(current_key_2P, 2)
@@ -2811,7 +2836,12 @@ while not done:
                     draw_multiboard(next_mino1, hold_mino, next_mino1_2P,
                                     hold_mino_2P, current_key, current_key_2P)
                     pygame.display.update()
-
+                    #
+                    tutorial_event = 'multi_break'
+                    multi_tutorial = False
+                    # pause_tutorial = True
+                    pause = True
+                    #
 
             elif event.type == KEYDOWN:
                 erase_mino(dx, dy, mino, rotation, matrix)
@@ -3102,7 +3132,6 @@ while not done:
 
         pygame.display.update()
 
-        
     elif hard_tutorial:
 
         # 시작하면 우선 안내창 나오게
@@ -3113,13 +3142,14 @@ while not done:
             start_ticks = pygame.time.get_ticks()  # 현재 시간을 타임어택 모드 시작 시간이라고 설정하고
             hard_time_setting = True  # 타임 세팅이 완료되었다고 바꾼다.
 
-        elapsed_time = (pygame.time.get_ticks() - start_ticks) / 1000  # 경과 시간 계산
+        elapsed_time = (pygame.time.get_ticks() -
+                        start_ticks) / 1000  # 경과 시간 계산
         remaining_time = int(total_time - elapsed_time)  # 남은 시간
 
         for event in pygame.event.get():
             pos = pygame.mouse.get_pos()
             # 3줄마다 위아래 전환, 몫이 홀수이면 위로 전환, 0 또는 짝수이면 아래로
-            change = line_count // 3 # 깬 줄//3 == 몫
+            change = line_count // 3  # 깬 줄//3 == 몫
 
             if event.type == QUIT:
                 done = True
@@ -3136,12 +3166,15 @@ while not done:
                 # Draw a mino
                 draw_mino(dx, dy, mino, rotation, matrix)
                 screen.fill(ui_variables.real_white)
-                draw_image(screen, gamebackground_image , board_width * 0.5, board_height * 0.5, board_width, board_height) #(window, 이미지주소, x좌표, y좌표, 너비, 높이)
+                draw_image(screen, gamebackground_image, board_width * 0.5, board_height *
+                           0.5, board_width, board_height)  # (window, 이미지주소, x좌표, y좌표, 너비, 높이)
                 # change가 홀수이면 위아래전환, 아니면 원래대로
-                if change % 2 == 1 :
-                   draw_hardboard_change(next_mino1, next_mino2, hold_mino, score, remaining_time, line_count) 
-                else : 
-                    draw_hardboard(next_mino1, next_mino2, hold_mino, score, remaining_time, line_count)
+                if change % 2 == 1:
+                    draw_hardboard_change(
+                        next_mino1, next_mino2, hold_mino, score, remaining_time, line_count)
+                else:
+                    draw_hardboard(next_mino1, next_mino2, hold_mino,
+                                   score, remaining_time, line_count)
                 pygame.display.update()
 
                 current_time = pygame.time.get_ticks()
@@ -3159,12 +3192,15 @@ while not done:
                         bottom_count = 0
                         draw_mino(dx, dy, mino, rotation, matrix)
                         screen.fill(ui_variables.real_white)
-                        draw_image(screen, gamebackground_image , board_width * 0.5, board_height * 0.5, board_width, board_height) #(window, 이미지주소, x좌표, y좌표, 너비, 높이)
+                        draw_image(screen, gamebackground_image, board_width * 0.5, board_height *
+                                   0.5, board_width, board_height)  # (window, 이미지주소, x좌표, y좌표, 너비, 높이)
                         # change가 홀수이면 위아래전환, 아니면 원래대로
-                        if change % 2 == 1 :
-                            draw_hardboard_change(next_mino1, next_mino2, hold_mino, score, remaining_time, line_count) 
-                        else : 
-                            draw_hardboard(next_mino1, next_mino2, hold_mino, score, remaining_time, line_count)
+                        if change % 2 == 1:
+                            draw_hardboard_change(
+                                next_mino1, next_mino2, hold_mino, score, remaining_time, line_count)
+                        else:
+                            draw_hardboard(
+                                next_mino1, next_mino2, hold_mino, score, remaining_time, line_count)
                         pygame.display.update()
 
                         if is_stackable(next_mino1, matrix):
@@ -3175,10 +3211,10 @@ while not done:
                             rotation = 0
                             hold = False
                         else:
-                            ui_variables.GameOver_sound.play()
                             hard_tutorial = False
                             game_status = 'hard_tutorial'
                             game_over = True
+                            ui_variables.GameOver_sound.play()
                             pygame.time.set_timer(
                                 pygame.USEREVENT, 1)  # 0.001초
                     else:
@@ -3233,7 +3269,8 @@ while not done:
                         ui_variables.tetris_sound.play()
                         ui_variables.tetris_sound.play()
                         score += 1000 * level * erase_count
-                        screen.blit(ui_variables.combo_4ring,(250, 160))  # blit(이미지, 위치)
+                        screen.blit(ui_variables.combo_4ring,
+                                    (250, 160))  # blit(이미지, 위치)
 
                 # 10초마다 속도 빨라지게
                 if (remaining_time % 10 == 0) and (remaining_time != 60):
@@ -3241,7 +3278,7 @@ while not done:
                     framerate = int(framerate - speed_change)
                     # Change_RATE += 1
                     # set_music_playing_speed(CHANNELS, swidth, Change_RATE)
-                        
+
             elif event.type == KEYDOWN:
                 erase_mino(dx, dy, mino, rotation, matrix)
                 if event.key == K_ESCAPE:
@@ -3257,12 +3294,15 @@ while not done:
                     pygame.time.set_timer(pygame.USEREVENT, framerate)
                     draw_mino(dx, dy, mino, rotation, matrix)
                     screen.fill(ui_variables.real_white)
-                    draw_image(screen, gamebackground_image , board_width * 0.5, board_height * 0.5, board_width, board_height) #(window, 이미지주소, x좌표, y좌표, 너비, 높이)
+                    draw_image(screen, gamebackground_image, board_width * 0.5, board_height *
+                               0.5, board_width, board_height)  # (window, 이미지주소, x좌표, y좌표, 너비, 높이)
                     # change가 홀수이면 위아래전환, 아니면 원래대로
-                    if change % 2 == 1 :
-                        draw_hardboard_change(next_mino1, next_mino2, hold_mino, score, remaining_time, line_count) 
-                    else : 
-                        draw_hardboard(next_mino1, next_mino2, hold_mino, score, remaining_time, line_count)
+                    if change % 2 == 1:
+                        draw_hardboard_change(
+                            next_mino1, next_mino2, hold_mino, score, remaining_time, line_count)
+                    else:
+                        draw_hardboard(next_mino1, next_mino2, hold_mino,
+                                       score, remaining_time, line_count)
 
                     pygame.display.update()
                 elif event.key == K_j:
@@ -3285,12 +3325,15 @@ while not done:
                         hold = True
                     draw_mino(dx, dy, mino, rotation, matrix)
                     screen.fill(ui_variables.real_white)
-                    draw_image(screen, gamebackground_image , board_width * 0.5, board_height * 0.5, board_width, board_height) #(window, 이미지주소, x좌표, y좌표, 너비, 높이)
+                    draw_image(screen, gamebackground_image, board_width * 0.5, board_height *
+                               0.5, board_width, board_height)  # (window, 이미지주소, x좌표, y좌표, 너비, 높이)
                     # change가 홀수이면 위아래전환, 아니면 원래대로
-                    if change % 2 == 1 :
-                        draw_hardboard_change(next_mino1, next_mino2, hold_mino, score, remaining_time, line_count) 
-                    else : 
-                        draw_hardboard(next_mino1, next_mino2, hold_mino, score, remaining_time, line_count)
+                    if change % 2 == 1:
+                        draw_hardboard_change(
+                            next_mino1, next_mino2, hold_mino, score, remaining_time, line_count)
+                    else:
+                        draw_hardboard(next_mino1, next_mino2, hold_mino,
+                                       score, remaining_time, line_count)
 
                 # dx, dy는 각각 좌표위치 이동에 해당하며, rotation은 mino.py의 테트리스 블록 회전에 해당함
                 # Turn right
@@ -3327,12 +3370,15 @@ while not done:
                         rotation = 0
                     draw_mino(dx, dy, mino, rotation, matrix)
                     screen.fill(ui_variables.real_white)
-                    draw_image(screen, gamebackground_image , board_width * 0.5, board_height * 0.5, board_width, board_height) #(window, 이미지주소, x좌표, y좌표, 너비, 높이)
+                    draw_image(screen, gamebackground_image, board_width * 0.5, board_height *
+                               0.5, board_width, board_height)  # (window, 이미지주소, x좌표, y좌표, 너비, 높이)
                     # change가 홀수이면 위아래전환, 아니면 원래대로
-                    if change % 2 == 1 :
-                        draw_hardboard_change(next_mino1, next_mino2, hold_mino, score, remaining_time, line_count) 
-                    else : 
-                        draw_hardboard(next_mino1, next_mino2, hold_mino, score, remaining_time, line_count)
+                    if change % 2 == 1:
+                        draw_hardboard_change(
+                            next_mino1, next_mino2, hold_mino, score, remaining_time, line_count)
+                    else:
+                        draw_hardboard(next_mino1, next_mino2, hold_mino,
+                                       score, remaining_time, line_count)
 
                 # Turn left
                 elif event.key == K_m:
@@ -3367,12 +3413,15 @@ while not done:
                         rotation = 3
                     draw_mino(dx, dy, mino, rotation, matrix)
                     screen.fill(ui_variables.real_white)
-                    draw_image(screen, gamebackground_image , board_width * 0.5, board_height * 0.5, board_width, board_height) #(window, 이미지주소, x좌표, y좌표, 너비, 높이)
+                    draw_image(screen, gamebackground_image, board_width * 0.5, board_height *
+                               0.5, board_width, board_height)  # (window, 이미지주소, x좌표, y좌표, 너비, 높이)
                     # change가 홀수이면 위아래전환, 아니면 원래대로
-                    if change % 2 == 1 :
-                        draw_hardboard_change(next_mino1, next_mino2, hold_mino, score, remaining_time, line_count) 
-                    else : 
-                        draw_hardboard(next_mino1, next_mino2, hold_mino, score, remaining_time, line_count)
+                    if change % 2 == 1:
+                        draw_hardboard_change(
+                            next_mino1, next_mino2, hold_mino, score, remaining_time, line_count)
+                    else:
+                        draw_hardboard(next_mino1, next_mino2, hold_mino,
+                                       score, remaining_time, line_count)
 
                 # Move left
                 elif event.key == K_LEFT:
@@ -3381,12 +3430,15 @@ while not done:
                         dx -= 1
                     draw_mino(dx, dy, mino, rotation, matrix)
                     screen.fill(ui_variables.real_white)
-                    draw_image(screen, gamebackground_image , board_width * 0.5, board_height * 0.5, board_width, board_height) #(window, 이미지주소, x좌표, y좌표, 너비, 높이)
+                    draw_image(screen, gamebackground_image, board_width * 0.5, board_height *
+                               0.5, board_width, board_height)  # (window, 이미지주소, x좌표, y좌표, 너비, 높이)
                     # change가 홀수이면 위아래전환, 아니면 원래대로
-                    if change % 2 == 1 :
-                        draw_hardboard_change(next_mino1, next_mino2, hold_mino, score, remaining_time, line_count) 
-                    else : 
-                        draw_hardboard(next_mino1, next_mino2, hold_mino, score, remaining_time, line_count)
+                    if change % 2 == 1:
+                        draw_hardboard_change(
+                            next_mino1, next_mino2, hold_mino, score, remaining_time, line_count)
+                    else:
+                        draw_hardboard(next_mino1, next_mino2, hold_mino,
+                                       score, remaining_time, line_count)
 
                 # Move right
                 elif event.key == K_RIGHT:
@@ -3395,12 +3447,15 @@ while not done:
                         dx += 1
                     draw_mino(dx, dy, mino, rotation, matrix)
                     screen.fill(ui_variables.real_white)
-                    draw_image(screen, gamebackground_image , board_width * 0.5, board_height * 0.5, board_width, board_height) #(window, 이미지주소, x좌표, y좌표, 너비, 높이)
+                    draw_image(screen, gamebackground_image, board_width * 0.5, board_height *
+                               0.5, board_width, board_height)  # (window, 이미지주소, x좌표, y좌표, 너비, 높이)
                     # change가 홀수이면 위아래전환, 아니면 원래대로
-                    if change % 2 == 1 :
-                        draw_hardboard_change(next_mino1, next_mino2, hold_mino, score, remaining_time, line_count) 
-                    else : 
-                        draw_hardboard(next_mino1, next_mino2, hold_mino, score, remaining_time, line_count)
+                    if change % 2 == 1:
+                        draw_hardboard_change(
+                            next_mino1, next_mino2, hold_mino, score, remaining_time, line_count)
+                    else:
+                        draw_hardboard(next_mino1, next_mino2, hold_mino,
+                                       score, remaining_time, line_count)
 
                 # debug mode block change
                 elif debug:
@@ -3444,16 +3499,17 @@ while not done:
                     textsize = False  # 작은 글자크기 사용
 
                 block_size = int(board_height * 0.045)
-                screen = pygame.display.set_mode((board_width, board_height), pygame.RESIZABLE)
+                screen = pygame.display.set_mode(
+                    (board_width, board_height), pygame.RESIZABLE)
 
                 for i in range(len(button_list)):
                     button_list[i].change(board_width, board_height)
 
         if total_time - elapsed_time < 0:  # 60초가 지났으면
-            ui_variables.GameOver_sound.play()
             hard_tutorial = False
             game_status = 'hard_tutorial'
             game_over = True
+            ui_variables.GameOver_sound.play()
             pygame.time.set_timer(pygame.USEREVENT, 1)
 
         pygame.display.update()
@@ -3467,7 +3523,8 @@ while not done:
             if event.type == QUIT:
                 done = True
             elif event.type == USEREVENT:
-                # ui_variables.intro_sound.stop()
+                pygame.mixer.music.stop()
+
                 pygame.time.set_timer(pygame.USEREVENT, 300)  # 0.3초
 
                 if game_status == 'pvp':
@@ -3887,39 +3944,47 @@ while not done:
                 if single_button.isOver_2(pos):
                     ui_variables.click_sound.play()
                     previous_time = pygame.time.get_ticks()
+                    ui_variables.intro_sound.stop()
+                    pygame.mixer.music.play(-1)
+                    # ui_variables.background_sound.play()
                     start = True
                     initialize = True
                     select_mode = False
+
                     # pygame.mixer.music.play(-1) #play(-1) = 노래 반복재생
                     # ui_variables.intro_sound.stop()
                 if pvp_button.isOver_2(pos):
                     ui_variables.click_sound.play()
+                    ui_variables.intro_sound.stop()
+                    pygame.mixer.music.play(-1)
+                    # ui_variables.background_sound.play()
                     pvp = True
                     initialize = True
                     select_mode = False
-                    # pygame.mixer.music.play(-1)
-                    # ui_variables.intro_sound.stop()
                 if hard_button.isOver_2(pos):
                     ui_variables.click_sound.play()
+                    ui_variables.intro_sound.stop()
+                    pygame.mixer.music.play(-1)
                     hard = True
                     initialize = True
                     select_mode = False
-                    # pygame.mixer.music.play(-1)
-                    # ui_variables.intro_sound.stop()
+                    # ui_variables.background_sound.play()
                 if hard_tutorial_button.isOver_2(pos):
                     ui_variables.click_sound.play()
+                    ui_variables.intro_sound.stop()
+                    pygame.mixer.music.play(-1)
                     hard_tutorial = True
                     initialize = True
                     select_mode = False
-                    # pygame.mixer.music.play(-1)
-                    # ui_variables.intro_sound.stop()
+                    # ui_variables.background_sound.play()
                 if multi_tutorial_button.isOver_2(pos):
                     ui_variables.click_sound.play()
+                    ui_variables.intro_sound.stop()
+                    pygame.mixer.music.play(-1)
                     multi_tutorial = True
                     initialize = True
                     select_mode = False
-                    # pygame.mixer.music.play(-1)
-                    # ui_variables.intro_sound.stop()
+                    # ui_variables.background_sound.play()
                 if back_button.isOver(pos):
                     ui_variables.click_sound.play()
                     select_mode = False
@@ -4264,6 +4329,9 @@ while not done:
             elif event.type == pygame.MOUSEBUTTONDOWN:
                 if back_button.isOver(pos):
                     ui_variables.click_sound.play()
+                    # ui_variables.background_sound.stop()
+                    pygame.mixer.music.stop()
+                    ui_variables.intro_sound.play()
                     volume_setting = False
                 if sound_plus_button.isOver(pos):
                     ui_variables.click_sound.play()
@@ -4307,21 +4375,36 @@ while not done:
                 if BGM1_sound_on_button.isOver(pos):
                     #ui_variables.intro_sound.("assets/sounds/BGM2.wav")#
                     ui_variables.intro_sound.stop()
-                    ui_variables.intro_sound = pygame.mixer.Sound(
-                        "assets/sounds/BGM1.wav")
-                    ui_variables.intro_sound.play()
+                    pygame.mixer.music.stop()
+                    # ui_variables.background_sound.stop()
+                    # ui_variables.background_sound = pygame.mixer.Sound(
+                    #     "assets/sounds/BGM1.wav")
+                    # ui_variables.background_sound.play()
+                    pygame.mixer.music.load("assets/sounds/BGM1.wav")
+                    pygame.mixer.music.play()
+                    # ui_variables.intro_sound.play()
                 if BGM2_sound_on_button.isOver(pos):
                     #ui_variables.intro_sound.("assets/sounds/BGM2.wav")#
                     ui_variables.intro_sound.stop()
-                    ui_variables.intro_sound = pygame.mixer.Sound(
-                        "assets/sounds/BGM2.wav")
-                    ui_variables.intro_sound.play()
+                    pygame.mixer.music.stop()
+                    # ui_variables.background_sound.stop()
+                    # ui_variables.background_sound = pygame.mixer.Sound(
+                    #     "assets/sounds/BGM2.wav")
+                    pygame.mixer.music.load("assets/sounds/BGM2.wav")
+                    pygame.mixer.music.play()
+                    # ui_variables.background_sound.play()
+                    # ui_variables.intro_sound.play()
                 if BGM3_sound_on_button.isOver(pos):
                     #ui_variables.intro_sound.("assets/sounds/BGM2.wav")#
                     ui_variables.intro_sound.stop()
-                    ui_variables.intro_sound = pygame.mixer.Sound(
-                        "assets/sounds/BGM3.wav")
-                    ui_variables.intro_sound.play()
+                    pygame.mixer.music.stop()
+                    # ui_variables.background_sound.stop()
+                    # ui_variables.background_sound = pygame.mixer.Sound(
+                    #     "assets/sounds/BGM3.wav")
+                    pygame.mixer.music.load("assets/sounds/BGM3.wav")
+                    pygame.mixer.music.play()
+                    # ui_variables.background_sound.play()
+                    # ui_variables.intro_sound.play()
 
                 #음소거 추가#
                 if music_sound_on_button.isOver(pos):
