@@ -71,7 +71,6 @@ class ui_variables:
     pygame.mixer.music.load("assets/sounds/BGM1.wav")  # 음악 불러옴
     pygame.mixer.music.set_volume(0.5)  # 이 부분도 필요 없음, set_volume에 추가해야 함
     intro_sound = pygame.mixer.Sound("assets/sounds/intro.wav")
-    background_sound = pygame.mixer.Sound("assets/sounds/BGM1.wav")
     fall_sound = pygame.mixer.Sound("assets/sounds/SFX_Fall.wav")
     break_sound = pygame.mixer.Sound("assets/sounds/SFX_Break.wav")
     click_sound = pygame.mixer.Sound("assets/sounds/SFX_ButtonUp.wav")  # 여기부터
@@ -434,7 +433,6 @@ def set_volume():
     ui_variables.LevelUp_sound.set_volume(effect_volume / 10)
     ui_variables.GameOver_sound.set_volume(music_volume / 10)
     ui_variables.intro_sound.set_volume(music_volume / 10)
-    ui_variables.background_sound.set_volume(music_volume / 10)
     pygame.mixer.music.set_volume(music_volume / 10)
 
 
@@ -1398,7 +1396,6 @@ pygame.time.set_timer(pygame.USEREVENT, 10)
 while not done:
     # Pause screen
     if pause:
-        # ui_variables.background_sound.stop()
         pygame.mixer.music.pause()
         if start:
             screen.fill(ui_variables.real_white)
@@ -1479,7 +1476,6 @@ while not done:
                 erase_mino(dx, dy, mino, rotation, matrix)
                 if event.key == K_ESCAPE:
                     pygame.mixer.music.unpause()
-                    # ui_variables.background_sound.play()
                     pause = False
                     ui_variables.click_sound.play()
                     pygame.time.set_timer(pygame.USEREVENT, 1)  # 0.001초
@@ -1536,7 +1532,6 @@ while not done:
 
                 if resume_button.isOver_2(pos):
                     pygame.mixer.music.unpause()
-                    # ui_variables.background_sound.play()
                     pause = False
                     ui_variables.click_sound.play()
                     pygame.time.set_timer(pygame.USEREVENT, 1)  # 0.001초
@@ -3946,7 +3941,6 @@ while not done:
                     previous_time = pygame.time.get_ticks()
                     ui_variables.intro_sound.stop()
                     pygame.mixer.music.play(-1)
-                    # ui_variables.background_sound.play()
                     start = True
                     initialize = True
                     select_mode = False
@@ -3957,7 +3951,6 @@ while not done:
                     ui_variables.click_sound.play()
                     ui_variables.intro_sound.stop()
                     pygame.mixer.music.play(-1)
-                    # ui_variables.background_sound.play()
                     pvp = True
                     initialize = True
                     select_mode = False
@@ -3968,7 +3961,6 @@ while not done:
                     hard = True
                     initialize = True
                     select_mode = False
-                    # ui_variables.background_sound.play()
                 if hard_tutorial_button.isOver_2(pos):
                     ui_variables.click_sound.play()
                     ui_variables.intro_sound.stop()
@@ -3976,7 +3968,6 @@ while not done:
                     hard_tutorial = True
                     initialize = True
                     select_mode = False
-                    # ui_variables.background_sound.play()
                 if multi_tutorial_button.isOver_2(pos):
                     ui_variables.click_sound.play()
                     ui_variables.intro_sound.stop()
@@ -3984,7 +3975,6 @@ while not done:
                     multi_tutorial = True
                     initialize = True
                     select_mode = False
-                    # ui_variables.background_sound.play()
                 if back_button.isOver(pos):
                     ui_variables.click_sound.play()
                     select_mode = False
@@ -4329,7 +4319,6 @@ while not done:
             elif event.type == pygame.MOUSEBUTTONDOWN:
                 if back_button.isOver(pos):
                     ui_variables.click_sound.play()
-                    # ui_variables.background_sound.stop()
                     pygame.mixer.music.stop()
                     ui_variables.intro_sound.play()
                     volume_setting = False
@@ -4372,39 +4361,25 @@ while not done:
                             effect_sound_on_button.image = sound_on_button_image
                             effect_volume -= 1
                 #BGM 선택 기능 추가#
+                # BGM버튼을 누르면 인트로음악은 멈추고 해당 BGM재생됨 (Back버튼을 눌러 뒤로가기 전까지 계속 재생)
                 if BGM1_sound_on_button.isOver(pos):
                     #ui_variables.intro_sound.("assets/sounds/BGM2.wav")#
                     ui_variables.intro_sound.stop()
                     pygame.mixer.music.stop()
-                    # ui_variables.background_sound.stop()
-                    # ui_variables.background_sound = pygame.mixer.Sound(
-                    #     "assets/sounds/BGM1.wav")
-                    # ui_variables.background_sound.play()
                     pygame.mixer.music.load("assets/sounds/BGM1.wav")
                     pygame.mixer.music.play()
-                    # ui_variables.intro_sound.play()
                 if BGM2_sound_on_button.isOver(pos):
                     #ui_variables.intro_sound.("assets/sounds/BGM2.wav")#
                     ui_variables.intro_sound.stop()
                     pygame.mixer.music.stop()
-                    # ui_variables.background_sound.stop()
-                    # ui_variables.background_sound = pygame.mixer.Sound(
-                    #     "assets/sounds/BGM2.wav")
                     pygame.mixer.music.load("assets/sounds/BGM2.wav")
                     pygame.mixer.music.play()
-                    # ui_variables.background_sound.play()
-                    # ui_variables.intro_sound.play()
                 if BGM3_sound_on_button.isOver(pos):
                     #ui_variables.intro_sound.("assets/sounds/BGM2.wav")#
                     ui_variables.intro_sound.stop()
                     pygame.mixer.music.stop()
-                    # ui_variables.background_sound.stop()
-                    # ui_variables.background_sound = pygame.mixer.Sound(
-                    #     "assets/sounds/BGM3.wav")
                     pygame.mixer.music.load("assets/sounds/BGM3.wav")
                     pygame.mixer.music.play()
-                    # ui_variables.background_sound.play()
-                    # ui_variables.intro_sound.play()
 
                 #음소거 추가#
                 if music_sound_on_button.isOver(pos):
