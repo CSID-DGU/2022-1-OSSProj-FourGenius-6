@@ -1505,7 +1505,8 @@ while not done:
 
                 if help_button.isOver_2(pos):
                     ui_variables.click_sound.play()
-                    setting = True
+                    help = True
+                    #setting = True
 
                 if menu_button2.isOver_2(pos):
                     ui_variables.click_sound.play()
@@ -1524,7 +1525,6 @@ while not done:
 
                     # if hard:
                         #hard = False
-
 
                 if resume_button.isOver_2(pos):
                     # pygame.mixer.music.unpause()
@@ -3977,8 +3977,78 @@ while not done:
                     done = True
                 if help_button.isOver_2(pos):
                     ui_variables.click_sound.play()
-                    help = True
-                '''
+                    help = True'''
+
+    elif help:
+        '''screen.fill(ui_variables.real_white)
+        draw_image(screen, background_image, board_width * 0.5, board_height *
+                   0.5, board_width, board_height)  # (window, 이미지주소, x좌표, y좌표, 너비, 높이)
+        draw_image(screen, gamebackground_image, board_width * 0.5, board_height *
+                   0.5, board_width, board_height)  # (window, 이미지주소, x좌표, y좌표, 너비, 높이)
+        draw_board(next_mino1, next_mino2, hold_mino, score, level, goal)
+        # 화면 회색으로 약간 불투명하게
+        pause_surface = screen.convert_alpha()  # 투명 가능하도록
+        pause_surface.fill((0, 0, 0, 0))  # 투명한 검정색으로 덮기
+        pygame.draw.rect(pause_surface, (ui_variables.black_pause), [0, 0, int(
+            board_width), int(board_height)])  # (screen, 색깔, 위치 x, y좌표, 너비, 높이)
+
+        draw_image(screen, pause_board_image, board_width * 0.5, board_height * 0.5,
+                   int(board_height * 1), board_height)  # (window, 이미지주소, x좌표, y좌표, 너비, 높이)
+        resume_button.draw(screen, (0, 0, 0))  # rgb(0,0,0) = 검정색
+
+        menu_button2.draw(screen, (0, 0, 0))
+        help_button.draw(screen, (0, 0, 0))
+        pause_quit_button.draw(screen, (0, 0, 0))'''
+
+        pause_surface = screen.convert_alpha()  # 투명 가능하도록
+        pause_surface.fill((0, 0, 0, 0))  # 투명한 검정색으로 덮기
+        pygame.draw.rect(pause_surface, (ui_variables.black_pause), [0, 0, int(
+            board_width), int(board_height)])  # (screen, 색깔, 위치 x, y좌표, 너비, 높이)
+        
+        #screen.fill(ui_variables.real_white)
+        draw_image(screen, 'assets/vector/help_board.png', board_width * 0.5, board_height * 0.5, int(board_width * 0.8), int(board_height * 0.9)) #(window, 이미지주소, x좌표, y좌표, 너비, 높이)
+        back_button.draw(screen, (0, 0, 0))
+        pygame.display.update()
+
+        for event in pygame.event.get():
+            pos = pygame.mouse.get_pos()
+
+            if event.type == QUIT:
+                done = True
+            elif event.type == USEREVENT:
+                pygame.time.set_timer(pygame.USEREVENT, 300) #0.3초
+                pygame.display.update()
+
+            elif event.type == pygame.MOUSEMOTION:
+                if back_button.isOver(pos):
+                    back_button.image = clicked_back_button_image
+                else:
+                    back_button.image = back_button_image
+                pygame.display.update()
+            elif event.type == pygame.MOUSEBUTTONDOWN:
+                if back_button.isOver(pos):
+                    ui_variables.click_sound.play()
+                    help = False
+
+            elif event.type == VIDEORESIZE:
+                board_width = event.w
+                board_height = event.h
+                if board_width < min_width or board_height < min_height: #최소 너비 또는 높이를 설정하려는 경우
+                    board_width = min_width
+                    board_height = min_height
+                if not ((board_rate-0.1) < (board_height/board_width) < (board_rate+0.05)): #높이 또는 너비가 비율의 일정수준 이상을 넘어서게 되면
+                    board_width = int(board_height / board_rate) #너비를 적정 비율로 바꿔줌
+                    board_height = int(board_width*board_rate) #높이를 적정 비율로 바꿔줌
+                if board_width>= mid_width: #화면 사이즈가 큰 경우
+                    textsize=True #큰 글자크기 사용
+                if board_width < mid_width: #화면 사이즈가 작은 경우
+                    textsize=False #작은 글자크기 사용
+
+                block_size = int(board_height * 0.045) #board 세로길이에 원하는 비율을 곱해줌
+                screen = pygame.display.set_mode((board_width, board_height), pygame.RESIZABLE)
+
+                for i in range(len(button_list)):
+                        button_list[i].change(board_width, board_height)
 
     elif leader_board:
         screen.fill(ui_variables.real_white)
