@@ -3981,7 +3981,6 @@ while not done:
                     tutorial_status = True
                     ui_variables.intro_sound.stop()
                     pygame.mixer.music.play(-1)
-                    hard_tutorial = True
                     initialize = True
                     select_mode = False
                     # ui_variables.background_sound.play()
@@ -3991,7 +3990,6 @@ while not done:
                     tutorial_status = True
                     ui_variables.intro_sound.stop()
                     pygame.mixer.music.play(-1)
-                    multi_tutorial = True
                     initialize = True
                     select_mode = False
                     # ui_variables.background_sound.play()
