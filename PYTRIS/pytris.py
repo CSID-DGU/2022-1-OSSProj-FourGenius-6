@@ -1263,7 +1263,7 @@ def multi_reverse_key(rev, player):
 
 
 def set_initial_values():
-    global tutorial_event_happened, pause_tutorial, tutorial_event, combo_count, combo_count_2P, line_count, score, level, goal, score_2P, level_2P, goal_2P, bottom_count, bottom_count_2P, hard_drop, hard_drop_2P, attack_point, attack_point_2P, dx, dy, dx_2P, dy_2P, rotation, rotation_2P, mino, mino_2P, next_mino1, next_mino2, next_mino1_2P, hold, hold_2P, hold_mino, hold_mino_2P, framerate, framerate_2P, matrix, matrix_2P, Change_RATE, blink, start, pause, done, game_over, leader_board, setting, volume_setting, screen_setting, pvp, help, gravity_mode, debug, d, e, b, u, g, start_ticks, textsize, CHANNELS, swidth, name_location, name, previous_time, current_time, pause_time, lines, leaders, leaders_hard, volume, game_status, framerate_blockmove, framerate_2P_blockmove, game_speed, game_speed_2P, select_mode, hard, hard_tutorial, multi_tutorial, tutorial_status, hard_time_setting, winner, key1, key2, key_reverse, key_reverse_2P, current_key, current_key_2P, hard_tutorial_info, multi_tutorial_info
+    global tutorial_event_happened, pause_tutorial, tutorial_event, combo_count, combo_count_2P, line_count, score, level, goal, score_2P, level_2P, goal_2P, bottom_count, bottom_count_2P, hard_drop, hard_drop_2P, attack_point, attack_point_2P, dx, dy, dx_2P, dy_2P, rotation, rotation_2P, mino, mino_2P, next_mino1, next_mino2, next_mino1_2P, hold, hold_2P, hold_mino, hold_mino_2P, framerate, framerate_2P, matrix, matrix_2P, Change_RATE, blink, start, pause, done, game_over, leader_board, setting, volume_setting, screen_setting, pvp, help, gravity_mode, debug, d, e, b, u, g, start_ticks, textsize, CHANNELS, swidth, name_location, name, previous_time, current_time, pause_time, lines, leaders, leaders_hard, volume, game_status, framerate_blockmove, framerate_2P_blockmove, game_speed, game_speed_2P, select_mode, hard, hard_tutorial, multi_tutorial, tutorial_status, hard_time_setting, winner, key1, key2, key_reverse, key_reverse_2P, current_key, current_key_2P, hard_tutorial_info, multi_tutorial_info, game_over_tutorial
 
     framerate = 30  # Bigger -> Slower  기본 블록 하강 속도, 2도 할만 함, 0 또는 음수 이상이어야 함
     framerate_blockmove = framerate * 3  # 블록 이동 시 속도
@@ -1292,6 +1292,8 @@ def set_initial_values():
 
     tutorial_status = False  # 여러 기능 설명 창 띄우기
     pause_tutorial = False  # 튜토리얼의 pause 변수 추가
+    game_over_tutorial = False # 튜토리얼 모드 게임오버 화면
+
     help = False
     select_mode = False
     gravity_mode = False  # 이 코드가 없으면 중력모드 게임을 했다가 Restart해서 일반모드로 갈때 중력모드로 게임이 진행됨#
@@ -1592,12 +1594,13 @@ while not done:
             draw_image(screen, pause_board_image, board_width * 0.5, board_height * 0.5,
                        int(board_height * 1), board_height)
             tutorial_event = 'no_event'
-            # tutorial_event_happened['hard_3line'] = True
+            tutorial_event_happened['hard_3line'] = True
 
         # tutorial_event가 하드의 10초 지남 일 때,
         elif tutorial_event == 'hard_10sec':
             draw_image(screen, pause_board_image, board_width * 0.5, board_height * 0.5,
                        int(board_height * 1), board_height)
+            tutorial_event_happened['hard_10sec'] = True
 
         # tutorial_event가 멀티의 1P가 한 줄 이상 깸 일 때,
         elif tutorial_event == 'multi_1P_break':
@@ -1633,6 +1636,30 @@ while not done:
                     # ui_variables.intro_sound.play()
                     pygame.mixer.music.unpause()
                     pygame.time.set_timer(pygame.USEREVENT, 1)
+            elif event.type == VIDEORESIZE:
+                board_width = event.w
+                board_height = event.h
+                if board_width < min_width or board_height < min_height:  # 최소 너비 또는 높이를 설정하려는 경우
+                    board_width = min_width
+                    board_height = min_height
+                # 높이 또는 너비가 비율의 일정수준 이상을 넘어서게 되면
+                if not ((board_rate-0.1) < (board_height/board_width) < (board_rate + 0.05)):
+                    # 너비를 적정 비율로 바꿔줌
+                    board_width = int(board_height / board_rate)
+                    # 높이를 적정 비율로 바꿔줌
+                    board_height = int(board_width*board_rate)
+                if board_width >= mid_width:  # 화면 사이즈가 큰 경우
+                    textsize = True  # 큰 글자크기 사용
+                if board_width < mid_width:  # 화면 사이즈가 작은 경우
+                    textsize = False  # 작은 글자크기 사용
+
+                block_size = int(board_height * 0.045)  # 블록 크기비율 고정
+                screen = pygame.display.set_mode(
+                    (board_width, board_height), pygame.RESIZABLE)
+
+                for i in range(len(button_list)):
+                    button_list[i].change(board_width, board_height)
+
 
     # Game screen
     elif start:
@@ -2753,11 +2780,10 @@ while not done:
                     winner = 1
                     # 트레이닝 모드는 게임 종료 전에 pause_tutorial 상태로 넘어가 설명 띄우기
                     tutorial_event = 'multi_5break'
-                    pause_tutorial = True
-                    #
+                    # pause_tutorial = True
                     game_status = 'pvp'
                     multi_tutorial = False
-                    game_over = True
+                    game_over_tutorial = True
                     ui_variables.GameOver_sound.play()
                     pygame.time.set_timer(pygame.USEREVENT, 1)
 
@@ -2765,11 +2791,10 @@ while not done:
                     winner = 2
                     # 트레이닝 모드는 게임 종료 전에 pause_tutorial 상태로 넘어가 설명 띄우기
                     tutorial_event = 'multi_5break'
-                    pause_tutorial = True
-                    #
+                    # pause_tutorial = True
                     game_status = 'pvp'
                     multi_tutorial = False
-                    game_over = True
+                    game_over_tutorial = True
                     ui_variables.GameOver_sound.play()
                     pygame.time.set_timer(pygame.USEREVENT, 1)
                 ### 1P ###
@@ -2795,9 +2820,9 @@ while not done:
                         else:  # 더이상 쌓을 수 없으면 게임오버
                             tutorial_event = 'multi_full'
                             multi_tutorial = False
-                            # game_over_tutorial = True
+                            game_over_tutorial = True
 
-                            # winner = 2
+                            winner = 2
                             # game_status = 'pvp'
                             # game_over = True
                             ui_variables.GameOver_sound.play()
@@ -2829,10 +2854,10 @@ while not done:
                         else:  # 더이상 쌓을 수 없으면 게임오버
                             tutorial_event = 'multi_full'
                             multi_tutorial = False
-                            # game_over_tutorial = True
+                            game_over_tutorial = True
 
-                            # winner = 1
-                            # game_status = 'pvp'
+                            winner = 1
+                            game_status = 'pvp'
                             # pvp = False
                             # game_over = True
                             ui_variables.GameOver_sound.play()
@@ -3288,7 +3313,7 @@ while not done:
                             ui_variables.GameOver_sound.play()
                             tutorial_event = 'hard_full'
                             hard_tutorial = False
-                            pause_tutorial = True
+                            game_over_tutorial = True
                             # game_status = 'hard_tutorial'
                             # game_over = True
                             pygame.time.set_timer(
@@ -3594,7 +3619,7 @@ while not done:
             ui_variables.GameOver_sound.play()
             hard_tutorial = False
             game_status = 'hard_tutorial'
-            game_over = True
+            game_over_tutorial = True
             pygame.time.set_timer(pygame.USEREVENT, 1)
 
         pygame.display.update()
@@ -3813,6 +3838,254 @@ while not done:
                     if multi_menu_button.isOver_2(pos):
                         ui_variables.click_sound.play()
                         game_over = False
+                    if multi_restart_button.isOver_2(pos):
+                        # initialize = True
+                        pvp = True
+                        pygame.mixer.music.play(-1)
+
+            elif event.type == VIDEORESIZE:
+                board_width = event.w
+                board_height = event.h
+                if board_width < min_width or board_height < min_height:  # 최소 너비 또는 높이를 설정하려는 경우
+                    board_width = min_width
+                    board_height = min_height
+                # 높이 또는 너비가 비율의 일정수준 이상을 넘어서게 되면
+                if not ((board_rate-0.1) < (board_height/board_width) < (board_rate + 0.05)):
+                    # 너비를 적정 비율로 바꿔줌
+                    board_width = int(board_height / board_rate)
+                    # 높이를 적정 비율로 바꿔줌
+                    board_height = int(board_width*board_rate)
+                if board_width >= mid_width:  # 화면 사이즈가 큰 경우
+                    textsize = True  # 큰 글자크기 사용
+                if board_width < mid_width:  # 화면 사이즈가 작은 경우
+                    textsize = False  # 작은 글자크기 사용
+
+                block_size = int(board_height * 0.045)  # 블록 크기비율 고정
+                screen = pygame.display.set_mode(
+                    (board_width, board_height), pygame.RESIZABLE)
+
+                for i in range(len(button_list)):
+                    button_list[i].change(board_width, board_height)
+
+        # new game over screen
+    elif game_over_tutorial:
+
+        for event in pygame.event.get():
+            pos = pygame.mouse.get_pos()
+
+            if event.type == QUIT:
+                done = True
+            elif event.type == USEREVENT:
+                pygame.mixer.music.stop()
+
+                pygame.time.set_timer(pygame.USEREVENT, 300)  # 0.3초
+
+                if game_status == 'pvp':
+                    # 기존 화면 약간 어둡게 처리
+                    draw_image(screen, gamebackground_image, board_width * 0.5, board_height *
+                               0.5, board_width, board_height)  # (window, 이미지주소, x좌표, y좌표, 너비, 높이)
+                    draw_multiboard(next_mino1, hold_mino, next_mino1_2P, hold_mino_2P,
+                                    current_key, current_key_2P)
+                    pause_surface = screen.convert_alpha()  # 투명 가능하도록
+                    pause_surface.fill((0, 0, 0, 0))  # 투명한 검정색으로 덮기
+                    pygame.draw.rect(pause_surface, (ui_variables.black_pause), [0, 0, int(
+                        board_width), int(board_height)])  # (screen, 색깔, 위치 x, y좌표, 너비, 높이)
+                    screen.blit(pause_surface, (0, 0))
+                    #
+
+                    draw_image(screen, multi_gameover_image, board_width * 0.5, board_height * 0.2,
+                               int(board_height * 0.7), int(board_height * 0.2))  # (window, 이미지주소, x좌표, y좌표, 너비, 높이)
+                    if winner == 1:  # 1P가 이기면
+                        draw_image(screen, multi_win_image, board_width * 0.2, board_height * 0.5,
+                                   int(board_height * 0.3), int(board_height * 0.25))  # (window, 이미지주소, x좌표, y좌표, 너비, 높이)
+                        draw_image(screen, multi_lose_image, board_width * 0.8, board_height * 0.5,
+                                   int(board_height * 0.3), int(board_height * 0.25))  # (window, 이미지주소, x좌표, y좌표, 너비, 높이)
+                    elif winner == 2:  # 2P가 이기면
+                        draw_image(screen, multi_win_image, board_width * 0.8, board_height * 0.5,
+                                   int(board_height * 0.3), int(board_height * 0.25))  # (window, 이미지주소, x좌표, y좌표, 너비, 높이)
+                        draw_image(screen, multi_lose_image, board_width * 0.2, board_height * 0.5,
+                                   int(board_height * 0.3), int(board_height * 0.25))  # (window, 이미지주소, x좌표, y좌표, 너비, 높이)
+                    # 이벤트 두개 모두 실행되었는지 확인
+                    if tutorial_event_happened['multi_1P_break'] == True and tutorial_event_happened['multi_1P_break'] == True :
+                        multi_menu_button.draw(screen, (0, 0, 0))
+                    else :    
+                        multi_restart_button.draw(screen, (0, 0, 0))
+
+                elif game_status != 'pvp':
+                    draw_image(screen, gameover_board_image, board_width * 0.5, board_height * 0.5,
+                               int(board_height * 1), board_height)  # (window, 이미지주소, x좌표, y좌표, 너비, 높이)
+                    # 이벤트 두개 모두 실행되었는지 확인
+                    if tutorial_event_happened['hard_3line'] == True and tutorial_event_happened['hard_10sec'] == True :
+                        menu_button2.draw(screen, (0, 0, 0))  # rgb(0,0,0) = 검정색
+                    else :
+                        restart_button.draw(screen, (0, 0, 0))
+                    ok_button.draw(screen, (0, 0, 0))
+
+                    # render("텍스트이름", 안티에일리어싱 적용, 색깔), 즉 아래의 코드에서 숫자 1=안티에일리어싱 적용에 관한 코드
+                    name_1 = ui_variables.h1_b.render(
+                        chr(name[0]), 1, ui_variables.white)
+                    name_2 = ui_variables.h1_b.render(
+                        chr(name[1]), 1, ui_variables.white)
+                    name_3 = ui_variables.h1_b.render(
+                        chr(name[2]), 1, ui_variables.white)
+
+                    underbar_1 = ui_variables.h1_b.render(
+                        "_", 1, ui_variables.white)
+                    underbar_2 = ui_variables.h1_b.render(
+                        "_", 1, ui_variables.white)
+                    underbar_3 = ui_variables.h1_b.render(
+                        "_", 1, ui_variables.white)
+
+                    # blit(요소, 위치), 각각 전체 board의 가로길이, 세로길이에다가 원하는 비율을 곱해줌
+                    screen.blit(name_1, (int(board_width * 0.434),
+                                int(board_height * 0.55)))
+                    screen.blit(name_2, (int(board_width * 0.494),
+                                int(board_height * 0.55)))  # blit(요소, 위치)
+                    screen.blit(name_3, (int(board_width * 0.545),
+                                int(board_height * 0.55)))  # blit(요소, 위치)
+
+                    if blink:
+                        blink = False
+                    else:
+                        if name_location == 0:
+                            # 위치 비율 고정
+                            screen.blit(
+                                underbar_1, ((int(board_width * 0.437), int(board_height * 0.56))))
+                        elif name_location == 1:
+                            # 위치 비율 고정
+                            screen.blit(
+                                underbar_2, ((int(board_width * 0.497), int(board_height * 0.56))))
+                        elif name_location == 2:
+                            # 위치 비율 고정
+                            screen.blit(
+                                underbar_3, ((int(board_width * 0.557), int(board_height * 0.56))))
+                        blink = True
+
+                pygame.display.update()
+
+            elif event.type == KEYDOWN and game_status != 'pvp':  # 멀티모드 아닐 때만 스코어 저장
+
+                if event.key == K_RETURN:
+                    ui_variables.click_sound.play()
+                    if game_status == 'start':  # easy mode일 경우
+                        outfile = open('leaderboard.txt', 'a')
+                        outfile.write(
+                            chr(name[0]) + chr(name[1]) + chr(name[2]) + ' ' + str(score) + '\n')
+                        outfile.close()
+                    elif game_status == 'hard':  # hard mode일 경우
+                        outfile = open('leaderboard_hard.txt', 'a')
+                        outfile.write(
+                            chr(name[0]) + chr(name[1]) + chr(name[2]) + ' ' + str(score) + '\n')
+                        outfile.close()
+
+                    game_over = False
+                    pygame.time.set_timer(pygame.USEREVENT, 1)  # 0.001초
+
+                # name은 3글자로 name_locationd은 0~2, name[name_location]은 영어 아스키코드로 65~90.
+                elif event.key == K_RIGHT:
+                    if name_location != 2:
+                        name_location += 1
+                    else:
+                        name_location = 0
+                    pygame.time.set_timer(pygame.USEREVENT, 1)  # 0.001초
+                elif event.key == K_LEFT:
+                    if name_location != 0:
+                        name_location -= 1
+                    else:
+                        name_location = 2
+                    pygame.time.set_timer(pygame.USEREVENT, 1)
+                elif event.key == K_UP:
+                    ui_variables.click_sound.play()
+                    if name[name_location] != 90:
+                        name[name_location] += 1
+                    else:
+                        name[name_location] = 65
+                    pygame.time.set_timer(pygame.USEREVENT, 1)
+                elif event.key == K_DOWN:
+                    ui_variables.click_sound.play()
+                    if name[name_location] != 65:
+                        name[name_location] -= 1
+                    else:
+                        name[name_location] = 90
+                    pygame.time.set_timer(pygame.USEREVENT, 1)
+
+            elif event.type == pygame.MOUSEMOTION:
+                if resume_button.isOver_2(pos):
+                    menu_button2.image = clicked_menu_button_image
+                else:
+                    menu_button2.image = menu_button_image
+
+                if restart_button.isOver_2(pos):
+                    restart_button.image = clicked_restart_button_image
+                else:
+                    restart_button.image = restart_button_image
+
+                if ok_button.isOver_2(pos):
+                    ok_button.image = clicked_ok_button_image
+                else:
+                    ok_button.image = ok_button_image
+
+                # 멀티모드 게임오버 화면 버튼
+                if multi_menu_button.isOver_2(pos):
+                    multi_menu_button.image = clicked_menu_button_image
+                else:
+                    multi_menu_button.image = menu_button_image
+
+                if multi_restart_button.isOver_2(pos):
+                    multi_restart_button.image = clicked_restart_button_image
+                else:
+                    multi_restart_button.image = restart_button_image
+
+                pygame.display.update()
+            elif event.type == pygame.MOUSEBUTTONDOWN:
+                if game_status != 'pvp':
+                    if ok_button.isOver(pos):
+                        ui_variables.click_sound.play()
+                        if game_status == 'start':  # easy mode 일 경우
+                            outfile = open('leaderboard.txt', 'a')
+                            outfile.write(
+                                chr(name[0]) + chr(name[1]) + chr(name[2]) + ' ' + str(score) + '\n')
+                            outfile.close()
+                        elif game_status == 'hard':  # hard mode 일 경우
+                            outfile = open('leaderboard_hard.txt', 'a')
+                            outfile.write(
+                                chr(name[0]) + chr(name[1]) + chr(name[2]) + ' ' + str(score) + '\n')
+                            outfile.close()
+                        game_over_tutorial = False
+                        pygame.time.set_timer(pygame.USEREVENT, 1)
+
+                    if menu_button2.isOver(pos):
+                        ui_variables.click_sound.play()
+                        game_over_tutorial = False
+
+                    if restart_button.isOver_2(pos):
+                        if game_status == 'start':
+                            # initialize = True
+                            start = True
+                            pygame.mixer.music.play(-1)  # play(-1) = 노래 반복재생
+                        # if game_status == 'pvp':
+                        #     pvp = True
+                        #     pygame.mixer.music.play(-1)
+                        # if game_status == 'gravity_mode':
+                        #     gravity_mode = True
+                        #     pygame.mixer.music.play(-1)
+                        # if game_status == 'time_attack':
+                        #     time_attack = True
+                        #     pygame.mixer.music.play(-1)
+                        ui_variables.click_sound.play()
+                        game_over_tutorial = False
+                        pause = False
+
+                    if resume_button.isOver_2(pos):
+                        pause = False
+                        ui_variables.click_sound.play()
+                        pygame.time.set_timer(pygame.USEREVENT, 1)  # 0.001초
+
+                # 멀티모드 게임오버 화면 버튼
+                if game_status == 'pvp':
+                    if multi_menu_button.isOver_2(pos):
+                        ui_variables.click_sound.play()
+                        game_over_tutorial = False
                     if multi_restart_button.isOver_2(pos):
                         # initialize = True
                         pvp = True
@@ -4326,12 +4599,12 @@ while not done:
             # 설명 화면에서 space만 누르면 게임 시작
             elif event.type == KEYDOWN:
                 if hard_tutorial_info:
-                    if event.key == K_SPACE:
+                    if event.key == K_RETURN:
                         ui_variables.click_sound.play()
                         tutorial_status = False
                         hard_tutorial = True
                 if multi_tutorial_info:
-                    if event.key == K_SPACE:
+                    if event.key == K_RETURN:
                         ui_variables.click_sound.play()
                         tutorial_status = False
                         multi_tutorial = True
