@@ -71,6 +71,7 @@ class ui_variables:
     pygame.mixer.music.load("assets/sounds/BGM1.wav")  # 음악 불러옴
     pygame.mixer.music.set_volume(0.5)  # 이 부분도 필요 없음, set_volume에 추가해야 함
     intro_sound = pygame.mixer.Sound("assets/sounds/intro.wav")
+    background_sound = pygame.mixer.Sound("assets/sounds/BGM1.wav")
     fall_sound = pygame.mixer.Sound("assets/sounds/SFX_Fall.wav")
     break_sound = pygame.mixer.Sound("assets/sounds/SFX_Break.wav")
     click_sound = pygame.mixer.Sound("assets/sounds/SFX_ButtonUp.wav")  # 여기부터
@@ -258,7 +259,6 @@ multi_key_reverse_image = 'assets/vector/key_reverse.png'
 hard_speed_up_image = 'assets/vector/speed_up.png'
 hard_flipped_image = 'assets/vector/flipped.png'
 
-<<<<<<< Updated upstream
 multi_1P_break_image = 'assets/images/multi_1p_break.png'
 multi_2P_break_image = 'assets/images/multi_2p_break.png'
 tutorial_box_image = 'assets/vector/box.png'
@@ -266,11 +266,9 @@ tutorial_box_image = 'assets/vector/box.png'
 training_completed_image = 'assets/images/training_completed.png'
 training_incomplete_image = 'assets/images/training_incomplete.png'
 
-=======
 # 튜토리얼모드 중간 이벤트 발생 시 나오는 설명 이미지
 hard_3line_image = 'assets/images/hard_3line.png' # 하드튜토리얼 3줄 제거시 등장 
 hard_10s_image = 'assets/images/hard_10s.png' # 하드튜토리얼 10초 경과시 등장
->>>>>>> Stashed changes
 
 class button():  # 버튼객체
     def __init__(self, board_width, board_height, x_rate, y_rate, width_rate, height_rate, img=''):  # 버튼생성
@@ -1319,10 +1317,10 @@ def set_initial_values():
     winner = 0  # multi mode에서 1P가 이기면 1, 2P가 이기면 2 (기본값은 0)
     start_ticks = pygame.time.get_ticks()
     textsize = False
-    # 튜토리얼에서 발생한 이벤트 상태 저장용 변수 (hard_10s, hard_3line, hard_full, multi_1P_break, multi_2P_break, multi_5break, multi_full, no_event)
+    # 튜토리얼에서 발생한 이벤트 상태 저장용 변수 (hard_10sec, hard_3line, hard_full, multi_1P_break, multi_2P_break, multi_5break, multi_full, no_event)
     tutorial_event = ''
     # 튜토리얼에서 반복해서 발생하는 이벤트 발생 첫 회에서만 설명 띄울 수 있게, 발생 여부를 저장하는 딕셔너리
-    tutorial_event_happened = {'hard_3line': False,
+    tutorial_event_happened = {'hard_3line': False, 'hard_10sec': False,
                                'multi_1P_break': False, 'multi_2P_break': False}
 
     # 게임 음악 속도 조절 관련 변수
@@ -1560,9 +1558,6 @@ while not done:
                     if multi_tutorial:
                         multi_tutorial = False
 
-                    # if hard:
-                        #hard = False
-
                 if resume_button.isOver_2(pos):
                     pygame.mixer.music.unpause()
                     pause = False
@@ -1597,44 +1592,24 @@ while not done:
 
     # Tutorial mode 중간 멈추는 screen
     elif pause_tutorial:
-<<<<<<< Updated upstream
         # ui_variables.intro_sound.stop()
         pygame.mixer.music.pause()
-
         # tutorial_event가 하드의 3줄깨기 일 때,
         if tutorial_event == 'hard_3line':
-            draw_image(screen, pause_board_image, board_width * 0.5, board_height * 0.5,
-                       int(board_height * 1), board_height)
-=======
-        pygame.mixer.music.pause()
-
-        if hard_tutorial:
-            screen.fill(ui_variables.real_white)
-            draw_image(screen, gamebackground_image, board_width * 0.5, board_height *
-                       0.5, board_width, board_height)  # (window, 이미지주소, x좌표, y좌표, 너비, 높이)
-            draw_hardboard(next_mino1, next_mino2, hold_mino,
-                           score, remaining_time, line_count)
-            # 화면 회색으로 약간 불투명하게
-            pause_surface = screen.convert_alpha()  # 투명 가능하도록
-            pause_surface.fill((0, 0, 0, 0))  # 투명한 검정색으로 덮기
-            pygame.draw.rect(pause_surface, (ui_variables.black_pause), [0, 0, int(board_width), int(board_height)])  # (screen, 색깔, 위치 x, y좌표, 너비, 높이)
-            screen.blit(pause_surface, (0, 0))
-
-        # tutorial_event가 하드의 3줄깨기 일 때,
-        if tutorial_event == 'hard_3line':
+            # draw_image(screen, tutorial_box_image, board_width * 0.39,
+            #            board_height * 0.75, int(board_height * 0.2), int(board_height * 0.2))
             draw_image(screen, hard_3line_image, board_width * 0.5, board_height * 0.5,
                    int(board_height * 1), board_height)
->>>>>>> Stashed changes
-            tutorial_event = 'no_event'
             tutorial_event_happened['hard_3line'] = True
 
         # tutorial_event가 하드의 10초 지남 일 때,
-<<<<<<< Updated upstream
         elif tutorial_event == 'hard_10sec':
-            draw_image(screen, pause_board_image, board_width * 0.5, board_height * 0.5,
+            # draw_image(screen, tutorial_box_image, board_width * 0.39,
+            #            board_height * 0.75, int(board_height * 0.2), int(board_height * 0.2))
+            draw_image(screen, hard_10s_image, board_width * 0.5, board_height * 0.5,
                        int(board_height * 1), board_height)
             tutorial_event_happened['hard_10sec'] = True
-
+        
         # tutorial_event가 멀티의 1P가 한 줄 이상 깸 일 때,
         elif tutorial_event == 'multi_1P_break':
             draw_image(screen, tutorial_box_image, board_width * 0.39,
@@ -1653,11 +1628,6 @@ while not done:
 
         # draw_image(screen, pause_board_image, board_width * 0.5, board_height * 0.5,
         #            int(board_height * 1), board_height)  # (window, 이미지주소, x좌표, y좌표, 너비, 높이)
-=======
-        elif tutorial_event == 'hard_10s':
-            draw_image(screen, hard_10s_image, board_width * 0.5, board_height * 0.5,
-                   int(board_height * 1), board_height)
->>>>>>> Stashed changes
 
         for event in pygame.event.get():
             pos = pygame.mouse.get_pos()
@@ -1672,11 +1642,8 @@ while not done:
                     pause_tutorial = False
                     pygame.mixer.music.unpause()
                     ui_variables.click_sound.play()
-<<<<<<< Updated upstream
                     # ui_variables.intro_sound.play()
                     pygame.mixer.music.unpause()
-=======
->>>>>>> Stashed changes
                     pygame.time.set_timer(pygame.USEREVENT, 1)
             elif event.type == VIDEORESIZE:
                 board_width = event.w
@@ -1803,7 +1770,7 @@ while not done:
 
             elif event.type == KEYDOWN:
                 erase_mino(dx, dy, mino, rotation, matrix)
-                if event.key == K_RETURN:
+                if event.key == K_ESCAPE:
                     ui_variables.click_sound.play()
                     pause = True
                 # Hard drop
@@ -3357,7 +3324,7 @@ while not done:
                             hard_tutorial = False
                             game_over_tutorial = True
                             # game_status = 'hard_tutorial'
-                            # game_over = True
+                            # game_over = True                            
                             pygame.time.set_timer(
                                 pygame.USEREVENT, 1)  # 0.001초
                     else:
@@ -3421,8 +3388,7 @@ while not done:
                     # set_music_playing_speed(CHANNELS, swidth, Change_RATE)
 
                 # 3줄 깨면 설명 나오게 pause_tutorial로 연결
-                if (line_count >= 3 and tutorial_event != 'no_event'):
-                    # if (line_count >= 3 and not tutorial_event_happened['hard_3line']):
+                if (line_count >= 3 and not tutorial_event_happened['hard_3line']):
                     pause_tutorial = True
                     tutorial_event = 'hard_3line'
 
@@ -3665,7 +3631,7 @@ while not done:
             pygame.time.set_timer(pygame.USEREVENT, 1)
 
         pygame.display.update()
-
+ 
     # new game over screen
     elif game_over:
 
@@ -3854,25 +3820,17 @@ while not done:
 
                     if restart_button.isOver_2(pos):
                         if game_status == 'start':
-                            initialize = True
+                            set_initial_values()
                             start = True
                             pygame.mixer.music.play(-1)  # play(-1) = 노래 반복재생
                         if game_status == 'pvp':
-                            initialize = True
+                            set_initial_values()
                             pvp = True
                             pygame.mixer.music.play(-1)
                         if game_status == 'hard':
-                            initialize = True
+                            set_initial_values()
                             hard = True
                             pygame.mixer.music.play(-1)
-                        # if game_status == 'hard_tutorial':
-                        #     initialize = True
-                        #     time_attack = True
-                        #     pygame.mixer.music.play(-1)
-                        # if game_status == 'multi_tutorial':
-                        #     initialize = True
-                        #     multi_tutorial = True
-                        #     pygame.mixer.music.play(-1)
                         ui_variables.click_sound.play()
                         game_over = False
                         pause = False
@@ -3888,7 +3846,7 @@ while not done:
                         ui_variables.click_sound.play()
                         game_over = False
                     if multi_restart_button.isOver_2(pos):
-                        # initialize = True
+                        set_initial_values()
                         pvp = True
                         pygame.mixer.music.play(-1)
 
@@ -3916,7 +3874,7 @@ while not done:
                 for i in range(len(button_list)):
                     button_list[i].change(board_width, board_height)
 
-        # new game over screen
+    # new game over screen
     elif game_over_tutorial:
 
         for event in pygame.event.get():
@@ -3974,6 +3932,7 @@ while not done:
                 if game_status == 'pvp':
                     if tutorial_restart_button.isOver_2(pos):
                         ui_variables.click_sound.play()
+                        set_initial_values()
                         multi_tutorial_info = True
                         pygame.mixer.music.play(-1)    
                     if tutorial_multi_start_button.isOver_2(pos):
@@ -3991,10 +3950,10 @@ while not done:
 
                     if tutorial_restart_button.isOver_2(pos):
                         ui_variables.click_sound.play()
+                        set_initial_values()
                         hard_tutorial_info = True
                         tutorial_status = True
                         pygame.mixer.music.play(-1)
-                        initialize = True
                         game_over = False
                         hard_tutorial = False
 
@@ -4188,26 +4147,6 @@ while not done:
 
     elif help:
 
-        if start:
-            screen.fill(ui_variables.real_white)
-            draw_image(screen, gamebackground_image, board_width * 0.5, board_height *
-                       0.5, board_width, board_height)  # (window, 이미지주소, x좌표, y좌표, 너비, 높이)
-            draw_board(next_mino1, next_mino2, hold_mino, score, level, goal)
-            # 화면 회색으로 약간 불투명하게
-            pause_surface = screen.convert_alpha()  # 투명 가능하도록
-            pause_surface.fill((0, 0, 0, 0))  # 투명한 검정색으로 덮기
-            pygame.draw.rect(pause_surface, (ui_variables.black_pause), [0, 0, int(
-                board_width), int(board_height)])  # (screen, 색깔, 위치 x, y좌표, 너비, 높이)
-            screen.blit(pause_surface, (0, 0))
-
-        if hard:
-            screen.fill(ui_variables.real_white)
-            draw_image(screen, gamebackground_image, board_width * 0.5, board_height *
-                       0.5, board_width, board_height)  # (window, 이미지주소, x좌표, y좌표, 너비, 높이)
-            draw_hardboard(next_mino1, next_mino2, hold_mino,
-                           score, remaining_time, line_count)
-
-<<<<<<< Updated upstream
         pause_surface = screen.convert_alpha()  # 투명 가능하도록
         pause_surface.fill((0, 0, 0, 0))  # 투명한 검정색으로 덮기
         pygame.draw.rect(pause_surface, (ui_variables.black_pause), [0, 0, int(
@@ -4216,62 +4155,6 @@ while not done:
         # screen.fill(ui_variables.real_white)
         draw_image(screen, 'assets/vector/help_board.png', board_width * 0.5, board_height * 0.5,
                    int(board_width * 0.8), int(board_height * 0.9))  # (window, 이미지주소, x좌표, y좌표, 너비, 높이)
-=======
-            # 화면 회색으로 약간 불투명하게
-            pause_surface = screen.convert_alpha()  # 투명 가능하도록
-            pause_surface.fill((0, 0, 0, 0))  # 투명한 검정색으로 덮기
-            pygame.draw.rect(pause_surface, (ui_variables.black_pause), [0, 0, int(
-                board_width), int(board_height)])  # (screen, 색깔, 위치 x, y좌표, 너비, 높이)
-            screen.blit(pause_surface, (0, 0))
-
-        if pvp:
-            draw_multiboard(next_mino1, hold_mino, next_mino1_2P,
-                            hold_mino_2P, current_key, current_key_2P)
-            # 화면 회색으로 약간 불투명하게
-            pause_surface = screen.convert_alpha()  # 투명 가능하도록
-            pause_surface.fill((0, 0, 0, 0))  # 투명한 검정색으로 덮기
-            pygame.draw.rect(pause_surface, (ui_variables.black_pause), [0, 0, int(
-                board_width), int(board_height)])  # (screen, 색깔, 위치 x, y좌표, 너비, 높이)
-            screen.blit(pause_surface, (0, 0))
-
-        if hard_tutorial:
-            screen.fill(ui_variables.real_white)
-            draw_image(screen, gamebackground_image, board_width * 0.5, board_height *0.5, board_width, board_height)  # (window, 이미지주소, x좌표, y좌표, 너비, 높이)
-            draw_hardboard(next_mino1, next_mino2, hold_mino, score, remaining_time, line_count)
-            # 화면 회색으로 약간 불투명하게
-            pause_surface = screen.convert_alpha()  # 투명 가능하도록
-            pause_surface.fill((0, 0, 0, 0))  # 투명한 검정색으로 덮기
-            pygame.draw.rect(pause_surface, (ui_variables.black_pause), [0, 0, int(
-                board_width), int(board_height)])  # (screen, 색깔, 위치 x, y좌표, 너비, 높이)
-            screen.blit(pause_surface, (0, 0))
-
-        if multi_tutorial:
-            draw_multiboard(next_mino1, hold_mino, next_mino1_2P, hold_mino_2P,
-                            current_key, current_key_2P)
-            # 화면 회색으로 약간 불투명하게
-            pause_surface = screen.convert_alpha()  # 투명 가능하도록
-            pause_surface.fill((0, 0, 0, 0))  # 투명한 검정색으로 덮기
-            pygame.draw.rect(pause_surface, (ui_variables.black_pause), [0, 0, int(
-                board_width), int(board_height)])  # (screen, 색깔, 위치 x, y좌표, 너비, 높이)
-            screen.blit(pause_surface, (0, 0)) 
-        
-        # screen.fill(ui_variables.white)
-        # draw_image(screen, background_image, board_width * 0.5, board_height * 0.5, board_width,
-        #            board_height)  # (window, 이미지주소, x좌표, y좌표, 너비, 높이)
-        # pause_surface = screen.convert_alpha()  # 투명 가능하도록
-        # pause_surface.fill((0, 0, 0, 0))  # 투명한 검정색으로 덮기
-        # pygame.draw.rect(pause_surface, (ui_variables.black_pause), [0, 0, int(
-        #     board_width), int(board_height)])  # (screen, 색깔, 위치 x, y좌표, 너비, 높이)
-        # screen.blit(pause_surface, (0, 0))
-
-        help_surface = screen.convert_alpha()  # 투명 가능하도록
-        help_surface.fill((0, 0, 0, 0))  # 투명한 검정색으로 덮기
-        pygame.draw.rect(help_surface, (ui_variables.black_pause), [0, 0, int(
-            board_width), int(board_height)])  # (screen, 색깔, 위치 x, y좌표, 너비, 높이)
-        screen.blit(help_surface, (0, 0))
-
-        draw_image(screen, 'assets/vector/help_board.png', board_width * 0.5, board_height * 0.5, int(board_width * 0.8), int(board_height * 0.9)) #(window, 이미지주소, x좌표, y좌표, 너비, 높이)
->>>>>>> Stashed changes
         back_button.draw(screen, (0, 0, 0))
         pygame.display.update()
 
@@ -4280,7 +4163,7 @@ while not done:
 
             if event.type == QUIT:
                 done = True
-            
+
             elif event.type == USEREVENT:
                 pygame.time.set_timer(pygame.USEREVENT, 300)  # 0.3초
                 pygame.display.update()
@@ -4291,7 +4174,7 @@ while not done:
                 else:
                     back_button.image = back_button_image
                 pygame.display.update()
-            
+
             elif event.type == pygame.MOUSEBUTTONDOWN:
                 if back_button.isOver(pos):
                     ui_variables.click_sound.play()
@@ -4320,7 +4203,7 @@ while not done:
                     (board_width, board_height), pygame.RESIZABLE)
 
                 for i in range(len(button_list)):
-                    button_list[i].change(board_width, board_height)
+                        button_list[i].change(board_width, board_height)
 
     elif leader_board:
         screen.fill(ui_variables.real_white)
@@ -4418,17 +4301,17 @@ while not done:
         if hard_tutorial_info:
             screen.fill(ui_variables.real_white)
             draw_image(screen, hard_tutorial_start_image, board_width * 0.5, board_height *
-                       0.5, board_width, board_height)  # (window, 이미지주소, x좌표, y좌표, 너비, 높이)
+                        0.5, board_width, board_height)  # (window, 이미지주소, x좌표, y좌표, 너비, 높이)
             pause_surface = screen.convert_alpha()  # 투명 가능하도록
             pause_surface.fill((0, 0, 0, 0))  # 투명한 검정색으로 덮기
             pygame.draw.rect(pause_surface, (ui_variables.black_pause), [0, 0, int(
                 board_width), int(board_height)])  # (screen, 색깔, 위치 x, y좌표, 너비, 높이)
             screen.blit(pause_surface, (0, 0))
-
+        
         if multi_tutorial_info:
             screen.fill(ui_variables.real_white)
             draw_image(screen, multi_tutorial_start_image, board_width * 0.5, board_height *
-                       0.5, board_width, board_height)  # (window, 이미지주소, x좌표, y좌표, 너비, 높이)
+                        0.5, board_width, board_height)  # (window, 이미지주소, x좌표, y좌표, 너비, 높이)
             pause_surface = screen.convert_alpha()  # 투명 가능하도록
             pause_surface.fill((0, 0, 0, 0))  # 투명한 검정색으로 덮기
             pygame.draw.rect(pause_surface, (ui_variables.black_pause), [0, 0, int(
