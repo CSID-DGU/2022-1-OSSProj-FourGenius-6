@@ -1594,6 +1594,7 @@ while not done:
     elif pause_tutorial:
         # ui_variables.intro_sound.stop()
         pygame.mixer.music.pause()
+
         # tutorial_event가 하드의 3줄깨기 일 때,
         if tutorial_event == 'hard_3line':
             # draw_image(screen, tutorial_box_image, board_width * 0.39,
@@ -1639,8 +1640,7 @@ while not done:
             elif event.type == KEYDOWN:
                 erase_mino(dx, dy, mino, rotation, matrix)
                 if event.key == K_RETURN:
-                    pause_tutorial = False
-                    pygame.mixer.music.unpause()
+                    pause_tutorial = False 
                     ui_variables.click_sound.play()
                     # ui_variables.intro_sound.play()
                     pygame.mixer.music.unpause()
@@ -1668,7 +1668,6 @@ while not done:
 
                 for i in range(len(button_list)):
                     button_list[i].change(board_width, board_height)
-
 
     # Game screen
     elif start:
@@ -1770,7 +1769,7 @@ while not done:
 
             elif event.type == KEYDOWN:
                 erase_mino(dx, dy, mino, rotation, matrix)
-                if event.key == K_ESCAPE:
+                if event.key == K_ESCAPE: 
                     ui_variables.click_sound.play()
                     pause = True
                 # Hard drop
@@ -2065,7 +2064,7 @@ while not done:
 
             elif event.type == KEYDOWN:
                 erase_mino(dx, dy, mino, rotation, matrix)
-                if event.key == K_RETURN:
+                if event.key == K_ESCAPE:
                     ui_variables.click_sound.play()
                     pause = True
                 # Hard drop
