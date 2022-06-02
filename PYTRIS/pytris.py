@@ -480,7 +480,99 @@ def draw_block(x, y, color):
 def draw_block_image(x, y, image):
     # (window, 이미지주소, x좌표, y좌표, 너비, 높이)
     draw_image(screen, image, x, y, block_size, block_size)
+'''
+def draw_board(next1, next2, hold, score, level, goal):
+    sidebar_width = int(board_width * 0.5312) #크기 비율 고정, 전체 board 가로길이에서 원하는 비율을 곱해줌#
 
+    # Draw sidebar
+    pygame.draw.rect(
+        screen,
+        ui_variables.pinkpurple,
+        Rect(sidebar_width, 0, int(board_width * 0.2375), board_height) #크기 비율 고정
+    )
+
+    # Draw next mino 다음 블록
+    grid_n1 = tetrimino.mino_map[next1 - 1][0] #(배열이라-1) 다음 블록의 원래 모양
+    grid_n2 = tetrimino.mino_map[next2 - 1][0] #(배열이라-1) 다음 블록의 원래 모양
+
+    for i in range(mino_matrix_y): #다음 블록
+        for j in range(mino_matrix_x):
+            dx1 = int(board_width * 0.025) + sidebar_width + block_size * j #위치 비율 고정, 전체 board 가로길이에서 원하는 비율을 곱해줌#
+            dy1 = int(board_height * 0.3743) + block_size * i #위치 비율 고정, 전체 board 세로길이에서 원하는 비율을 곱해줌#
+            if grid_n1[i][j] != 0: #해당 부분에 블록 존재하면
+                draw_block_image(dx1, dy1, ui_variables.t_block[grid_n1[i][j]]) #블록 이미지 출력
+
+    for i in range(mino_matrix_y): #다다음블록
+        for j in range(mino_matrix_x):
+            dx2 = int(board_width * 0.145) + sidebar_width + block_size * j #위치 비율 고정, 전체 board 가로길이에서 원하는 비율을 곱해줌#
+            dy2 = int(board_height * 0.3743) + block_size * i #위치 비율 고정, 전체 board 세로길이에서 원하는 비율을 곱해줌#
+            if grid_n2[i][j] != 0: #해당 부분에 블록 존재하면
+                draw_block_image(dx2, dy2, ui_variables.t_block[grid_n2[i][j]]) #블록 이미지 출력
+
+    # Draw hold mino
+    grid_h = tetrimino.mino_map[hold - 1][0]  #(배열이라-1) 기본 모양
+
+    if hold_mino != -1: #hold 존재X
+        for i in range(mino_matrix_y):
+            for j in range(mino_matrix_x):
+                dx = int(board_width * 0.045) + sidebar_width + block_size * j #위치 비율 고정
+                dy = int(board_height * 0.1336) + block_size * i #위치 비율 고정
+                if grid_h[i][j] != 0: #해당 부분에 블록이 존재하면
+                    draw_block_image(dx, dy, ui_variables.t_block[grid_h[i][j]]) #hold 블록 출력
+
+    # Set max score
+    if score > 999999:
+        score = 999999 #최대 점수가 999999를 넘기지 못하도록 설정#
+
+    # Draw texts
+    #render("텍스트이름", 안티에일리어싱 적용, 색깔), 즉 아래의 코드에서 숫자 1=안티에일리어싱 적용에 관한 코드
+    if textsize==False:
+        text_hold = ui_variables.h5.render("HOLD", 1, ui_variables.real_white)
+        text_next = ui_variables.h5.render("NEXT", 1, ui_variables.real_white)
+        text_score = ui_variables.h5.render("SCORE", 1, ui_variables.real_white)
+        score_value = ui_variables.h4.render(str(score), 1, ui_variables.real_white)
+        text_level = ui_variables.h5.render("LEVEL", 1, ui_variables.real_white)
+        level_value = ui_variables.h4.render(str(level), 1, ui_variables.real_white)
+        text_combo = ui_variables.h5.render("COMBO", 1, ui_variables.real_white)
+        combo_value = ui_variables.h4.render(str(combo_count), 1, ui_variables.real_white)
+        if debug:
+            speed_value = ui_variables.h5.render("SPEED : "+str(framerate), 1, ui_variables.real_white) #speed를 알려주는 framerate(기본값 30. 빨라질 수록 숫자 작아짐)
+
+    if textsize==True: #render("텍스트이름", 안티에일리어싱 적용, 색깔), 즉 아래의 코드에서 숫자 1=안티에일리어싱 적용에 관한 코드
+        text_hold = ui_variables.h3.render("HOLD", 1, ui_variables.real_white)
+        text_next = ui_variables.h3.render("NEXT", 1, ui_variables.real_white)
+        text_score = ui_variables.h3.render("SCORE", 1, ui_variables.real_white)
+        score_value = ui_variables.h2.render(str(score), 1, ui_variables.real_white)
+        text_level = ui_variables.h3.render("LEVEL", 1, ui_variables.real_white)
+        level_value = ui_variables.h2.render(str(level), 1, ui_variables.real_white)
+        text_combo = ui_variables.h3.render("COMBO", 1, ui_variables.real_white)
+        combo_value = ui_variables.h2.render(str(combo_count), 1, ui_variables.real_white)
+        if debug:
+            speed_value = ui_variables.h3.render("SPEED : "+str(framerate), 1, ui_variables.real_white) #speed를 알려주는 framerate(기본값 30. 빨라질 수록 숫자 작아짐)
+    #if time_attack:
+    #    time = total_time - elapsed_time
+    #    value = ui_variables.h5.render("TIME : "+str(int(time)), 1, ui_variables.real_white)
+    #    screen.blit(value, (int(board_width * -0.445) + sidebar_width, int(board_height * 0.015)))
+    # Place texts. 위치 비율 고정, 각각 전체 board 가로길이, 세로길이에 대한 원하는 비율을 곱해줌#
+    screen.blit(text_hold, (int(board_width * 0.045) + sidebar_width, int(board_height * 0.0374)))
+    screen.blit(text_next, (int(board_width * 0.045) + sidebar_width, int(board_height * 0.2780)))
+    screen.blit(text_score, (int(board_width * 0.045) + sidebar_width, int(board_height * 0.5187)))
+    screen.blit(score_value, (int(board_width * 0.055) + sidebar_width, int(board_height * 0.5614)))
+    screen.blit(text_level, (int(board_width * 0.045) + sidebar_width, int(board_height * 0.6791)))
+    screen.blit(level_value, (int(board_width * 0.055) + sidebar_width, int(board_height * 0.7219)))
+    screen.blit(text_combo, (int(board_width * 0.045) + sidebar_width, int(board_height * 0.8395)))
+    screen.blit(combo_value, (int(board_width * 0.055) + sidebar_width, int(board_height * 0.8823)))
+    if debug:
+        screen.blit(speed_value, (int(board_width * 0.065), int(board_height * 0.1)))
+
+    # Draw board
+    for x in range(width):
+        for y in range(height):
+            dx = int(board_width * 0.25) + block_size * x  #위치비율 고정, board 가로길이에 원하는 비율을 곱해줌#
+            dy = int(board_height * 0.055) + block_size * y #위치비율 고정, board 세로길이에 원하는 비율을 곱해줌#
+            draw_block_image(dx, dy, ui_variables.t_block[matrix[x][y + 1]])
+
+'''
 
 # Draw game screen
 def draw_board(next1, next2, hold, score, level, goal):
@@ -517,7 +609,7 @@ def draw_board(next1, next2, hold, score, level, goal):
             if grid_n2[i][j] != 0:
                 draw_block_image(dx2, dy2, ui_variables.t_block[grid_n2[i][j]])
 
-    # Draw hold mino
+    ''''# Draw hold mino
     grid_h = tetrimino.mino_map[hold - 1][0]
 
     if hold_mino != -1:
@@ -527,7 +619,16 @@ def draw_board(next1, next2, hold, score, level, goal):
                 dy = 50 + block_size * i
                 if grid_h[i][j] != 0:
                     draw_block_image(
-                        dx, dy, ui_variables.t_block[grid_h[i][j]])  # hold 블록 출력
+                        dx, dy, ui_variables.t_block[grid_h[i][j]])'''  # hold 블록 출력
+    # Draw hold mino
+    grid_h = tetrimino.mino_map[hold - 1][0]  # (배열이라-1) 기본 모양
+    if hold_mino != -1:  # hold 존재X
+        for i in range(mino_matrix_y):
+            for j in range(mino_matrix_x):
+                dx = int(board_width * 0.045) + sidebar_width + block_size * j  # 위치 비율 고정
+                dy = int(board_height * 0.1336) + block_size * i  # 위치 비율 고정
+                if grid_h[i][j] != 0:  # 해당 부분에 블록이 존재하면
+                    draw_block_image(dx, dy, ui_variables.t_block[grid_h[i][j]])  # hold 블록 출력
 
     # Set max score
     if score > 999999:
@@ -610,7 +711,7 @@ def draw_hardboard(next1, next2, hold, score, remaining_time, line):
             if grid_n2[i][j] != 0:
                 draw_block_image(dx2, dy2, ui_variables.t_block[grid_n2[i][j]])
 
-    # Draw hold mino
+    '''# Draw hold mino
     grid_h = tetrimino.mino_map[hold - 1][0]
 
     if hold_mino != -1:
@@ -620,7 +721,17 @@ def draw_hardboard(next1, next2, hold, score, remaining_time, line):
                 dy = 50 + block_size * i
                 if grid_h[i][j] != 0:
                     draw_block_image(
-                        dx, dy, ui_variables.t_block[grid_h[i][j]])  # hold 블록 출력
+                        dx, dy, ui_variables.t_block[grid_h[i][j]])  # hold 블록 출력'''
+    # Draw hold mino
+    grid_h = tetrimino.mino_map[hold - 1][0]  # (배열이라-1) 기본 모양
+
+    if hold_mino != -1:  # hold 존재X
+        for i in range(mino_matrix_y):
+            for j in range(mino_matrix_x):
+                dx = int(board_width * 0.045) + sidebar_width + block_size * j  # 위치 비율 고정
+                dy = int(board_height * 0.1336) + block_size * i  # 위치 비율 고정
+                if grid_h[i][j] != 0:  # 해당 부분에 블록이 존재하면
+                    draw_block_image(dx, dy, ui_variables.t_block[grid_h[i][j]])  # hold 블록 출력
 
     # Set max score
     if score > 999999:
@@ -706,7 +817,7 @@ def draw_hardboard_change(next1, next2, hold, score, remaining_time, line):
             if grid_n2[i][j] != 0:
                 draw_block_image(dx2, dy2, ui_variables.t_block[grid_n2[i][j]])
 
-    # Draw hold mino
+    '''# Draw hold mino
     grid_h = tetrimino.mino_map[hold - 1][0]
 
     if hold_mino != -1:
@@ -716,7 +827,17 @@ def draw_hardboard_change(next1, next2, hold, score, remaining_time, line):
                 dy = 50 + block_size * i
                 if grid_h[i][j] != 0:
                     draw_block_image(
-                        dx, dy, ui_variables.t_block[grid_h[i][j]])  # hold 블록 출력
+                        dx, dy, ui_variables.t_block[grid_h[i][j]])  # hold 블록 출력'''
+    # Draw hold mino
+    grid_h = tetrimino.mino_map[hold - 1][0]  # (배열이라-1) 기본 모양
+
+    if hold_mino != -1:  # hold 존재X
+        for i in range(mino_matrix_y):
+            for j in range(mino_matrix_x):
+                dx = int(board_width * 0.045) + sidebar_width + block_size * j  # 위치 비율 고정
+                dy = int(board_height * 0.1336) + block_size * i  # 위치 비율 고정
+                if grid_h[i][j] != 0:  # 해당 부분에 블록이 존재하면
+                    draw_block_image(dx, dy, ui_variables.t_block[grid_h[i][j]])  # hold 블록 출력
 
     # Set max score
     if score > 999999:
