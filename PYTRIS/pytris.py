@@ -142,6 +142,7 @@ background_image = 'assets/images/background_image.png'  # 메뉴화면(첫 화�
 gamebackground_image = 'assets/images/background_nyc.png'  # 게임 배경화면 : 기본값 뉴욕
 pause_board_image = 'assets/vector/pause_board.png'
 
+help_board_image = 'assets/vector/help_board.png'
 select_mode_button_image = 'assets/vector/select_mode_button.png'
 clicked_select_mode_button_image = 'assets/vector/clicked_select_mode_button.png'
 
@@ -355,6 +356,8 @@ default_button = button(board_width, board_height, 0.5,
 restart_button = button(board_width, board_height, 0.5,
                         0.23, 0.17, 0.2, restart_button_image)
 back_button = button(board_width, board_height, 0.5,
+                     0.85, 0.1, 0.12, back_button_image)
+back_button2 = button(board_width, board_height, 0.2,
                      0.85, 0.1, 0.12, back_button_image)
 ok_button = button(board_width, board_height, 0.5,
                    0.83, 0.15, 0.2, ok_button_image)
@@ -1301,7 +1304,7 @@ def multi_reverse_key(rev, player):
 
 
 def set_initial_values():
-    global tutorial_event_happened, pause_tutorial, tutorial_event, combo_count, combo_count_2P, line_count, score, level, goal, score_2P, level_2P, goal_2P, bottom_count, bottom_count_2P, hard_drop, hard_drop_2P, attack_point, attack_point_2P, dx, dy, dx_2P, dy_2P, rotation, rotation_2P, mino, mino_2P, next_mino1, next_mino2, next_mino1_2P, hold, hold_2P, hold_mino, hold_mino_2P, framerate, framerate_2P, matrix, matrix_2P, Change_RATE, blink, start, pause, done, game_over, leader_board, setting, volume_setting, screen_setting, pvp, help, gravity_mode, debug, d, e, b, u, g, start_ticks, textsize, CHANNELS, swidth, name_location, name, previous_time, current_time, pause_time, lines, leaders, leaders_hard, volume, game_status, framerate_blockmove, framerate_2P_blockmove, game_speed, game_speed_2P, select_mode, hard, hard_tutorial, multi_tutorial, tutorial_status, hard_time_setting, winner, key1, key2, key_reverse, key_reverse_2P, current_key, current_key_2P, hard_tutorial_info, multi_tutorial_info, game_over_tutorial
+    global tutorial_event_happened, pause_tutorial, tutorial_event, combo_count, combo_count_2P, line_count, score, level, goal, score_2P, level_2P, goal_2P, bottom_count, bottom_count_2P, hard_drop, hard_drop_2P, attack_point, attack_point_2P, dx, dy, dx_2P, dy_2P, rotation, rotation_2P, mino, mino_2P, next_mino1, next_mino2, next_mino1_2P, hold, hold_2P, hold_mino, hold_mino_2P, framerate, framerate_2P, matrix, matrix_2P, Change_RATE, blink, start, pause, done, game_over, leader_board, setting, volume_setting, screen_setting, pvp, help, gravity_mode, debug, d, e, b, u, g, start_ticks, textsize, CHANNELS, swidth, name_location, name, previous_time, current_time, pause_time, lines, leaders, leaders_hard, volume, game_status, framerate_blockmove, framerate_2P_blockmove, game_speed, game_speed_2P, select_mode, hard, hard_tutorial, multi_tutorial, tutorial_status, hard_time_setting, winner, key1, key2, key_reverse, key_reverse_2P, current_key, current_key_2P, hard_tutorial_info, multi_tutorial_info, game_over_tutorial,help_status
 
     framerate = 30  # Bigger -> Slower  기본 블록 하강 속도, 2도 할만 함, 0 또는 음수 이상이어야 함
     framerate_blockmove = framerate * 3  # 블록 이동 시 속도
@@ -1310,6 +1313,7 @@ def set_initial_values():
     framerate_2P_blockmove = framerate_2P * 3  # 블록 이동 시 속도
     game_speed_2P = framerate_2P * 20  # 2P 게임 기본 속도
 
+    help_status = False
     # Initial values
     blink = False
     start = False
@@ -1515,13 +1519,24 @@ while not done:
                 board_width), int(board_height)])  # (screen, 색깔, 위치 x, y좌표, 너비, 높이)
             screen.blit(pause_surface, (0, 0))
 
-        draw_image(screen, pause_board_image, board_width * 0.5, board_height * 0.5,
-                   int(board_height * 1), board_height)  # (window, 이미지주소, x좌표, y좌표, 너비, 높이)
-        resume_button.draw(screen, (0, 0, 0))  # rgb(0,0,0) = 검정색
+        if help_status == True:
+            pause_surface = screen.convert_alpha()  # 투명 가능하도록
+            pause_surface.fill((0, 0, 0, 0))  # 투명한 검정색으로 덮기
+            pygame.draw.rect(pause_surface, (ui_variables.black_pause), [0, 0, int(
+                board_width), int(board_height)])  # (screen, 색깔, 위치 x, y좌표, 너비, 높이)
 
-        menu_button2.draw(screen, (0, 0, 0))
-        help_button.draw(screen, (0, 0, 0))
-        pause_quit_button.draw(screen, (0, 0, 0))
+            draw_image(screen, help_board_image, board_width * 0.5, board_height * 0.5,
+                   int(board_width * 0.8), int(board_height * 0.9))  # (window, 이미지주소, x좌표, y좌표, 너비, 높이)
+            back_button2.draw(screen, (0, 0, 0))
+
+        if help_status == False:
+            draw_image(screen, pause_board_image, board_width * 0.5, board_height * 0.5,
+                    int(board_height * 1), board_height)  # (window, 이미지주소, x좌표, y좌표, 너비, 높이)
+            resume_button.draw(screen, (0, 0, 0))  # rgb(0,0,0) = 검정색
+
+            menu_button2.draw(screen, (0, 0, 0))
+            help_button.draw(screen, (0, 0, 0))
+            pause_quit_button.draw(screen, (0, 0, 0))
 
         for event in pygame.event.get():
             pos = pygame.mouse.get_pos()
@@ -1540,6 +1555,11 @@ while not done:
                     pygame.time.set_timer(pygame.USEREVENT, 1)  # 0.001초
 
             elif event.type == pygame.MOUSEMOTION:
+                if back_button2.isOver(pos):
+                    back_button2.image = clicked_back_button_image
+                else:
+                    back_button2.image = back_button_image
+                pygame.display.update()
                 if resume_button.isOver_2(pos):
                     resume_button.image = clicked_resume_button_image
                 else:
@@ -1562,14 +1582,19 @@ while not done:
                 pygame.display.update()
 
             elif event.type == pygame.MOUSEBUTTONDOWN:
-
-                if pause_quit_button.isOver_2(pos):
+                if back_button2.isOver(pos):
+                    ui_variables.click_sound.play()
+                    help_status = False
+                    pause = True
+                    
+                if pause_quit_button.isOver_2(pos):    
                     ui_variables.click_sound.play()
                     done = True
 
                 if help_button.isOver_2(pos):
                     ui_variables.click_sound.play()
-                    help = True
+                    help_status = True
+                    #help = True
 
                 if menu_button2.isOver_2(pos):
                     ui_variables.click_sound.play()
@@ -4141,96 +4166,6 @@ while not done:
 
                 for i in range(len(button_list)):
                     button_list[i].change(board_width, board_height)
-                '''
-                if single_button.isOver_2(pos):
-                if pvp_button.isOver_2(pos):
-                    
-                if gravity_button.isOver_2(pos):
-                    ui_variables.click_sound.play()
-                    start = True
-                    gravity_mode = True
-                    initialize = True
-                    pygame.mixer.music.play(-1)
-                    ui_variables.intro_sound.stop()
-                if timeattack_button.isOver_2(pos):
-                    ui_variables.click_sound.play()
-                    start = True
-                    time_attack = True
-                    initialize = True
-                    pygame.mixer.music.play(-1)
-                    ui_variables.intro_sound.stop()
-                if leaderboard_icon.isOver(pos):
-                    ui_variables.click_sound.play()
-                    leader_board = True
-                if setting_icon.isOver(pos):
-                    ui_variables.click_sound.play()
-                    setting = True
-                if quit_button.isOver_2(pos):
-                    ui_variables.click_sound.play()
-                    done = True
-                if help_button.isOver_2(pos):
-                    ui_variables.click_sound.play()
-                    help = True'''
-
-    elif help:
-
-        pause_surface = screen.convert_alpha()  # 투명 가능하도록
-        pause_surface.fill((0, 0, 0, 0))  # 투명한 검정색으로 덮기
-        pygame.draw.rect(pause_surface, (ui_variables.black_pause), [0, 0, int(
-            board_width), int(board_height)])  # (screen, 색깔, 위치 x, y좌표, 너비, 높이)
-
-        # screen.fill(ui_variables.real_white)
-        draw_image(screen, 'assets/vector/help_board.png', board_width * 0.5, board_height * 0.5,
-                   int(board_width * 0.8), int(board_height * 0.9))  # (window, 이미지주소, x좌표, y좌표, 너비, 높이)
-        back_button.draw(screen, (0, 0, 0))
-        pygame.display.update()
-
-        for event in pygame.event.get():
-            pos = pygame.mouse.get_pos()
-
-            if event.type == QUIT:
-                done = True
-
-            elif event.type == USEREVENT:
-                pygame.time.set_timer(pygame.USEREVENT, 300)  # 0.3초
-                pygame.display.update()
-
-            elif event.type == pygame.MOUSEMOTION:
-                if back_button.isOver(pos):
-                    back_button.image = clicked_back_button_image
-                else:
-                    back_button.image = back_button_image
-                pygame.display.update()
-
-            elif event.type == pygame.MOUSEBUTTONDOWN:
-                if back_button.isOver(pos):
-                    ui_variables.click_sound.play()
-                    help = False
-
-            elif event.type == VIDEORESIZE:
-                board_width = event.w
-                board_height = event.h
-                if board_width < min_width or board_height < min_height:  # 최소 너비 또는 높이를 설정하려는 경우
-                    board_width = min_width
-                    board_height = min_height
-                # 높이 또는 너비가 비율의 일정수준 이상을 넘어서게 되면
-                if not ((board_rate-0.1) < (board_height/board_width) < (board_rate+0.05)):
-                    # 너비를 적정 비율로 바꿔줌
-                    board_width = int(board_height / board_rate)
-                    # 높이를 적정 비율로 바꿔줌
-                    board_height = int(board_width*board_rate)
-                if board_width >= mid_width:  # 화면 사이즈가 큰 경우
-                    textsize = True  # 큰 글자크기 사용
-                if board_width < mid_width:  # 화면 사이즈가 작은 경우
-                    textsize = False  # 작은 글자크기 사용
-
-                # board 세로길이에 원하는 비율을 곱해줌
-                block_size = int(board_height * 0.045)
-                screen = pygame.display.set_mode(
-                    (board_width, board_height), pygame.RESIZABLE)
-
-                for i in range(len(button_list)):
-                        button_list[i].change(board_width, board_height)
 
     elif leader_board:
         screen.fill(ui_variables.real_white)
