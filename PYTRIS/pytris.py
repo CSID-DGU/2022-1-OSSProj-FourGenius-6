@@ -485,7 +485,6 @@ def draw_block_image(x, y, image):
     # (window, 이미지주소, x좌표, y좌표, 너비, 높이)
     draw_image(screen, image, x, y, block_size, block_size)
 
-
 # Draw game screen
 def draw_board(next1, next2, hold, score, level, goal):
     # 크기 비율 고정, 전체 board 가로길이에서 원하는 비율을 곱해줌
@@ -521,7 +520,7 @@ def draw_board(next1, next2, hold, score, level, goal):
             if grid_n2[i][j] != 0:
                 draw_block_image(dx2, dy2, ui_variables.t_block[grid_n2[i][j]])
 
-    # Draw hold mino
+    ''''# Draw hold mino
     grid_h = tetrimino.mino_map[hold - 1][0]
 
     if hold_mino != -1:
@@ -531,7 +530,16 @@ def draw_board(next1, next2, hold, score, level, goal):
                 dy = 50 + block_size * i
                 if grid_h[i][j] != 0:
                     draw_block_image(
-                        dx, dy, ui_variables.t_block[grid_h[i][j]])  # hold 블록 출력
+                        dx, dy, ui_variables.t_block[grid_h[i][j]])'''  # hold 블록 출력
+    # Draw hold mino
+    grid_h = tetrimino.mino_map[hold - 1][0]  # (배열이라-1) 기본 모양
+    if hold_mino != -1:  # hold 존재X
+        for i in range(mino_matrix_y):
+            for j in range(mino_matrix_x):
+                dx = int(board_width * 0.045) + sidebar_width + block_size * j  # 위치 비율 고정
+                dy = int(board_height * 0.1336) + block_size * i  # 위치 비율 고정
+                if grid_h[i][j] != 0:  # 해당 부분에 블록이 존재하면
+                    draw_block_image(dx, dy, ui_variables.t_block[grid_h[i][j]])  # hold 블록 출력
 
     # Set max score
     if score > 999999:
@@ -614,7 +622,7 @@ def draw_hardboard(next1, next2, hold, score, remaining_time, line):
             if grid_n2[i][j] != 0:
                 draw_block_image(dx2, dy2, ui_variables.t_block[grid_n2[i][j]])
 
-    # Draw hold mino
+    '''# Draw hold mino
     grid_h = tetrimino.mino_map[hold - 1][0]
 
     if hold_mino != -1:
@@ -624,7 +632,17 @@ def draw_hardboard(next1, next2, hold, score, remaining_time, line):
                 dy = 50 + block_size * i
                 if grid_h[i][j] != 0:
                     draw_block_image(
-                        dx, dy, ui_variables.t_block[grid_h[i][j]])  # hold 블록 출력
+                        dx, dy, ui_variables.t_block[grid_h[i][j]])  # hold 블록 출력'''
+    # Draw hold mino
+    grid_h = tetrimino.mino_map[hold - 1][0]  # (배열이라-1) 기본 모양
+
+    if hold_mino != -1:  # hold 존재X
+        for i in range(mino_matrix_y):
+            for j in range(mino_matrix_x):
+                dx = int(board_width * 0.045) + sidebar_width + block_size * j  # 위치 비율 고정
+                dy = int(board_height * 0.1336) + block_size * i  # 위치 비율 고정
+                if grid_h[i][j] != 0:  # 해당 부분에 블록이 존재하면
+                    draw_block_image(dx, dy, ui_variables.t_block[grid_h[i][j]])  # hold 블록 출력
 
     # Set max score
     if score > 999999:
@@ -710,7 +728,7 @@ def draw_hardboard_change(next1, next2, hold, score, remaining_time, line):
             if grid_n2[i][j] != 0:
                 draw_block_image(dx2, dy2, ui_variables.t_block[grid_n2[i][j]])
 
-    # Draw hold mino
+    '''# Draw hold mino
     grid_h = tetrimino.mino_map[hold - 1][0]
 
     if hold_mino != -1:
@@ -720,7 +738,17 @@ def draw_hardboard_change(next1, next2, hold, score, remaining_time, line):
                 dy = 50 + block_size * i
                 if grid_h[i][j] != 0:
                     draw_block_image(
-                        dx, dy, ui_variables.t_block[grid_h[i][j]])  # hold 블록 출력
+                        dx, dy, ui_variables.t_block[grid_h[i][j]])  # hold 블록 출력'''
+    # Draw hold mino
+    grid_h = tetrimino.mino_map[hold - 1][0]  # (배열이라-1) 기본 모양
+
+    if hold_mino != -1:  # hold 존재X
+        for i in range(mino_matrix_y):
+            for j in range(mino_matrix_x):
+                dx = int(board_width * 0.045) + sidebar_width + block_size * j  # 위치 비율 고정
+                dy = int(board_height * 0.1336) + block_size * i  # 위치 비율 고정
+                if grid_h[i][j] != 0:  # 해당 부분에 블록이 존재하면
+                    draw_block_image(dx, dy, ui_variables.t_block[grid_h[i][j]])  # hold 블록 출력
 
     # Set max score
     if score > 999999:
