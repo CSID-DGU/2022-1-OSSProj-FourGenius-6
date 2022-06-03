@@ -269,6 +269,7 @@ training_incomplete_image = 'assets/images/training_incomplete.png'
 # 튜토리얼모드 중간 이벤트 발생 시 나오는 설명 이미지
 hard_3line_image = 'assets/images/hard_3line.png' # 하드튜토리얼 3줄 제거시 등장 
 hard_10s_image = 'assets/images/hard_10s.png' # 하드튜토리얼 10초 경과시 등장
+hard_line_message = 'assets/vector/line_message_hard_tutorial.png' # 하드튜토리얼 시작하자마자 메시지 등장
 
 class button():  # 버튼객체
     def __init__(self, board_width, board_height, x_rate, y_rate, width_rate, height_rate, img=''):  # 버튼생성
@@ -1597,18 +1598,18 @@ while not done:
 
         # tutorial_event가 하드의 3줄깨기 일 때,
         if tutorial_event == 'hard_3line':
-            # draw_image(screen, tutorial_box_image, board_width * 0.39,
-            #            board_height * 0.75, int(board_height * 0.2), int(board_height * 0.2))
-            draw_image(screen, hard_3line_image, board_width * 0.5, board_height * 0.5,
-                   int(board_height * 1), board_height)
+            draw_image(screen, tutorial_box_image, board_width * 0.6,
+                       board_height * 0.9, int(board_height * 0.2), int(board_height * 0.2))
+            draw_image(screen, hard_3line_image, board_width * 0.3, board_height * 0.4,
+                   int(board_height * 0.7), int(board_height * 0.55))
             tutorial_event_happened['hard_3line'] = True
 
         # tutorial_event가 하드의 10초 지남 일 때,
         elif tutorial_event == 'hard_10sec':
-            # draw_image(screen, tutorial_box_image, board_width * 0.39,
-            #            board_height * 0.75, int(board_height * 0.2), int(board_height * 0.2))
-            draw_image(screen, hard_10s_image, board_width * 0.5, board_height * 0.5,
-                       int(board_height * 1), board_height)
+            draw_image(screen, tutorial_box_image, board_width * 0.6,
+                       board_height * 0.7, int(board_height * 0.2), int(board_height * 0.2))
+            draw_image(screen, hard_10s_image, board_width * 0.3, board_height * 0.4,
+                   int(board_height * 0.7), int(board_height * 0.55))
             tutorial_event_happened['hard_10sec'] = True
         
         # tutorial_event가 멀티의 1P가 한 줄 이상 깸 일 때,
@@ -3394,7 +3395,15 @@ while not done:
                 # 10초 지나면 설명 나오게 pause_tutorial로 연결
                 if (remaining_time == 50):
                     pause_tutorial = True
-                    tutorial_event = 'hard_10s'
+                    tutorial_event = 'hard_10sec'
+
+                # 시작하자마자 팝업 알림 띄우기
+                if (0 < elapsed_time <2):
+                    # 시작하자마자 팝업 알림 띄우기 (먼저, 3줄을 깨보세요)
+                    draw_image(screen, hard_line_message, board_width * 0.4,
+                                board_height * 0.2, int(board_width*0.6), int(board_height*0.1))
+                            # (window, 이미지주소, x좌표, y좌표, 너비, 높이)
+                    pygame.time.set_timer(pygame.USEREVENT, 300)
 
             elif event.type == KEYDOWN:
                 erase_mino(dx, dy, mino, rotation, matrix)
@@ -3936,6 +3945,7 @@ while not done:
                         pygame.mixer.music.play(-1)    
                     if tutorial_multi_start_button.isOver_2(pos):
                         ui_variables.click_sound.play()
+                        set_initial_values()
                         game_over_tutorial = False
                         pvp = True
                         pygame.mixer.music.play(-1)
@@ -3943,6 +3953,7 @@ while not done:
                 if game_status != 'pvp':
                     if tutorial_hard_start_button.isOver_2(pos):
                         ui_variables.click_sound.play()
+                        set_initial_values()
                         game_over_tutorial = False
                         hard = True
                         pygame.mixer.music.play(-1)
