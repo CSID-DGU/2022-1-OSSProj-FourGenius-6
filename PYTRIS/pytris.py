@@ -198,7 +198,7 @@ multi_tutorial_start_image = 'assets/images/multi_tutorial_menual.png'
 setting_board_image = 'assets/vector/setting_board.png'
 number_board = 'assets/vector/number_board.png'
 mute_button_image = 'assets/vector/allmute_button.png'
-clicked_mute_button_image = 'assests/vector/clicked_allmute_button.png'
+clicked_mute_button_image = 'assets/vector/clicked_allmute_button.png'
 
 background1_image = 'assets/images/background_hongkong.png'
 background2_image = 'assets/images/background_nyc.png'
@@ -210,6 +210,7 @@ clicked_background3_image = 'assets/images/clicked_background_uk.png'
 
 mute_button_image = 'assets/vector/allmute_button.png'
 default_button_image = 'assets/vector/default_button.png'
+clicked_default_button_image = 'assets/vector/clicked_default_button.png'
 number_board = 'assets/vector/number_board.png'
 
 resume_button_image = 'assets/vector/resume_button.png'
@@ -380,8 +381,6 @@ tutorial_multi_start_button = button(
     board_width, board_height, 0.65, 0.8, 0.2, 0.2, pvp_button_image)
 tutorial_hard_start_button = button(
     board_width, board_height, 0.65, 0.8, 0.2, 0.2, hard_button_image)
-
-volume = 1.0
 
 
 effect_plus_button = button(
@@ -1287,13 +1286,6 @@ def is_stackable(mino, matrix):
 '''
 
 
-def set_vol(val):
-    # set_volume argenment로 넣기 위해서(소수점을 만들어주기 위해서) 100으로 나눠줌
-    volume = int(val) / 100
-    print(volume)
-    ui_variables.click_sound.set_volume(volume)
-
-
 def multi_reverse_key(rev, player):
     # 하드드롭-왼쪽회전, 소프트드롭-오른쪽회전, 오른쪽이동-왼쪽이동 방향키 전환
     keys_1P = {'hardDrop': K_e, 'softDrop': K_s, 'turnRight': K_w,
@@ -1318,7 +1310,7 @@ def multi_reverse_key(rev, player):
 
 
 def set_initial_values():
-    global tutorial_event_happened, pause_tutorial, tutorial_event, combo_count, combo_count_2P, line_count, score, level, goal, score_2P, level_2P, goal_2P, bottom_count, bottom_count_2P, hard_drop, hard_drop_2P, attack_point, attack_point_2P, dx, dy, dx_2P, dy_2P, rotation, rotation_2P, mino, mino_2P, next_mino1, next_mino2, next_mino1_2P, hold, hold_2P, hold_mino, hold_mino_2P, framerate, framerate_2P, matrix, matrix_2P, Change_RATE, blink, start, pause, done, game_over, leader_board, setting, volume_setting, screen_setting, pvp, help, gravity_mode, debug, d, e, b, u, g, start_ticks, textsize, CHANNELS, swidth, name_location, name, previous_time, current_time, pause_time, lines, leaders, leaders_hard, volume, game_status, framerate_blockmove, framerate_2P_blockmove, game_speed, game_speed_2P, select_mode, hard, hard_tutorial, multi_tutorial, tutorial_status, hard_time_setting, winner, key1, key2, key_reverse, key_reverse_2P, current_key, current_key_2P, hard_tutorial_info, multi_tutorial_info, game_over_tutorial, help_status, remaining_time
+    global tutorial_event_happened, pause_tutorial, tutorial_event, combo_count, combo_count_2P, line_count, score, level, goal, score_2P, level_2P, goal_2P, bottom_count, bottom_count_2P, hard_drop, hard_drop_2P, attack_point, attack_point_2P, dx, dy, dx_2P, dy_2P, rotation, rotation_2P, mino, mino_2P, next_mino1, next_mino2, next_mino1_2P, hold, hold_2P, hold_mino, hold_mino_2P, framerate, framerate_2P, matrix, matrix_2P, Change_RATE, blink, start, pause, done, game_over, leader_board, setting, volume_setting, screen_setting, pvp, help, gravity_mode, debug, d, e, b, u, g, start_ticks, textsize, CHANNELS, swidth, name_location, name, previous_time, current_time, pause_time, lines, leaders, leaders_hard, game_status, framerate_blockmove, framerate_2P_blockmove, game_speed, game_speed_2P, select_mode, hard, hard_tutorial, multi_tutorial, tutorial_status, hard_time_setting, winner, key1, key2, key_reverse, key_reverse_2P, current_key, current_key_2P, hard_tutorial_info, multi_tutorial_info, game_over_tutorial, help_status, remaining_time
 
     framerate = 30  # Bigger -> Slower  기본 블록 하강 속도, 2도 할만 함, 0 또는 음수 이상이어야 함
     framerate_blockmove = framerate * 3  # 블록 이동 시 속도
@@ -1449,10 +1441,8 @@ def set_initial_values():
     matrix_2P = [[0 for y in range(height + 1)]
                  for x in range(width)]  # Board matrix
 
-    volume = 1.0  # 필요 없는 코드, effect_volume으로 대체 가능
-    # 필요 없는 코드, 전체 코드에서 click_sound를 effect_volume로 설정하는 코드 하나만 있으면 됨
-    ui_variables.click_sound.set_volume(volume)
     pygame.mixer.init()
+    ui_variables.click_sound.set_volume(effect_volume / 10)
     ui_variables.intro_sound.set_volume(music_volume / 10)
     ui_variables.break_sound.set_volume(
         effect_volume / 10)  # 소리 설정 부분도 set_volume 함수에 넣으면 됨
@@ -4397,14 +4387,6 @@ while not done:
         draw_image(screen, setting_board_image, board_width * 0.5, board_height * 0.5,
                    int(board_height * 1.3), board_height)  # (window, 이미지주소, x좌표, y좌표, 너비, 높이)
 
-        # # 설정해놓은 버튼(이미지)에 체크표시 되어있도록
-        # if gamebackground_image == 'assets/images/background_hongkong.png':
-        #     background1_check_button.image = clicked_background1_image
-        # elif gamebackground_image == 'assets/images/background_nyc.png':
-        #     background2_check_button.image = clicked_background2_image
-        # elif gamebackground_image == 'assets/images/background_uk.png':
-        #     background3_check_button.image = clicked_background3_image
-
         background1_check_button.draw(screen, (0, 0, 0))
         background2_check_button.draw(screen, (0, 0, 0))
         background3_check_button.draw(screen, (0, 0, 0))
@@ -4575,10 +4557,6 @@ while not done:
                     back_button.image = clicked_back_button_image
                 else:
                     back_button.image = back_button_image
-                if mute_button.isOver(pos):
-                    mute_button.image = clicked_mute_button_image
-                else:
-                    mute_button.image = mute_button_image
                 if effect_plus_button.isOver(pos):
                     effect_plus_button.image = clicked_plus_button_image
                 else:
@@ -4598,6 +4576,28 @@ while not done:
                     sound_minus_button.image = clicked_minus_button_image
                 else:
                     sound_minus_button.image = minus_button_image
+
+                if mute_button.image == mute_button_image:
+                    if mute_button.isOver(pos):
+                        mute_button.image = clicked_mute_button_image
+                    else:
+                        mute_button.image = mute_button_image
+                if mute_button.image == clicked_mute_button_image:
+                    if mute_button.isOver(pos):
+                        mute_button.image = clicked_mute_button_image
+                    else:
+                        mute_button.image = mute_button_image
+
+                if mute_button.image == default_button_image:
+                    if mute_button.isOver(pos):
+                        mute_button.image = clicked_default_button_image
+                    else:
+                        mute_button.image = default_button_image
+                if mute_button.image == clicked_default_button_image:
+                    if mute_button.isOver(pos):
+                        mute_button.image = clicked_default_button_image
+                    else:
+                        mute_button.image = default_button_image
 
                 pygame.display.update()
             elif event.type == pygame.MOUSEBUTTONDOWN:
@@ -4706,7 +4706,7 @@ while not done:
                     else:
                         music_volume = 0  # 최소 음량으로
                         effect_volume = 0  # 최소 음량으로
-                        default_button.draw(screen, (0, 0, 0))
+                        # default_button.draw(screen, (0, 0, 0))
                         mute_button.image = default_button_image
 
                 set_volume()
