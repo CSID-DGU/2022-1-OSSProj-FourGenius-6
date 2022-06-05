@@ -198,6 +198,7 @@ multi_tutorial_start_image = 'assets/images/multi_tutorial_menual.png'
 setting_board_image = 'assets/vector/setting_board.png'
 number_board = 'assets/vector/number_board.png'
 mute_button_image = 'assets/vector/allmute_button.png'
+clicked_mute_button_image = 'assests/vector/clicked_allmute_button.png'
 
 background1_image = 'assets/images/background_hongkong.png'
 background2_image = 'assets/images/background_nyc.png'
@@ -234,6 +235,7 @@ minus_button_image = 'assets/vector/minus_button.png'
 clicked_minus_button_image = 'assets/vector/clicked_minus_button.png'
 
 backgroundmusic_select_image = 'assets/vector/backgroundmusic_select.png'
+clicked_backgroundmusic_select_image = 'assets/vector/clicked_backgroundmusic_select.png'
 sound_off_button_image = 'assets/vector/sound_off_button.png'
 sound_on_button_image = 'assets/vector/sound_on_button.png'
 check_button_image = 'assets/vector/checkbox_button.png'
@@ -399,7 +401,7 @@ mute_check_button = button(board_width, board_height,
 background1_check_button = button(
     board_width, board_height, 0.5, 0.25, 0.1875, 0.1444, background1_image)  # hongkong
 background2_check_button = button(
-    board_width, board_height, 0.5, 0.45, 0.1875, 0.1444, background2_image)  # nyc
+    board_width, board_height, 0.5, 0.45, 0.1875, 0.1444, clicked_background2_image)  # nyc (default background)
 background3_check_button = button(
     board_width, board_height, 0.5, 0.65, 0.1875, 0.1444, background3_image)  # uk
 
@@ -421,7 +423,7 @@ music_sound_on_button = button(
 
 #BGM 선택 추가#
 BGM1_sound_on_button = button(
-    board_width, board_height, 0.67, 0.43, 0.08, 0.15, backgroundmusic_select_image)
+    board_width, board_height, 0.67, 0.43, 0.08, 0.15, clicked_backgroundmusic_select_image)  # default bgm: BGM1
 BGM2_sound_on_button = button(
     board_width, board_height, 0.67, 0.63, 0.08, 0.15, backgroundmusic_select_image)
 BGM3_sound_on_button = button(
@@ -4395,13 +4397,13 @@ while not done:
         draw_image(screen, setting_board_image, board_width * 0.5, board_height * 0.5,
                    int(board_height * 1.3), board_height)  # (window, 이미지주소, x좌표, y좌표, 너비, 높이)
 
-        # 설정해놓은 버튼(이미지)에 체크표시 되어있도록
-        if gamebackground_image == 'assets/images/background_hongkong.png':
-            background1_check_button.image = clicked_background1_image
-        elif gamebackground_image == 'assets/images/background_nyc.png':
-            background2_check_button.image = clicked_background2_image
-        elif gamebackground_image == 'assets/images/background_uk.png':
-            background3_check_button.image = clicked_background3_image
+        # # 설정해놓은 버튼(이미지)에 체크표시 되어있도록
+        # if gamebackground_image == 'assets/images/background_hongkong.png':
+        #     background1_check_button.image = clicked_background1_image
+        # elif gamebackground_image == 'assets/images/background_nyc.png':
+        #     background2_check_button.image = clicked_background2_image
+        # elif gamebackground_image == 'assets/images/background_uk.png':
+        #     background3_check_button.image = clicked_background3_image
 
         background1_check_button.draw(screen, (0, 0, 0))
         background2_check_button.draw(screen, (0, 0, 0))
@@ -4512,6 +4514,8 @@ while not done:
         #음소거 추가#
         effect_sound_on_button.draw(screen, (0, 0, 0))
         music_sound_on_button.draw(screen, (0, 0, 0))
+
+        # BGM 선택 버튼 3개
         BGM1_sound_on_button.draw(screen, (0, 0, 0))
         BGM2_sound_on_button.draw(screen, (0, 0, 0))
         BGM3_sound_on_button.draw(screen, (0, 0, 0))
@@ -4571,7 +4575,10 @@ while not done:
                     back_button.image = clicked_back_button_image
                 else:
                     back_button.image = back_button_image
-
+                if mute_button.isOver(pos):
+                    mute_button.image = clicked_mute_button_image
+                else:
+                    mute_button.image = mute_button_image
                 if effect_plus_button.isOver(pos):
                     effect_plus_button.image = clicked_plus_button_image
                 else:
@@ -4641,18 +4648,30 @@ while not done:
                 # BGM버튼을 누르면 인트로음악은 멈추고 해당 BGM재생됨 (Back버튼을 눌러 뒤로가기 전까지 계속 재생)
                 if BGM1_sound_on_button.isOver(pos):
                     #ui_variables.intro_sound.("assets/sounds/BGM2.wav")#
+                    # 클릭한 버튼만 체크 표시되도록
+                    BGM2_sound_on_button.image = backgroundmusic_select_image
+                    BGM3_sound_on_button.image = backgroundmusic_select_image
+                    BGM1_sound_on_button.image = clicked_backgroundmusic_select_image
                     ui_variables.intro_sound.stop()
                     pygame.mixer.music.stop()
                     pygame.mixer.music.load("assets/sounds/BGM1.wav")
                     pygame.mixer.music.play()
                 if BGM2_sound_on_button.isOver(pos):
                     #ui_variables.intro_sound.("assets/sounds/BGM2.wav")#
+                    # 클릭한 버튼만 체크 표시되도록
+                    BGM1_sound_on_button.image = backgroundmusic_select_image
+                    BGM3_sound_on_button.image = backgroundmusic_select_image
+                    BGM2_sound_on_button.image = clicked_backgroundmusic_select_image
                     ui_variables.intro_sound.stop()
                     pygame.mixer.music.stop()
                     pygame.mixer.music.load("assets/sounds/BGM2.wav")
                     pygame.mixer.music.play()
                 if BGM3_sound_on_button.isOver(pos):
                     #ui_variables.intro_sound.("assets/sounds/BGM2.wav")#
+                    # 클릭한 버튼만 체크 표시되도록
+                    BGM1_sound_on_button.image = backgroundmusic_select_image
+                    BGM2_sound_on_button.image = backgroundmusic_select_image
+                    BGM3_sound_on_button.image = clicked_backgroundmusic_select_image
                     ui_variables.intro_sound.stop()
                     pygame.mixer.music.stop()
                     pygame.mixer.music.load("assets/sounds/BGM3.wav")
