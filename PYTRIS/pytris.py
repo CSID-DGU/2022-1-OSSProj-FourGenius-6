@@ -1741,7 +1741,7 @@ while not done:
                     if keys_pressed[K_DOWN]:
                         pygame.time.set_timer(pygame.USEREVENT, framerate * 1)
                     else:
-                        pygame.time.set_timer(pygame.USEREVENT, framerate * 10)
+                        pygame.time.set_timer(pygame.USEREVENT, game_speed)
 
                 # Draw a mino
                 draw_mino(dx, dy, mino, rotation, matrix)
@@ -1837,7 +1837,7 @@ while not done:
                     while not is_bottom(dx, dy, mino, rotation, matrix):
                         dy += 1
                     hard_drop = True
-                    pygame.time.set_timer(pygame.USEREVENT, 1)
+                    pygame.time.set_timer(pygame.USEREVENT, framerate)
                     draw_mino(dx, dy, mino, rotation, matrix)
                     draw_board(next_mino1, next_mino2,
                                hold_mino, score, level, goal)
