@@ -198,6 +198,7 @@ multi_tutorial_start_image = 'assets/images/multi_tutorial_menual.png'
 setting_board_image = 'assets/vector/setting_board.png'
 number_board = 'assets/vector/number_board.png'
 mute_button_image = 'assets/vector/allmute_button.png'
+clicked_mute_button_image = 'assets/vector/clicked_allmute_button.png'
 
 background1_image = 'assets/images/background_hongkong.png'
 background2_image = 'assets/images/background_nyc.png'
@@ -209,6 +210,7 @@ clicked_background3_image = 'assets/images/clicked_background_uk.png'
 
 mute_button_image = 'assets/vector/allmute_button.png'
 default_button_image = 'assets/vector/default_button.png'
+clicked_default_button_image = 'assets/vector/clicked_default_button.png'
 number_board = 'assets/vector/number_board.png'
 
 resume_button_image = 'assets/vector/resume_button.png'
@@ -234,6 +236,7 @@ minus_button_image = 'assets/vector/minus_button.png'
 clicked_minus_button_image = 'assets/vector/clicked_minus_button.png'
 
 backgroundmusic_select_image = 'assets/vector/backgroundmusic_select.png'
+clicked_backgroundmusic_select_image = 'assets/vector/clicked_backgroundmusic_select.png'
 sound_off_button_image = 'assets/vector/sound_off_button.png'
 sound_on_button_image = 'assets/vector/sound_on_button.png'
 check_button_image = 'assets/vector/checkbox_button.png'
@@ -270,9 +273,10 @@ training_completed_image = 'assets/images/training_completed.png'
 training_incomplete_image = 'assets/images/training_incomplete.png'
 
 # 튜토리얼모드 중간 이벤트 발생 시 나오는 설명 이미지
-hard_3line_image = 'assets/images/hard_3line.png' # 하드튜토리얼 3줄 제거시 등장 
-hard_10s_image = 'assets/images/hard_10s.png' # 하드튜토리얼 10초 경과시 등장
-hard_line_message = 'assets/vector/line_message_hard_tutorial.png' # 하드튜토리얼 시작하자마자 메시지 등장
+hard_3line_image = 'assets/images/hard_3line.png'  # 하드튜토리얼 3줄 제거시 등장
+hard_10s_image = 'assets/images/hard_10s.png'  # 하드튜토리얼 10초 경과시 등장
+hard_line_message = 'assets/vector/line_message_hard_tutorial.png'  # 하드튜토리얼 시작하자마자 메시지 등장
+
 
 class button():  # 버튼객체
     def __init__(self, board_width, board_height, x_rate, y_rate, width_rate, height_rate, img=''):  # 버튼생성
@@ -361,7 +365,7 @@ restart_button = button(board_width, board_height, 0.5,
 back_button = button(board_width, board_height, 0.5,
                      0.85, 0.1, 0.12, back_button_image)
 back_button2 = button(board_width, board_height, 0.2,
-                     0.85, 0.1, 0.12, back_button_image)
+                      0.85, 0.1, 0.12, back_button_image)
 ok_button = button(board_width, board_height, 0.5,
                    0.83, 0.15, 0.2, ok_button_image)
 
@@ -377,8 +381,6 @@ tutorial_multi_start_button = button(
     board_width, board_height, 0.65, 0.8, 0.2, 0.2, pvp_button_image)
 tutorial_hard_start_button = button(
     board_width, board_height, 0.65, 0.8, 0.2, 0.2, hard_button_image)
-
-volume = 1.0
 
 
 effect_plus_button = button(
@@ -396,11 +398,11 @@ mute_check_button = button(board_width, board_height,
                            0.2, 0.4, 0.0625, 0.1111, check_button_image)
 
 background1_check_button = button(
-    board_width, board_height, 0.5, 0.25, 0.1875, 0.1444, background1_image)
+    board_width, board_height, 0.5, 0.25, 0.1875, 0.1444, background1_image)  # hongkong
 background2_check_button = button(
-    board_width, board_height, 0.5, 0.45, 0.1875, 0.1444, background2_image)
+    board_width, board_height, 0.5, 0.45, 0.1875, 0.1444, clicked_background2_image)  # nyc (default background)
 background3_check_button = button(
-    board_width, board_height, 0.5, 0.65, 0.1875, 0.1444, background3_image)
+    board_width, board_height, 0.5, 0.65, 0.1875, 0.1444, background3_image)  # uk
 
 volume_icon = button(board_width, board_height, 0.4,
                      0.5, 0.12, 0.23, volume_vector)
@@ -420,7 +422,7 @@ music_sound_on_button = button(
 
 #BGM 선택 추가#
 BGM1_sound_on_button = button(
-    board_width, board_height, 0.67, 0.43, 0.08, 0.15, backgroundmusic_select_image)
+    board_width, board_height, 0.67, 0.43, 0.08, 0.15, clicked_backgroundmusic_select_image)  # default bgm: BGM1
 BGM2_sound_on_button = button(
     board_width, board_height, 0.67, 0.63, 0.08, 0.15, backgroundmusic_select_image)
 BGM3_sound_on_button = button(
@@ -492,6 +494,8 @@ def draw_block_image(x, y, image):
     draw_image(screen, image, x, y, block_size, block_size)
 
 # Draw game screen
+
+
 def draw_board(next1, next2, hold, score, level, goal):
     # 크기 비율 고정, 전체 board 가로길이에서 원하는 비율을 곱해줌
     sidebar_width = int(board_width * 0.5312)
@@ -542,10 +546,12 @@ def draw_board(next1, next2, hold, score, level, goal):
     if hold_mino != -1:  # hold 존재X
         for i in range(mino_matrix_y):
             for j in range(mino_matrix_x):
-                dx = int(board_width * 0.045) + sidebar_width + block_size * j  # 위치 비율 고정
+                dx = int(board_width * 0.045) + sidebar_width + \
+                    block_size * j  # 위치 비율 고정
                 dy = int(board_height * 0.1336) + block_size * i  # 위치 비율 고정
                 if grid_h[i][j] != 0:  # 해당 부분에 블록이 존재하면
-                    draw_block_image(dx, dy, ui_variables.t_block[grid_h[i][j]])  # hold 블록 출력
+                    draw_block_image(
+                        dx, dy, ui_variables.t_block[grid_h[i][j]])  # hold 블록 출력
 
     # Set max score
     if score > 999999:
@@ -645,10 +651,12 @@ def draw_hardboard(next1, next2, hold, score, remaining_time, line):
     if hold_mino != -1:  # hold 존재X
         for i in range(mino_matrix_y):
             for j in range(mino_matrix_x):
-                dx = int(board_width * 0.045) + sidebar_width + block_size * j  # 위치 비율 고정
+                dx = int(board_width * 0.045) + sidebar_width + \
+                    block_size * j  # 위치 비율 고정
                 dy = int(board_height * 0.1336) + block_size * i  # 위치 비율 고정
                 if grid_h[i][j] != 0:  # 해당 부분에 블록이 존재하면
-                    draw_block_image(dx, dy, ui_variables.t_block[grid_h[i][j]])  # hold 블록 출력
+                    draw_block_image(
+                        dx, dy, ui_variables.t_block[grid_h[i][j]])  # hold 블록 출력
 
     # Set max score
     if score > 999999:
@@ -751,10 +759,12 @@ def draw_hardboard_change(next1, next2, hold, score, remaining_time, line):
     if hold_mino != -1:  # hold 존재X
         for i in range(mino_matrix_y):
             for j in range(mino_matrix_x):
-                dx = int(board_width * 0.045) + sidebar_width + block_size * j  # 위치 비율 고정
+                dx = int(board_width * 0.045) + sidebar_width + \
+                    block_size * j  # 위치 비율 고정
                 dy = int(board_height * 0.1336) + block_size * i  # 위치 비율 고정
                 if grid_h[i][j] != 0:  # 해당 부분에 블록이 존재하면
-                    draw_block_image(dx, dy, ui_variables.t_block[grid_h[i][j]])  # hold 블록 출력
+                    draw_block_image(
+                        dx, dy, ui_variables.t_block[grid_h[i][j]])  # hold 블록 출력
 
     # Set max score
     if score > 999999:
@@ -1276,13 +1286,6 @@ def is_stackable(mino, matrix):
 '''
 
 
-def set_vol(val):
-    # set_volume argenment로 넣기 위해서(소수점을 만들어주기 위해서) 100으로 나눠줌
-    volume = int(val) / 100
-    print(volume)
-    ui_variables.click_sound.set_volume(volume)
-
-
 def multi_reverse_key(rev, player):
     # 하드드롭-왼쪽회전, 소프트드롭-오른쪽회전, 오른쪽이동-왼쪽이동 방향키 전환
     keys_1P = {'hardDrop': K_e, 'softDrop': K_s, 'turnRight': K_w,
@@ -1307,7 +1310,7 @@ def multi_reverse_key(rev, player):
 
 
 def set_initial_values():
-    global tutorial_event_happened, pause_tutorial, tutorial_event, combo_count, combo_count_2P, line_count, score, level, goal, score_2P, level_2P, goal_2P, bottom_count, bottom_count_2P, hard_drop, hard_drop_2P, attack_point, attack_point_2P, dx, dy, dx_2P, dy_2P, rotation, rotation_2P, mino, mino_2P, next_mino1, next_mino2, next_mino1_2P, hold, hold_2P, hold_mino, hold_mino_2P, framerate, framerate_2P, matrix, matrix_2P, Change_RATE, blink, start, pause, done, game_over, leader_board, setting, volume_setting, screen_setting, pvp, help, gravity_mode, debug, d, e, b, u, g, start_ticks, textsize, CHANNELS, swidth, name_location, name, previous_time, current_time, pause_time, lines, leaders, leaders_hard, volume, game_status, framerate_blockmove, framerate_2P_blockmove, game_speed, game_speed_2P, select_mode, hard, hard_tutorial, multi_tutorial, tutorial_status, hard_time_setting, winner, key1, key2, key_reverse, key_reverse_2P, current_key, current_key_2P, hard_tutorial_info, multi_tutorial_info, game_over_tutorial,help_status
+    global tutorial_event_happened, pause_tutorial, tutorial_event, combo_count, combo_count_2P, line_count, score, level, goal, score_2P, level_2P, goal_2P, bottom_count, bottom_count_2P, hard_drop, hard_drop_2P, attack_point, attack_point_2P, dx, dy, dx_2P, dy_2P, rotation, rotation_2P, mino, mino_2P, next_mino1, next_mino2, next_mino1_2P, hold, hold_2P, hold_mino, hold_mino_2P, framerate, framerate_2P, matrix, matrix_2P, Change_RATE, blink, start, pause, done, game_over, leader_board, setting, volume_setting, screen_setting, pvp, help, gravity_mode, debug, d, e, b, u, g, start_ticks, textsize, CHANNELS, swidth, name_location, name, previous_time, current_time, pause_time, lines, leaders, leaders_hard, game_status, framerate_blockmove, framerate_2P_blockmove, game_speed, game_speed_2P, select_mode, hard, hard_tutorial, multi_tutorial, tutorial_status, hard_time_setting, winner, key1, key2, key_reverse, key_reverse_2P, current_key, current_key_2P, hard_tutorial_info, multi_tutorial_info, game_over_tutorial, help_status, remaining_time
 
     framerate = 30  # Bigger -> Slower  기본 블록 하강 속도, 2도 할만 함, 0 또는 음수 이상이어야 함
     framerate_blockmove = framerate * 3  # 블록 이동 시 속도
@@ -1349,6 +1352,7 @@ def set_initial_values():
     u = False
     g = False
     hard_time_setting = False  # 하드모드 시작하였을 때 타임 세팅을 시작하여 경과 시간을 계산하기 위해 추가한 변수
+    remaining_time = 60  # 하드모드 남은 시간
     winner = 0  # multi mode에서 1P가 이기면 1, 2P가 이기면 2 (기본값은 0)
     start_ticks = pygame.time.get_ticks()
     textsize = False
@@ -1437,10 +1441,8 @@ def set_initial_values():
     matrix_2P = [[0 for y in range(height + 1)]
                  for x in range(width)]  # Board matrix
 
-    volume = 1.0  # 필요 없는 코드, effect_volume으로 대체 가능
-    # 필요 없는 코드, 전체 코드에서 click_sound를 effect_volume로 설정하는 코드 하나만 있으면 됨
-    ui_variables.click_sound.set_volume(volume)
     pygame.mixer.init()
+    ui_variables.click_sound.set_volume(effect_volume / 10)
     ui_variables.intro_sound.set_volume(music_volume / 10)
     ui_variables.break_sound.set_volume(
         effect_volume / 10)  # 소리 설정 부분도 set_volume 함수에 넣으면 됨
@@ -1529,12 +1531,12 @@ while not done:
                 board_width), int(board_height)])  # (screen, 색깔, 위치 x, y좌표, 너비, 높이)
 
             draw_image(screen, help_board_image, board_width * 0.5, board_height * 0.5,
-                   int(board_width * 0.8), int(board_height * 0.9))  # (window, 이미지주소, x좌표, y좌표, 너비, 높이)
+                       int(board_width * 0.8), int(board_height * 0.9))  # (window, 이미지주소, x좌표, y좌표, 너비, 높이)
             back_button2.draw(screen, (0, 0, 0))
 
         if help_status == False:
             draw_image(screen, pause_board_image, board_width * 0.5, board_height * 0.5,
-                    int(board_height * 1), board_height)  # (window, 이미지주소, x좌표, y좌표, 너비, 높이)
+                       int(board_height * 1), board_height)  # (window, 이미지주소, x좌표, y좌표, 너비, 높이)
             resume_button.draw(screen, (0, 0, 0))  # rgb(0,0,0) = 검정색
 
             menu_button2.draw(screen, (0, 0, 0))
@@ -1591,8 +1593,8 @@ while not done:
                     ui_variables.click_sound.play()
                     help_status = False
                     pause = True
-                    
-                if pause_quit_button.isOver_2(pos):    
+
+                if pause_quit_button.isOver_2(pos):
                     ui_variables.click_sound.play()
                     done = True
 
@@ -1657,7 +1659,7 @@ while not done:
             draw_image(screen, tutorial_box_image, board_width * 0.6,
                        board_height * 0.9, int(board_height * 0.2), int(board_height * 0.2))
             draw_image(screen, hard_3line_image, board_width * 0.3, board_height * 0.4,
-                   int(board_height * 0.7), int(board_height * 0.55))
+                       int(board_height * 0.7), int(board_height * 0.55))
             tutorial_event_happened['hard_3line'] = True
 
         # tutorial_event가 하드의 10초 지남 일 때,
@@ -1665,7 +1667,7 @@ while not done:
             draw_image(screen, tutorial_box_image, board_width * 0.6,
                        board_height * 0.7, int(board_height * 0.2), int(board_height * 0.2))
             draw_image(screen, hard_10s_image, board_width * 0.3, board_height * 0.4,
-                   int(board_height * 0.7), int(board_height * 0.55))
+                       int(board_height * 0.7), int(board_height * 0.55))
             tutorial_event_happened['hard_10sec'] = True
 
         # tutorial_event가 멀티의 1P가 한 줄 이상 깸 일 때,
@@ -1697,7 +1699,7 @@ while not done:
             elif event.type == KEYDOWN:
                 erase_mino(dx, dy, mino, rotation, matrix)
                 if event.key == K_RETURN:
-                    pause_tutorial = False 
+                    pause_tutorial = False
                     ui_variables.click_sound.play()
                     # ui_variables.intro_sound.play()
                     pygame.mixer.music.unpause()
@@ -1826,7 +1828,7 @@ while not done:
 
             elif event.type == KEYDOWN:
                 erase_mino(dx, dy, mino, rotation, matrix)
-                if event.key == K_ESCAPE: 
+                if event.key == K_ESCAPE:
                     ui_variables.click_sound.play()
                     pause = True
                 # Hard drop
@@ -2357,17 +2359,17 @@ while not done:
         for event in pygame.event.get():
             if event.type == QUIT:
                 done = True
+
             elif event.type == USEREVENT:
                 # Set speed
                 if not game_over:
                     keys_pressed = pygame.key.get_pressed()
                     if keys_pressed[key1['softDrop']]:  # 프레임만큼의 시간으로 소프트드롭 되도록 함
                         pygame.time.set_timer(pygame.USEREVENT, framerate)
-                    elif keys_pressed[key2['softDrop']]:  # 프레임만큼의 시간으로 소프트드롭 되도록 함
+                    if keys_pressed[key2['softDrop']]:  # 프레임만큼의 시간으로 소프트드롭 되도록 함
                         pygame.time.set_timer(pygame.USEREVENT, framerate_2P)
                     else:
-                        pygame.time.set_timer(
-                            pygame.USEREVENT, game_speed)  # 기본 게임속도
+                        # pygame.time.set_timer(pygame.USEREVENT, game_speed)  # 기본 게임속도
                         pygame.time.set_timer(pygame.USEREVENT, game_speed_2P)
 
                 # Draw a mino
@@ -2566,8 +2568,8 @@ while not done:
                     draw_multiboard(next_mino1, hold_mino, next_mino1_2P,
                                     hold_mino_2P, current_key, current_key_2P)
 
-                # dx, dy는 각각 좌표위치 이동에 해당하며, rotation은 mino.py의 테트리스 블록 회전에 해당함
-                # Hard drop
+                    # dx, dy는 각각 좌표위치 이동에 해당하며, rotation은 mino.py의 테트리스 블록 회전에 해당함
+                    # Hard drop
                 # 왼쪽창#
                 elif event.key == key1['hardDrop']:
                     ui_variables.fall_sound.play()
@@ -3466,11 +3468,11 @@ while not done:
                     tutorial_event = 'hard_10sec'
 
                 # 시작하자마자 팝업 알림 띄우기
-                if (0 < elapsed_time <2):
+                if (0 < elapsed_time < 2):
                     # 시작하자마자 팝업 알림 띄우기 (먼저, 3줄을 깨보세요)
                     draw_image(screen, hard_line_message, board_width * 0.4,
-                                board_height * 0.2, int(board_width*0.6), int(board_height*0.1))
-                            # (window, 이미지주소, x좌표, y좌표, 너비, 높이)
+                               board_height * 0.2, int(board_width*0.6), int(board_height*0.1))
+                    # (window, 이미지주소, x좌표, y좌표, 너비, 높이)
                     pygame.time.set_timer(pygame.USEREVENT, 300)
 
             elif event.type == KEYDOWN:
@@ -4196,7 +4198,6 @@ while not done:
                 for i in range(len(button_list)):
                     button_list[i].change(board_width, board_height)
 
-
     elif leader_board:
         screen.fill(ui_variables.real_white)
         draw_image(screen, background_image, board_width * 0.5, board_height *
@@ -4289,26 +4290,38 @@ while not done:
                 for i in range(len(button_list)):
                     button_list[i].change(board_width, board_height)
 
+    # 트레이닝 모드 시작 시 나오는 설명 화면
     elif tutorial_status:
         if hard_tutorial_info:
             screen.fill(ui_variables.real_white)
-            draw_image(screen, hard_tutorial_start_image, board_width * 0.5, board_height *
+
+            draw_image(screen, gamebackground_image, board_width * 0.5, board_height *
                        0.5, board_width, board_height)  # (window, 이미지주소, x좌표, y좌표, 너비, 높이)
+            draw_hardboard(next_mino1, next_mino2, hold_mino,
+                           score, remaining_time, line_count)
+
+            # 화면 회색으로 약간 불투명하게
             pause_surface = screen.convert_alpha()  # 투명 가능하도록
             pause_surface.fill((0, 0, 0, 0))  # 투명한 검정색으로 덮기
             pygame.draw.rect(pause_surface, (ui_variables.black_pause), [0, 0, int(
                 board_width), int(board_height)])  # (screen, 색깔, 위치 x, y좌표, 너비, 높이)
             screen.blit(pause_surface, (0, 0))
 
-        if multi_tutorial_info:
-            screen.fill(ui_variables.real_white)
-            draw_image(screen, multi_tutorial_start_image, board_width * 0.5, board_height *
+            draw_image(screen, hard_tutorial_start_image, board_width * 0.5, board_height *
                        0.5, board_width, board_height)  # (window, 이미지주소, x좌표, y좌표, 너비, 높이)
+
+        if multi_tutorial_info:
+            draw_multiboard(next_mino1, hold_mino, next_mino1_2P, hold_mino_2P,
+                            current_key, current_key_2P)
+            # 화면 회색으로 약간 불투명하게
             pause_surface = screen.convert_alpha()  # 투명 가능하도록
             pause_surface.fill((0, 0, 0, 0))  # 투명한 검정색으로 덮기
             pygame.draw.rect(pause_surface, (ui_variables.black_pause), [0, 0, int(
                 board_width), int(board_height)])  # (screen, 색깔, 위치 x, y좌표, 너비, 높이)
             screen.blit(pause_surface, (0, 0))
+
+            draw_image(screen, multi_tutorial_start_image, board_width * 0.5, board_height *
+                       0.5, board_width, board_height)  # (window, 이미지주소, x좌표, y좌표, 너비, 높이)
 
         pygame.display.update()
 
@@ -4317,7 +4330,7 @@ while not done:
             if event.type == QUIT:
                 done = True
 
-            # 설명 화면에서 space만 누르면 게임 시작
+            # 설명 화면에서 enter만 누르면 게임 시작
             elif event.type == KEYDOWN:
                 if hard_tutorial_info:
                     if event.key == K_RETURN:
@@ -4373,6 +4386,7 @@ while not done:
 
         draw_image(screen, setting_board_image, board_width * 0.5, board_height * 0.5,
                    int(board_height * 1.3), board_height)  # (window, 이미지주소, x좌표, y좌표, 너비, 높이)
+
         background1_check_button.draw(screen, (0, 0, 0))
         background2_check_button.draw(screen, (0, 0, 0))
         background3_check_button.draw(screen, (0, 0, 0))
@@ -4405,21 +4419,6 @@ while not done:
                     back_button.image = clicked_back_button_image
                 else:
                     back_button.image = back_button_image
-
-                if background1_check_button.isOver(pos):
-                    background1_check_button.image = clicked_background1_image
-                else:
-                    background1_check_button.image = background1_image
-
-                if background2_check_button.isOver(pos):
-                    background2_check_button.image = clicked_background2_image
-                else:
-                    background2_check_button.image = background2_image
-
-                if background3_check_button.isOver(pos):
-                    background3_check_button.image = clicked_background3_image
-                else:
-                    background3_check_button.image = background3_image
                 pygame.display.update()
 
             elif event.type == pygame.MOUSEBUTTONDOWN:
@@ -4428,12 +4427,24 @@ while not done:
                     screen_setting = False
                 if background1_check_button.isOver(pos):
                     gamebackground_image = 'assets/images/background_hongkong.png'
+                    # 클릭한 이미지에만 체크 표시
+                    background2_check_button.image = background2_image
+                    background3_check_button.image = background3_image
+                    background1_check_button.image = clicked_background1_image
 
                 if background2_check_button.isOver(pos):
                     gamebackground_image = 'assets/images/background_nyc.png'
+                    # 클릭한 이미지에만 체크 표시
+                    background1_check_button.image = background1_image
+                    background3_check_button.image = background3_image
+                    background2_check_button.image = clicked_background2_image
 
                 if background3_check_button.isOver(pos):
                     gamebackground_image = 'assets/images/background_uk.png'
+                    # 클릭한 이미지에만 체크 표시
+                    background1_check_button.image = background1_image
+                    background2_check_button.image = background2_image
+                    background3_check_button.image = clicked_background3_image
                 pygame.display.update()
 
             elif event.type == VIDEORESIZE:
@@ -4485,6 +4496,8 @@ while not done:
         #음소거 추가#
         effect_sound_on_button.draw(screen, (0, 0, 0))
         music_sound_on_button.draw(screen, (0, 0, 0))
+
+        # BGM 선택 버튼 3개
         BGM1_sound_on_button.draw(screen, (0, 0, 0))
         BGM2_sound_on_button.draw(screen, (0, 0, 0))
         BGM3_sound_on_button.draw(screen, (0, 0, 0))
@@ -4544,7 +4557,6 @@ while not done:
                     back_button.image = clicked_back_button_image
                 else:
                     back_button.image = back_button_image
-
                 if effect_plus_button.isOver(pos):
                     effect_plus_button.image = clicked_plus_button_image
                 else:
@@ -4564,6 +4576,28 @@ while not done:
                     sound_minus_button.image = clicked_minus_button_image
                 else:
                     sound_minus_button.image = minus_button_image
+
+                if mute_button.image == mute_button_image:
+                    if mute_button.isOver(pos):
+                        mute_button.image = clicked_mute_button_image
+                    else:
+                        mute_button.image = mute_button_image
+                if mute_button.image == clicked_mute_button_image:
+                    if mute_button.isOver(pos):
+                        mute_button.image = clicked_mute_button_image
+                    else:
+                        mute_button.image = mute_button_image
+
+                if mute_button.image == default_button_image:
+                    if mute_button.isOver(pos):
+                        mute_button.image = clicked_default_button_image
+                    else:
+                        mute_button.image = default_button_image
+                if mute_button.image == clicked_default_button_image:
+                    if mute_button.isOver(pos):
+                        mute_button.image = clicked_default_button_image
+                    else:
+                        mute_button.image = default_button_image
 
                 pygame.display.update()
             elif event.type == pygame.MOUSEBUTTONDOWN:
@@ -4614,18 +4648,30 @@ while not done:
                 # BGM버튼을 누르면 인트로음악은 멈추고 해당 BGM재생됨 (Back버튼을 눌러 뒤로가기 전까지 계속 재생)
                 if BGM1_sound_on_button.isOver(pos):
                     #ui_variables.intro_sound.("assets/sounds/BGM2.wav")#
+                    # 클릭한 버튼만 체크 표시되도록
+                    BGM2_sound_on_button.image = backgroundmusic_select_image
+                    BGM3_sound_on_button.image = backgroundmusic_select_image
+                    BGM1_sound_on_button.image = clicked_backgroundmusic_select_image
                     ui_variables.intro_sound.stop()
                     pygame.mixer.music.stop()
                     pygame.mixer.music.load("assets/sounds/BGM1.wav")
                     pygame.mixer.music.play()
                 if BGM2_sound_on_button.isOver(pos):
                     #ui_variables.intro_sound.("assets/sounds/BGM2.wav")#
+                    # 클릭한 버튼만 체크 표시되도록
+                    BGM1_sound_on_button.image = backgroundmusic_select_image
+                    BGM3_sound_on_button.image = backgroundmusic_select_image
+                    BGM2_sound_on_button.image = clicked_backgroundmusic_select_image
                     ui_variables.intro_sound.stop()
                     pygame.mixer.music.stop()
                     pygame.mixer.music.load("assets/sounds/BGM2.wav")
                     pygame.mixer.music.play()
                 if BGM3_sound_on_button.isOver(pos):
                     #ui_variables.intro_sound.("assets/sounds/BGM2.wav")#
+                    # 클릭한 버튼만 체크 표시되도록
+                    BGM1_sound_on_button.image = backgroundmusic_select_image
+                    BGM2_sound_on_button.image = backgroundmusic_select_image
+                    BGM3_sound_on_button.image = clicked_backgroundmusic_select_image
                     ui_variables.intro_sound.stop()
                     pygame.mixer.music.stop()
                     pygame.mixer.music.load("assets/sounds/BGM3.wav")
@@ -4660,7 +4706,7 @@ while not done:
                     else:
                         music_volume = 0  # 최소 음량으로
                         effect_volume = 0  # 최소 음량으로
-                        default_button.draw(screen, (0, 0, 0))
+                        # default_button.draw(screen, (0, 0, 0))
                         mute_button.image = default_button_image
 
                 set_volume()
