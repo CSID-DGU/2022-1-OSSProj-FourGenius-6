@@ -397,11 +397,11 @@ mute_check_button = button(board_width, board_height,
                            0.2, 0.4, 0.0625, 0.1111, check_button_image)
 
 background1_check_button = button(
-    board_width, board_height, 0.5, 0.25, 0.1875, 0.1444, background1_image)
+    board_width, board_height, 0.5, 0.25, 0.1875, 0.1444, background1_image)  # hongkong
 background2_check_button = button(
-    board_width, board_height, 0.5, 0.45, 0.1875, 0.1444, background2_image)
+    board_width, board_height, 0.5, 0.45, 0.1875, 0.1444, background2_image)  # nyc
 background3_check_button = button(
-    board_width, board_height, 0.5, 0.65, 0.1875, 0.1444, background3_image)
+    board_width, board_height, 0.5, 0.65, 0.1875, 0.1444, background3_image)  # uk
 
 volume_icon = button(board_width, board_height, 0.4,
                      0.5, 0.12, 0.23, volume_vector)
@@ -4394,6 +4394,15 @@ while not done:
 
         draw_image(screen, setting_board_image, board_width * 0.5, board_height * 0.5,
                    int(board_height * 1.3), board_height)  # (window, 이미지주소, x좌표, y좌표, 너비, 높이)
+
+        # 설정해놓은 버튼(이미지)에 체크표시 되어있도록
+        if gamebackground_image == 'assets/images/background_hongkong.png':
+            background1_check_button.image = clicked_background1_image
+        elif gamebackground_image == 'assets/images/background_nyc.png':
+            background2_check_button.image = clicked_background2_image
+        elif gamebackground_image == 'assets/images/background_uk.png':
+            background3_check_button.image = clicked_background3_image
+
         background1_check_button.draw(screen, (0, 0, 0))
         background2_check_button.draw(screen, (0, 0, 0))
         background3_check_button.draw(screen, (0, 0, 0))
@@ -4426,21 +4435,6 @@ while not done:
                     back_button.image = clicked_back_button_image
                 else:
                     back_button.image = back_button_image
-
-                if background1_check_button.isOver(pos):
-                    background1_check_button.image = clicked_background1_image
-                else:
-                    background1_check_button.image = background1_image
-
-                if background2_check_button.isOver(pos):
-                    background2_check_button.image = clicked_background2_image
-                else:
-                    background2_check_button.image = background2_image
-
-                if background3_check_button.isOver(pos):
-                    background3_check_button.image = clicked_background3_image
-                else:
-                    background3_check_button.image = background3_image
                 pygame.display.update()
 
             elif event.type == pygame.MOUSEBUTTONDOWN:
@@ -4449,12 +4443,24 @@ while not done:
                     screen_setting = False
                 if background1_check_button.isOver(pos):
                     gamebackground_image = 'assets/images/background_hongkong.png'
+                    # 클릭한 이미지에만 체크 표시
+                    background2_check_button.image = background2_image
+                    background3_check_button.image = background3_image
+                    background1_check_button.image = clicked_background1_image
 
                 if background2_check_button.isOver(pos):
                     gamebackground_image = 'assets/images/background_nyc.png'
+                    # 클릭한 이미지에만 체크 표시
+                    background1_check_button.image = background1_image
+                    background3_check_button.image = background3_image
+                    background2_check_button.image = clicked_background2_image
 
                 if background3_check_button.isOver(pos):
                     gamebackground_image = 'assets/images/background_uk.png'
+                    # 클릭한 이미지에만 체크 표시
+                    background1_check_button.image = background1_image
+                    background2_check_button.image = background2_image
+                    background3_check_button.image = clicked_background3_image
                 pygame.display.update()
 
             elif event.type == VIDEORESIZE:
