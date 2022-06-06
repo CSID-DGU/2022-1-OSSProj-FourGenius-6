@@ -20,6 +20,25 @@ Tetris made with pygame
 __테트리스 게임 Pytris에 다양한 모드, 이벤트, 스킨(이미지/사운드)을 추가하여 흥미를 더한 게임__
 - Easy / Hard / Multi / Training 총 4개의 모드가 있음
 
+- Easy
+<img src="https://user-images.githubusercontent.com/101505011/172138627-0f1f8e3c-409c-4135-b5c7-062615d912d8.png" width="400" height="200" >
+
+- Hard
+<img src="https://user-images.githubusercontent.com/101505011/172139194-927c7216-41a1-4c26-8e96-f8a29b59e3a9.png" width="400" height="200" >
+
+- Multi
+<img src="https://user-images.githubusercontent.com/101505011/172139527-bf5370ae-16ea-4f7e-91d3-40c62706ff23.png" width="400" height="200" >
+
+- Training
+<img src="https://user-images.githubusercontent.com/101505011/172139692-1f314047-c53c-457d-8748-cc3f098377de.png" width="400" height="200" >
+
+<br>
+
+## Development Environment
+- Linux/Window/Mac
+- Visual studio code/Pycharm
+- Version Control : Git/Github
+
 <br>
 
 ## Major Change
@@ -33,15 +52,14 @@ __테트리스 게임 Pytris에 다양한 모드, 이벤트, 스킨(이미지/�
 ## TO RUN THIS GAME
 ```
 pip install pygame
-python run.py
+cd 2022-1-OSSProj-FourGenius-6/Pytris
+Python Pytris.py
 ```
 <br>
 
 ## How to Play
 <img src = "https://user-images.githubusercontent.com/101505011/171845630-ba50eed2-e21a-4ab2-a97e-d7db46d115da.png" width="800" height="400">
 <br>
-<br>
-
 
 
 <br>
