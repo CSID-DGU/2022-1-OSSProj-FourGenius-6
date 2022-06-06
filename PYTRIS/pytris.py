@@ -43,7 +43,7 @@ pygame.init()
 clock = pygame.time.Clock()
 screen = pygame.display.set_mode((board_width, board_height), pygame.RESIZABLE)
 pygame.time.set_timer(pygame.USEREVENT, framerate * 10)
-pygame.display.set_caption("PYTRIS™")
+pygame.display.set_caption("FG_TETRIS")
 
 initialize = True  # Start Screen 에서 set_initial_values()로 초기화할지 여부를 boolean으로 저장
 
@@ -173,11 +173,11 @@ pvp_button_image = 'assets/vector/multi_button.png'
 clicked_pvp_button_image = 'assets/vector/clicked_multi_button.png'
 
 
-hard_tutorial_button_image = 'assets/vector/hard_tutorial_button.png'
-clicked_hard_tutorial_button_image = 'assets/vector/clicked_hard_tutorial_button.png'
+hard_training_button_image = 'assets/vector/hard_tutorial_button.png'
+clicked_hard_training_button_image = 'assets/vector/clicked_hard_tutorial_button.png'
 
-multi_tutorial_button_image = 'assets/vector/multi_tutorial_button.png'
-clicked_multi_tutorial_button_image = 'assets/vector/clicked_multi_tutorial_button.png'
+multi_training_button_image = 'assets/vector/multi_tutorial_button.png'
+clicked_multi_training_button_image = 'assets/vector/clicked_multi_tutorial_button.png'
 
 
 gameover_board_image = 'assets/vector/gameover_board.png'
@@ -193,8 +193,8 @@ setting_board_image = 'assets/vector/setting_board.png'
 gameover_board_image = 'assets/vector/gameover_board.png'
 gameover_image = 'assets/vector/gameover.png'
 '''
-hard_tutorial_start_image = 'assets/images/hard_tutorial_menual.png'
-multi_tutorial_start_image = 'assets/images/multi_tutorial_menual.png'
+hard_training_start_image = 'assets/images/hard_tutorial_menual.png'
+multi_training_start_image = 'assets/images/multi_tutorial_menual.png'
 setting_board_image = 'assets/vector/setting_board.png'
 number_board = 'assets/vector/number_board.png'
 mute_button_image = 'assets/vector/allmute_button.png'
@@ -264,7 +264,7 @@ hard_flipped_image = 'assets/vector/flipped.png'
 
 multi_1P_break_image = 'assets/images/multi_1p_break.png'
 multi_2P_break_image = 'assets/images/multi_2p_break.png'
-tutorial_box_image = 'assets/vector/box.png'
+training_box_image = 'assets/vector/box.png'
 
 line_message_multi_break_image = 'assets/vector/line_message_multi_tutorial_break.png'
 line_message_multi_win_image = 'assets/vector/line_message_multi_tutorial_win.png'
@@ -272,10 +272,10 @@ line_message_multi_win_image = 'assets/vector/line_message_multi_tutorial_win.pn
 training_completed_image = 'assets/images/training_completed.png'
 training_incomplete_image = 'assets/images/training_incomplete.png'
 
-# 튜토리얼모드 중간 이벤트 발생 시 나오는 설명 이미지
-hard_3line_image = 'assets/images/hard_3line.png'  # 하드튜토리얼 3줄 제거시 등장
-hard_10s_image = 'assets/images/hard_10s.png'  # 하드튜토리얼 10초 경과시 등장
-hard_line_message = 'assets/vector/line_message_hard_tutorial.png'  # 하드튜토리얼 시작하자마자 메시지 등장
+# 트레이닝모드 중간 이벤트 발생 시 나오는 설명 이미지
+hard_3line_image = 'assets/images/hard_3line.png'  # 하드트레이닝 3줄 제거시 등장
+hard_10s_image = 'assets/images/hard_10s.png'  # 하드트레이닝 10초 경과시 등장
+hard_line_message = 'assets/vector/line_message_hard_tutorial.png'  # 하드트레이닝 시작하자마자 메시지 등장
 
 
 class button():  # 버튼객체
@@ -336,10 +336,10 @@ hard_button = button(board_width, board_height, 0.5,
                      0.35, 0.22, 0.2, hard_button_image)
 pvp_button = button(board_width, board_height, 0.75,
                     0.35, 0.22, 0.2, pvp_button_image)
-hard_tutorial_button = button(
-    board_width, board_height, 0.37, 0.65, 0.22, 0.2, hard_tutorial_button_image)
-multi_tutorial_button = button(
-    board_width, board_height, 0.63, 0.65, 0.22, 0.2, multi_tutorial_button_image)
+hard_training_button = button(
+    board_width, board_height, 0.37, 0.65, 0.22, 0.2, hard_training_button_image)
+multi_training_button = button(
+    board_width, board_height, 0.63, 0.65, 0.22, 0.2, multi_training_button_image)
 resume_button = button(board_width, board_height, 0.5,
                        0.23, 0.17, 0.2, resume_button_image)
 menu_button2 = button(board_width, board_height, 0.5,
@@ -374,12 +374,12 @@ multi_menu_button = button(board_width, board_height,
                            0.35, 0.8, 0.2, 0.2, menu_button_image)
 multi_restart_button = button(
     board_width, board_height, 0.65, 0.8, 0.2, 0.2, restart_button_image)
-# 튜토리얼 게임오버 화면 버튼
-tutorial_restart_button = button(
+# 트레이닝 게임오버 화면 버튼
+training_restart_button = button(
     board_width, board_height, 0.35, 0.8, 0.2, 0.2, restart_button_image)
-tutorial_multi_start_button = button(
+training_multi_start_button = button(
     board_width, board_height, 0.65, 0.8, 0.2, 0.2, pvp_button_image)
-tutorial_hard_start_button = button(
+training_hard_start_button = button(
     board_width, board_height, 0.65, 0.8, 0.2, 0.2, hard_button_image)
 
 
@@ -438,7 +438,7 @@ BGM3_sound_on_button = button(
 
 button_list = [
     select_mode_button, setting_button, quit_button, score_board_button, single_button, hard_button, pvp_button,
-    hard_tutorial_button, multi_tutorial_button, resume_button, menu_button2, help_button, pause_quit_button, pause_setting_button,
+    hard_training_button, multi_training_button, resume_button, menu_button2, help_button, pause_quit_button, pause_setting_button,
     leaderboard_icon, mute_button, default_button, restart_button, back_button, ok_button, effect_plus_button, effect_minus_button,
     sound_plus_button, sound_minus_button, mute_check_button, background1_check_button, background2_check_button, background3_check_button,
     volume_icon, screen_icon, effect_sound_off_button, music_sound_off_button, effect_sound_on_button, music_sound_on_button,
@@ -1310,7 +1310,7 @@ def multi_reverse_key(rev, player):
 
 
 def set_initial_values():
-    global tutorial_event_happened, pause_tutorial, tutorial_event, combo_count, combo_count_2P, line_count, score, level, goal, score_2P, level_2P, goal_2P, bottom_count, bottom_count_2P, hard_drop, hard_drop_2P, attack_point, attack_point_2P, dx, dy, dx_2P, dy_2P, rotation, rotation_2P, mino, mino_2P, next_mino1, next_mino2, next_mino1_2P, hold, hold_2P, hold_mino, hold_mino_2P, framerate, framerate_2P, matrix, matrix_2P, Change_RATE, blink, start, pause, done, game_over, leader_board, setting, volume_setting, screen_setting, pvp, help, gravity_mode, debug, d, e, b, u, g, start_ticks, textsize, CHANNELS, swidth, name_location, name, previous_time, current_time, pause_time, lines, leaders, leaders_hard, game_status, framerate_blockmove, framerate_2P_blockmove, game_speed, game_speed_2P, select_mode, hard, hard_tutorial, multi_tutorial, tutorial_status, hard_time_setting, winner, key1, key2, key_reverse, key_reverse_2P, current_key, current_key_2P, hard_tutorial_info, multi_tutorial_info, game_over_tutorial, help_status, remaining_time
+    global training_event_happened, pause_training, training_event, combo_count, combo_count_2P, line_count, score, level, goal, score_2P, level_2P, goal_2P, bottom_count, bottom_count_2P, hard_drop, hard_drop_2P, attack_point, attack_point_2P, dx, dy, dx_2P, dy_2P, rotation, rotation_2P, mino, mino_2P, next_mino1, next_mino2, next_mino1_2P, hold, hold_2P, hold_mino, hold_mino_2P, framerate, framerate_2P, matrix, matrix_2P, Change_RATE, blink, start, pause, done, game_over, leader_board, setting, volume_setting, screen_setting, pvp, help, gravity_mode, debug, d, e, b, u, g, start_ticks, textsize, CHANNELS, swidth, name_location, name, previous_time, current_time, pause_time, lines, leaders, leaders_hard, game_status, framerate_blockmove, framerate_2P_blockmove, game_speed, game_speed_2P, select_mode, hard, hard_training, multi_training, training_status, hard_time_setting, winner, key1, key2, key_reverse, key_reverse_2P, current_key, current_key_2P, hard_training_info, multi_training_info, game_over_training, help_status, remaining_time
 
     framerate = 30  # Bigger -> Slower  기본 블록 하강 속도, 2도 할만 함, 0 또는 음수 이상이어야 함
     framerate_blockmove = framerate * 3  # 블록 이동 시 속도
@@ -1332,15 +1332,15 @@ def set_initial_values():
     screen_setting = False
     pvp = False
     hard = False  # 하드모드 변수 추가
-    hard_tutorial = False  # 하드 튜토리얼 변수 추가
-    hard_tutorial_info = False  # 하드 튜토리얼 설명 화면
+    hard_training = False  # 하드 트레이닝 변수 추가
+    hard_training_info = False  # 하드 트레이닝 설명 화면
 
-    multi_tutorial = False  # 멀티 튜토리얼 변수 추가
-    multi_tutorial_info = False  # 하드 튜토리얼 설명 화면
+    multi_training = False  # 멀티 트레이닝 변수 추가
+    multi_training_info = False  # 하드 트레이닝 설명 화면
 
-    tutorial_status = False  # 여러 기능 설명 창 띄우기
-    pause_tutorial = False  # 튜토리얼의 pause 변수 추가
-    game_over_tutorial = False  # 튜토리얼 모드 게임오버 화면
+    training_status = False  # 여러 기능 설명 창 띄우기
+    pause_training = False  # 트레이닝의 pause 변수 추가
+    game_over_training = False  # 트레이닝 모드 게임오버 화면
 
     help = False
     select_mode = False
@@ -1356,10 +1356,10 @@ def set_initial_values():
     winner = 0  # multi mode에서 1P가 이기면 1, 2P가 이기면 2 (기본값은 0)
     start_ticks = pygame.time.get_ticks()
     textsize = False
-    # 튜토리얼에서 발생한 이벤트 상태 저장용 변수 (hard_10sec, hard_3line, hard_full, multi_1P_break, multi_2P_break)
-    tutorial_event = ''
-    # 튜토리얼에서 반복해서 발생하는 이벤트 발생 첫 회에서만 설명 띄울 수 있게, 발생 여부를 저장하는 딕셔너리
-    tutorial_event_happened = {'hard_3line': False, 'hard_10sec': False,
+    # 트레이닝에서 발생한 이벤트 상태 저장용 변수 (hard_10sec, hard_3line, hard_full, multi_1P_break, multi_2P_break, multi_5break, multi_full, no_event)
+    training_event = ''
+    # 트레이닝에서 반복해서 발생하는 이벤트 발생 첫 회에서만 설명 띄울 수 있게, 발생 여부를 저장하는 딕셔너리
+    training_event_happened = {'hard_3line': False, 'hard_10sec': False,
                                'multi_1P_break': False, 'multi_2P_break': False}
 
     # 게임 음악 속도 조절 관련 변수
@@ -1499,7 +1499,7 @@ while not done:
                 board_width), int(board_height)])  # (screen, 색깔, 위치 x, y좌표, 너비, 높이)
             screen.blit(pause_surface, (0, 0))
 
-        if hard_tutorial:
+        if hard_training:
             screen.fill(ui_variables.real_white)
 
             draw_image(screen, gamebackground_image, board_width * 0.5, board_height *
@@ -1514,7 +1514,7 @@ while not done:
                 board_width), int(board_height)])  # (screen, 색깔, 위치 x, y좌표, 너비, 높이)
             screen.blit(pause_surface, (0, 0))
 
-        if multi_tutorial:
+        if multi_training:
             draw_multiboard(next_mino1, hold_mino, next_mino1_2P, hold_mino_2P,
                             current_key, current_key_2P)
             # 화면 회색으로 약간 불투명하게
@@ -1612,11 +1612,11 @@ while not done:
                     if hard:
                         hard = False
 
-                    if hard_tutorial:
-                        hard_tutorial = False
+                    if hard_training:
+                        hard_training = False
 
-                    if multi_tutorial:
-                        multi_tutorial = False
+                    if multi_training:
+                        multi_training = False
 
                 if resume_button.isOver_2(pos):
                     pygame.mixer.music.unpause()
@@ -1649,42 +1649,42 @@ while not done:
                     button_list[i].change(board_width, board_height)
                 pygame.display.update()
 
-    # Tutorial mode 중간 멈추는 screen
-    elif pause_tutorial:
+    # training mode 중간 멈추는 screen
+    elif pause_training:
         # ui_variables.intro_sound.stop()
         pygame.mixer.music.pause()
 
-        # tutorial_event가 하드의 3줄깨기 일 때,
-        if tutorial_event == 'hard_3line':
-            draw_image(screen, tutorial_box_image, board_width * 0.6,
+        # training_event가 하드의 3줄깨기 일 때,
+        if training_event == 'hard_3line':
+            draw_image(screen, training_box_image, board_width * 0.6,
                        board_height * 0.9, int(board_height * 0.2), int(board_height * 0.2))
             draw_image(screen, hard_3line_image, board_width * 0.3, board_height * 0.4,
                        int(board_height * 0.7), int(board_height * 0.55))
-            tutorial_event_happened['hard_3line'] = True
+            training_event_happened['hard_3line'] = True
 
-        # tutorial_event가 하드의 10초 지남 일 때,
-        elif tutorial_event == 'hard_10sec':
-            draw_image(screen, tutorial_box_image, board_width * 0.6,
+        # training_event가 하드의 10초 지남 일 때,
+        elif training_event == 'hard_10sec':
+            draw_image(screen, training_box_image, board_width * 0.6,
                        board_height * 0.7, int(board_height * 0.2), int(board_height * 0.2))
             draw_image(screen, hard_10s_image, board_width * 0.3, board_height * 0.4,
                        int(board_height * 0.7), int(board_height * 0.55))
-            tutorial_event_happened['hard_10sec'] = True
+            training_event_happened['hard_10sec'] = True
 
-        # tutorial_event가 멀티의 1P가 한 줄 이상 깸 일 때,
-        elif tutorial_event == 'multi_1P_break':
-            draw_image(screen, tutorial_box_image, board_width * 0.9,
+        # training_event가 멀티의 1P가 한 줄 이상 깸 일 때,
+        elif training_event == 'multi_1P_break':
+            draw_image(screen, training_box_image, board_width * 0.9,
                        board_height * 0.75, int(board_height * 0.2), int(board_height * 0.18))
             draw_image(screen, multi_1P_break_image, board_width * 0.65,
                        board_height * 0.4, int(board_height * 0.7), int(board_height * 0.55))
-            tutorial_event_happened['multi_1P_break'] = True
+            training_event_happened['multi_1P_break'] = True
 
-        # tutorial_event가 멀티의 2P가 한 줄 이상 깸 일 때,
-        elif tutorial_event == 'multi_2P_break':
-            draw_image(screen, tutorial_box_image, board_width * 0.39,
+        # training_event가 멀티의 2P가 한 줄 이상 깸 일 때,
+        elif training_event == 'multi_2P_break':
+            draw_image(screen, training_box_image, board_width * 0.39,
                        board_height * 0.75, int(board_height * 0.2), int(board_height * 0.18))
             draw_image(screen, multi_2P_break_image, board_width * 0.2,
                        board_height * 0.4, int(board_height * 0.7), int(board_height * 0.55))
-            tutorial_event_happened['multi_2P_break'] = True
+            training_event_happened['multi_2P_break'] = True
 
         # draw_image(screen, pause_board_image, board_width * 0.5, board_height * 0.5,
         #            int(board_height * 1), board_height)  # (window, 이미지주소, x좌표, y좌표, 너비, 높이)
@@ -1699,7 +1699,7 @@ while not done:
             elif event.type == KEYDOWN:
                 erase_mino(dx, dy, mino, rotation, matrix)
                 if event.key == K_RETURN:
-                    pause_tutorial = False
+                    pause_training = False
                     ui_variables.click_sound.play()
                     # ui_variables.intro_sound.play()
                     pygame.mixer.music.unpause()
@@ -1741,7 +1741,7 @@ while not done:
                     if keys_pressed[K_DOWN]:
                         pygame.time.set_timer(pygame.USEREVENT, framerate * 1)
                     else:
-                        pygame.time.set_timer(pygame.USEREVENT, framerate * 10)
+                        pygame.time.set_timer(pygame.USEREVENT, game_speed)
 
                 # Draw a mino
                 draw_mino(dx, dy, mino, rotation, matrix)
@@ -1837,7 +1837,7 @@ while not done:
                     while not is_bottom(dx, dy, mino, rotation, matrix):
                         dy += 1
                     hard_drop = True
-                    pygame.time.set_timer(pygame.USEREVENT, 1)
+                    pygame.time.set_timer(pygame.USEREVENT, framerate)
                     draw_mino(dx, dy, mino, rotation, matrix)
                     draw_board(next_mino1, next_mino2,
                                hold_mino, score, level, goal)
@@ -2361,16 +2361,7 @@ while not done:
                 done = True
 
             elif event.type == USEREVENT:
-                # Set speed
-                if not game_over:
-                    keys_pressed = pygame.key.get_pressed()
-                    if keys_pressed[key1['softDrop']]:  # 프레임만큼의 시간으로 소프트드롭 되도록 함
-                        pygame.time.set_timer(pygame.USEREVENT, framerate)
-                    if keys_pressed[key2['softDrop']]:  # 프레임만큼의 시간으로 소프트드롭 되도록 함
-                        pygame.time.set_timer(pygame.USEREVENT, framerate_2P)
-                    else:
-                        # pygame.time.set_timer(pygame.USEREVENT, game_speed)  # 기본 게임속도
-                        pygame.time.set_timer(pygame.USEREVENT, game_speed_2P)
+                pygame.time.set_timer(pygame.USEREVENT, game_speed)  # 기본 게임속도 
 
                 # Draw a mino
                 draw_mino(dx, dy, mino, rotation, matrix)
@@ -2789,6 +2780,23 @@ while not done:
                     draw_multiboard(next_mino1, hold_mino, next_mino1_2P,
                                     hold_mino_2P, current_key, current_key_2P)
 
+                # Soft drop (1P)
+                elif event.key == key1['softDrop']:
+                    if not is_bottom(dx, dy, mino, rotation, matrix):
+                        dy = dy + 1
+                    draw_mino(dx, dy, mino, rotation, matrix)
+                    draw_mino(dx_2P, dy_2P, mino_2P, rotation_2P, matrix_2P)
+                    draw_multiboard(next_mino1, hold_mino, next_mino1_2P, hold_mino_2P,
+                                    current_key, current_key_2P)
+                # Soft drop (2P)
+                elif event.key == key2['softDrop']:
+                    if not is_bottom(dx_2P, dy_2P, mino_2P, rotation_2P, matrix_2P):
+                        dy_2P = dy_2P + 1
+                    draw_mino(dx_2P, dy_2P, mino_2P, rotation_2P, matrix_2P)
+                    draw_mino(dx, dy, mino, rotation, matrix)
+                    draw_multiboard(next_mino1, hold_mino, next_mino1_2P, hold_mino_2P,
+                                    current_key, current_key_2P)
+
             elif event.type == VIDEORESIZE:
                 board_width = event.w
                 board_height = event.h
@@ -2815,23 +2823,14 @@ while not done:
 
         pygame.display.update()
 
-    elif multi_tutorial:
+    elif multi_training:
 
         for event in pygame.event.get():
             if event.type == QUIT:
                 done = True
             elif event.type == USEREVENT:
                 # Set speed
-                if not game_over:
-                    keys_pressed = pygame.key.get_pressed()
-                    if keys_pressed[key1['softDrop']]:  # 프레임만큼의 시간으로 소프트드롭 되도록 함
-                        pygame.time.set_timer(pygame.USEREVENT, framerate)
-                    elif keys_pressed[key2['softDrop']]:  # 프레임만큼의 시간으로 소프트드롭 되도록 함
-                        pygame.time.set_timer(pygame.USEREVENT, framerate_2P)
-                    else:
-                        pygame.time.set_timer(
-                            pygame.USEREVENT, game_speed)  # 기본 게임속도
-                        pygame.time.set_timer(pygame.USEREVENT, game_speed_2P)
+                pygame.time.set_timer(pygame.USEREVENT, game_speed)
 
                 # Draw a mino
                 draw_mino(dx, dy, mino, rotation, matrix)
@@ -2856,25 +2855,25 @@ while not done:
 
                 if combo_count == 5:  # 5줄을 먼저 깨면 게임 종료
                     winner = 1
-                    # 트레이닝 모드는 게임 종료 전에 pause_tutorial 상태로 넘어가 설명 띄우기
-                    # tutorial_event = 'multi_5break'
-                    # pause_tutorial = True
+                    # 트레이닝 모드는 게임 종료 전에 pause_training 상태로 넘어가 설명 띄우기
+                    # training_event = 'multi_5break'
+                    # pause_training = True
 
-                    tutorial_event = 'multi_game_over'
-                    multi_tutorial = False
-                    game_over_tutorial = True
+                    training_event = 'multi_game_over'
+                    multi_training = False
+                    game_over_training = True
                     ui_variables.GameOver_sound.play()
                     pygame.time.set_timer(pygame.USEREVENT, 1)
 
                 if combo_count_2P == 5:  # 5줄을 먼저 깨면 게임 종료
                     winner = 2
-                    # 트레이닝 모드는 게임 종료 전에 pause_tutorial 상태로 넘어가 설명 띄우기
-                    # tutorial_event = 'multi_5break'
-                    # pause_tutorial = True
+                    # 트레이닝 모드는 게임 종료 전에 pause_training 상태로 넘어가 설명 띄우기
+                    # training_event = 'multi_5break'
+                    # pause_training = True
 
-                    tutorial_event = 'multi_game_over'
-                    multi_tutorial = False
-                    game_over_tutorial = True
+                    training_event = 'multi_game_over'
+                    multi_training = False
+                    game_over_training = True
                     ui_variables.GameOver_sound.play()
                     pygame.time.set_timer(pygame.USEREVENT, 1)
                 ### 1P ###
@@ -2898,9 +2897,9 @@ while not done:
                             hold = False
                             score += 10 * level
                         else:  # 더이상 쌓을 수 없으면 게임오버
-                            tutorial_event = 'multi_game_over'
-                            multi_tutorial = False
-                            game_over_tutorial = True
+                            training_event = 'multi_game_over'
+                            multi_training = False
+                            game_over_training = True
 
                             winner = 2
                             ui_variables.GameOver_sound.play()
@@ -2930,9 +2929,9 @@ while not done:
                             hold_2P = False
                             score_2P += 10 * level_2P
                         else:  # 더이상 쌓을 수 없으면 게임오버
-                            tutorial_event = 'multi_game_over'
-                            multi_tutorial = False
-                            game_over_tutorial = True
+                            training_event = 'multi_game_over'
+                            multi_training = False
+                            game_over_training = True
 
                             winner = 1
                             ui_variables.GameOver_sound.play()
@@ -3003,10 +3002,10 @@ while not done:
                     draw_multiboard(next_mino1, hold_mino, next_mino1_2P,
                                     hold_mino_2P, current_key, current_key_2P)
                     pygame.display.update()
-                    if not tutorial_event_happened['multi_2P_break']:
-                        # 튜토리얼 모드에서 2P가 줄을 깬 경우로 설명
-                        tutorial_event = 'multi_2P_break'
-                        pause_tutorial = True
+                    if not training_event_happened['multi_2P_break']:
+                        # 트레이닝 모드에서 2P가 줄을 깬 경우로 설명
+                        training_event = 'multi_2P_break'
+                        pause_training = True
 
                 if key_reverse_2P:   # 2P의 키 반전 조건(1P가 몇 줄이든 깸)이 성립됐다면
                     current_key_2P = not current_key_2P
@@ -3016,10 +3015,10 @@ while not done:
                     draw_multiboard(next_mino1, hold_mino, next_mino1_2P,
                                     hold_mino_2P, current_key, current_key_2P)
                     pygame.display.update()
-                    if not tutorial_event_happened['multi_1P_break']:
-                        # 튜토리얼 모드에서 1P가 줄을 깬 경우로 설명
-                        tutorial_event = 'multi_1P_break'
-                        pause_tutorial = True
+                    if not training_event_happened['multi_1P_break']:
+                        # 트레이닝 모드에서 1P가 줄을 깬 경우로 설명
+                        training_event = 'multi_1P_break'
+                        pause_training = True
 
             elif event.type == KEYDOWN:
                 erase_mino(dx, dy, mino, rotation, matrix)
@@ -3283,6 +3282,23 @@ while not done:
                     draw_mino(dx, dy, mino, rotation, matrix)
                     draw_multiboard(next_mino1, hold_mino, next_mino1_2P,
                                     hold_mino_2P, current_key, current_key_2P)
+                
+                # Soft drop (1P)
+                elif event.key == key1['softDrop']:
+                    if not is_bottom(dx, dy, mino, rotation, matrix):
+                        dy = dy + 1
+                    draw_mino(dx, dy, mino, rotation, matrix)
+                    draw_mino(dx_2P, dy_2P, mino_2P, rotation_2P, matrix_2P)
+                    draw_multiboard(next_mino1, hold_mino, next_mino1_2P, hold_mino_2P,
+                                    current_key, current_key_2P)
+                # Soft drop (2P)
+                elif event.key == key2['softDrop']:
+                    if not is_bottom(dx_2P, dy_2P, mino_2P, rotation_2P, matrix_2P):
+                        dy_2P = dy_2P + 1
+                    draw_mino(dx_2P, dy_2P, mino_2P, rotation_2P, matrix_2P)
+                    draw_mino(dx, dy, mino, rotation, matrix)
+                    draw_multiboard(next_mino1, hold_mino, next_mino1_2P, hold_mino_2P,
+                                    current_key, current_key_2P)
 
             elif event.type == VIDEORESIZE:
                 board_width = event.w
@@ -3310,7 +3326,7 @@ while not done:
 
         pygame.display.update()
 
-    elif hard_tutorial:
+    elif hard_training:
 
         if hard_time_setting == False:  # 타임 세팅이 안 되어 있으면
             start_ticks = pygame.time.get_ticks()  # 현재 시간을 타임어택 모드 시작 시간이라고 설정하고
@@ -3386,9 +3402,9 @@ while not done:
                             hold = False
                         else:
                             ui_variables.GameOver_sound.play()
-                            tutorial_event = 'hard_game_over'
-                            hard_tutorial = False
-                            game_over_tutorial = True
+                            training_event = 'hard_game_over'
+                            hard_training = False
+                            game_over_training = True
                             pygame.time.set_timer(
                                 pygame.USEREVENT, 1)  # 0.001초
                     else:
@@ -3460,16 +3476,16 @@ while not done:
                     # Change_RATE += 1
                     # set_music_playing_speed(CHANNELS, swidth, Change_RATE)
 
-                # 3줄 깨면 설명 나오게 pause_tutorial로 연결
-                # if (line_count >= 3 and tutorial_event != 'no_event'):
-                if (line_count >= 3 and not tutorial_event_happened['hard_3line']):
-                    pause_tutorial = True
-                    tutorial_event = 'hard_3line'
+                # 3줄 깨면 설명 나오게 pause_training로 연결
+                # if (line_count >= 3 and training_event != 'no_event'):
+                if (line_count >= 3 and not training_event_happened['hard_3line']):
+                    pause_training = True
+                    training_event = 'hard_3line'
 
-                # 10초 지나면 설명 나오게 pause_tutorial로 연결
+                # 10초 지나면 설명 나오게 pause_training로 연결
                 if (remaining_time == 50):
-                    pause_tutorial = True
-                    tutorial_event = 'hard_10sec'
+                    pause_training = True
+                    training_event = 'hard_10sec'
 
                 # 시작하자마자 팝업 알림 띄우기
                 if (0 < elapsed_time < 2):
@@ -3707,9 +3723,9 @@ while not done:
 
         if total_time - elapsed_time < 0:  # 60초가 지났으면
             ui_variables.GameOver_sound.play()
-            tutorial_event = 'hard_game_over'
-            hard_tutorial = False
-            game_over_tutorial = True
+            training_event = 'hard_game_over'
+            hard_training = False
+            game_over_training = True
             pygame.time.set_timer(pygame.USEREVENT, 1)
 
         pygame.display.update()
@@ -3960,7 +3976,7 @@ while not done:
                     button_list[i].change(board_width, board_height)
 
     # new game over screen
-    elif game_over_tutorial:
+    elif game_over_training:
 
         for event in pygame.event.get():
             pos = pygame.mouse.get_pos()
@@ -3974,75 +3990,75 @@ while not done:
 
                 if tutorial_event == 'multi_game_over':
                     # 이벤트 두개 모두 실행되었는지 확인
-                    if tutorial_event_happened['multi_1P_break'] == True and tutorial_event_happened['multi_2P_break'] == True:
+                    if training_event_happened['multi_1P_break'] == True and training_event_happened['multi_2P_break'] == True:
                         draw_image(screen, training_completed_image, board_width * 0.5, board_height * 0.5,
                                    int(board_height * 1.3), (board_height))  # (window, 이미지주소, x좌표, y좌표, 너비, 높이)
                     else:
                         draw_image(screen, training_incomplete_image, board_width * 0.5, board_height * 0.5,
                                    int(board_height * 1.3), (board_height))  # (window, 이미지주소, x좌표, y좌표, 너비, 높이)
-                    tutorial_multi_start_button.draw(screen, (0, 0, 0))
-                    tutorial_restart_button.draw(screen, (0, 0, 0))
+                    training_multi_start_button.draw(screen, (0, 0, 0))
+                    training_restart_button.draw(screen, (0, 0, 0))
                 pygame.display.update()
 
                 if tutorial_event == 'hard_game_over':
                     # 이벤트 두개 모두 실행되었는지 확인
-                    if tutorial_event_happened['hard_3line'] == True and tutorial_event_happened['hard_10sec'] == True:
+                    if training_event_happened['hard_3line'] == True and training_event_happened['hard_10sec'] == True:
                         draw_image(screen, training_completed_image, board_width * 0.5, board_height * 0.5,
                                    int(board_height * 1.3), (board_height))  # (window, 이미지주소, x좌표, y좌표, 너비, 높이)
                     else:
                         draw_image(screen, training_incomplete_image, board_width * 0.5, board_height * 0.5,
                                    int(board_height * 1.3), (board_height))  # (window, 이미지주소, x좌표, y좌표, 너비, 높이)
-                    tutorial_hard_start_button.draw(screen, (0, 0, 0))
-                    tutorial_restart_button.draw(screen, (0, 0, 0))
+                    training_hard_start_button.draw(screen, (0, 0, 0))
+                    training_restart_button.draw(screen, (0, 0, 0))
                 pygame.display.update()
 
             elif event.type == pygame.MOUSEMOTION:
-                if tutorial_multi_start_button.isOver_2(pos):
-                    tutorial_multi_start_button.image = clicked_pvp_button_image
+                if training_multi_start_button.isOver_2(pos):
+                    training_multi_start_button.image = clicked_pvp_button_image
                 else:
-                    tutorial_multi_start_button.image = pvp_button_image
+                    training_multi_start_button.image = pvp_button_image
 
-                if tutorial_restart_button.isOver_2(pos):
-                    tutorial_restart_button.image = clicked_restart_button_image
+                if training_restart_button.isOver_2(pos):
+                    training_restart_button.image = clicked_restart_button_image
                 else:
-                    tutorial_restart_button.image = restart_button_image
+                    training_restart_button.image = restart_button_image
 
-                if tutorial_hard_start_button.isOver_2(pos):
-                    tutorial_hard_start_button.image = clicked_hard_button_image
+                if training_hard_start_button.isOver_2(pos):
+                    training_hard_start_button.image = clicked_hard_button_image
                 else:
-                    tutorial_hard_start_button.image = hard_button_image
+                    training_hard_start_button.image = hard_button_image
                 pygame.display.update()
 
             elif event.type == pygame.MOUSEBUTTONDOWN:
-                if tutorial_event == 'multi_game_over':
-                    if tutorial_restart_button.isOver_2(pos):
+                if training_event == 'multi_game_over':
+                    if training_restart_button.isOver_2(pos):
                         ui_variables.click_sound.play()
                         set_initial_values()
-                        multi_tutorial_info = True
+                        multi_training_info = True
                         pygame.mixer.music.play(-1)
-                    if tutorial_multi_start_button.isOver_2(pos):
+                    if training_multi_start_button.isOver_2(pos):
                         ui_variables.click_sound.play()
                         set_initial_values()
-                        game_over_tutorial = False
+                        game_over_training = False
                         pvp = True
                         pygame.mixer.music.play(-1)
 
-                if tutorial_event == 'hard_game_over':
-                    if tutorial_hard_start_button.isOver_2(pos):
+                if training_event == 'hard_game_over':
+                    if training_hard_start_button.isOver_2(pos):
                         ui_variables.click_sound.play()
                         set_initial_values()
-                        game_over_tutorial = False
+                        game_over_training = False
                         hard = True
                         pygame.mixer.music.play(-1)
 
-                    if tutorial_restart_button.isOver_2(pos):
+                    if training_restart_button.isOver_2(pos):
                         ui_variables.click_sound.play()
                         set_initial_values()
-                        hard_tutorial_info = True
-                        tutorial_status = True
+                        hard_training_info = True
+                        training_status = True
                         pygame.mixer.music.play(-1)
                         game_over = False
-                        hard_tutorial = False
+                        hard_training = False
 
             elif event.type == VIDEORESIZE:
                 board_width = event.w
@@ -4081,8 +4097,8 @@ while not done:
         single_button.draw(screen, (0, 0, 0))
         pvp_button.draw(screen, (0, 0, 0))
         hard_button.draw(screen, (0, 0, 0))
-        hard_tutorial_button.draw(screen, (0, 0, 0))
-        multi_tutorial_button.draw(screen, (0, 0, 0))
+        hard_training_button.draw(screen, (0, 0, 0))
+        multi_training_button.draw(screen, (0, 0, 0))
         back_button.draw(screen, (0, 0, 0))
 
         pygame.display.update()  # select mode 화면으로 넘어가도록 전체 화면 업데이트
@@ -4116,15 +4132,15 @@ while not done:
                 else:
                     hard_button.image = hard_button_image
 
-                if hard_tutorial_button.isOver_2(pos):
-                    hard_tutorial_button.image = clicked_hard_tutorial_button_image
+                if hard_training_button.isOver_2(pos):
+                    hard_training_button.image = clicked_hard_training_button_image
                 else:
-                    hard_tutorial_button.image = hard_tutorial_button_image
+                    hard_training_button.image = hard_training_button_image
 
-                if multi_tutorial_button.isOver_2(pos):
-                    multi_tutorial_button.image = clicked_multi_tutorial_button_image
+                if multi_training_button.isOver_2(pos):
+                    multi_training_button.image = clicked_multi_training_button_image
                 else:
-                    multi_tutorial_button.image = multi_tutorial_button_image
+                    multi_training_button.image = multi_training_button_image
 
                 if back_button.isOver(pos):
                     back_button.image = clicked_back_button_image
@@ -4157,18 +4173,18 @@ while not done:
                     hard = True
                     initialize = True
                     select_mode = False
-                if hard_tutorial_button.isOver_2(pos):
+                if hard_training_button.isOver_2(pos):
                     ui_variables.click_sound.play()
-                    hard_tutorial_info = True
-                    tutorial_status = True
+                    hard_training_info = True
+                    training_status = True
                     ui_variables.intro_sound.stop()
                     pygame.mixer.music.play(-1)
                     initialize = True
                     select_mode = False
-                if multi_tutorial_button.isOver_2(pos):
+                if multi_training_button.isOver_2(pos):
                     ui_variables.click_sound.play()
-                    multi_tutorial_info = True
-                    tutorial_status = True
+                    multi_training_info = True
+                    training_status = True
                     ui_variables.intro_sound.stop()
                     pygame.mixer.music.play(-1)
                     initialize = True
@@ -4295,8 +4311,8 @@ while not done:
                     button_list[i].change(board_width, board_height)
 
     # 트레이닝 모드 시작 시 나오는 설명 화면
-    elif tutorial_status:
-        if hard_tutorial_info:
+    elif training_status:
+        if hard_training_info:
             screen.fill(ui_variables.real_white)
 
             draw_image(screen, gamebackground_image, board_width * 0.5, board_height *
@@ -4311,10 +4327,10 @@ while not done:
                 board_width), int(board_height)])  # (screen, 색깔, 위치 x, y좌표, 너비, 높이)
             screen.blit(pause_surface, (0, 0))
 
-            draw_image(screen, hard_tutorial_start_image, board_width * 0.5, board_height *
+            draw_image(screen, hard_training_start_image, board_width * 0.5, board_height *
                        0.5, board_width, board_height)  # (window, 이미지주소, x좌표, y좌표, 너비, 높이)
 
-        if multi_tutorial_info:
+        if multi_training_info:
             draw_multiboard(next_mino1, hold_mino, next_mino1_2P, hold_mino_2P,
                             current_key, current_key_2P)
             # 화면 회색으로 약간 불투명하게
@@ -4324,7 +4340,7 @@ while not done:
                 board_width), int(board_height)])  # (screen, 색깔, 위치 x, y좌표, 너비, 높이)
             screen.blit(pause_surface, (0, 0))
 
-            draw_image(screen, multi_tutorial_start_image, board_width * 0.5, board_height *
+            draw_image(screen, multi_training_start_image, board_width * 0.5, board_height *
                        0.5, board_width, board_height)  # (window, 이미지주소, x좌표, y좌표, 너비, 높이)
 
         pygame.display.update()
@@ -4336,16 +4352,16 @@ while not done:
 
             # 설명 화면에서 enter만 누르면 게임 시작
             elif event.type == KEYDOWN:
-                if hard_tutorial_info:
+                if hard_training_info:
                     if event.key == K_RETURN:
                         ui_variables.click_sound.play()
-                        tutorial_status = False
-                        hard_tutorial = True
-                if multi_tutorial_info:
+                        training_status = False
+                        hard_training = True
+                if multi_training_info:
                     if event.key == K_RETURN:
                         ui_variables.click_sound.play()
-                        tutorial_status = False
-                        multi_tutorial = True
+                        training_status = False
+                        multi_training = True
 
             elif event.type == VIDEORESIZE:
                 board_width = event.w
