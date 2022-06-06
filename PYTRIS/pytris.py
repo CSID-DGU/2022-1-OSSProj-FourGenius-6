@@ -2859,7 +2859,7 @@ while not done:
                     # training_event = 'multi_5break'
                     # pause_training = True
 
-                    game_status = 'pvp'
+                    training_event = 'multi_game_over'
                     multi_training = False
                     game_over_training = True
                     ui_variables.GameOver_sound.play()
@@ -2871,7 +2871,7 @@ while not done:
                     # training_event = 'multi_5break'
                     # pause_training = True
 
-                    game_status = 'pvp'
+                    training_event = 'multi_game_over'
                     multi_training = False
                     game_over_training = True
                     ui_variables.GameOver_sound.play()
@@ -2897,12 +2897,11 @@ while not done:
                             hold = False
                             score += 10 * level
                         else:  # 더이상 쌓을 수 없으면 게임오버
+                            training_event = 'multi_game_over'
                             multi_training = False
                             game_over_training = True
 
                             winner = 2
-                            game_status = 'pvp'
-                            # game_over = True
                             ui_variables.GameOver_sound.play()
                             pygame.time.set_timer(pygame.USEREVENT, 1)
                     else:
@@ -2930,13 +2929,11 @@ while not done:
                             hold_2P = False
                             score_2P += 10 * level_2P
                         else:  # 더이상 쌓을 수 없으면 게임오버
+                            training_event = 'multi_game_over'
                             multi_training = False
                             game_over_training = True
 
                             winner = 1
-                            game_status = 'pvp'
-                            # pvp = False
-                            # game_over = True
                             ui_variables.GameOver_sound.play()
                             pygame.time.set_timer(pygame.USEREVENT, 1)
                     else:
@@ -3405,11 +3402,9 @@ while not done:
                             hold = False
                         else:
                             ui_variables.GameOver_sound.play()
-                            training_event = 'hard_full'
+                            training_event = 'hard_game_over'
                             hard_training = False
                             game_over_training = True
-                            # game_status = 'hard_training'
-                            # game_over = True
                             pygame.time.set_timer(
                                 pygame.USEREVENT, 1)  # 0.001초
                     else:
@@ -3427,6 +3422,13 @@ while not done:
                     if is_full:  # 한 줄 꽉 찼을 때
                         erase_count += 1
                         line_count += 1
+                        # 화면이 뒤집히는 순간 (line_count가 3의 배수)
+                        if line_count % 3 == 0 and line_count > 0:
+                            # 화면 위아래 뒤집힌 알림 띄우기
+                            draw_image(screen, hard_flipped_image, board_width * 0.4,
+                                       board_height * 0.2, int(board_width*0.3), int(board_height*0.1))
+                        pygame.display.update()
+                        pygame.time.delay(400)
                         k = j
 
                         for i in range(board_x):
@@ -3468,6 +3470,8 @@ while not done:
                 # 10초마다 속도 빨라지게
                 if (remaining_time % 10 == 0) and (remaining_time != 60):
                     ui_variables.LevelUp_sound.play()
+                    draw_image(screen, hard_speed_up_image, board_width * 0.4,
+                               board_height * 0.2, int(board_width*0.3), int(board_height*0.1))
                     framerate = int(framerate - speed_change)
                     # Change_RATE += 1
                     # set_music_playing_speed(CHANNELS, swidth, Change_RATE)
@@ -3719,8 +3723,8 @@ while not done:
 
         if total_time - elapsed_time < 0:  # 60초가 지났으면
             ui_variables.GameOver_sound.play()
+            training_event = 'hard_game_over'
             hard_training = False
-            game_status = 'hard_training'
             game_over_training = True
             pygame.time.set_timer(pygame.USEREVENT, 1)
 
@@ -3984,7 +3988,7 @@ while not done:
 
                 pygame.time.set_timer(pygame.USEREVENT, 300)  # 0.3초
 
-                if game_status == 'pvp':
+                if tutorial_event == 'multi_game_over':
                     # 이벤트 두개 모두 실행되었는지 확인
                     if training_event_happened['multi_1P_break'] == True and training_event_happened['multi_2P_break'] == True:
                         draw_image(screen, training_completed_image, board_width * 0.5, board_height * 0.5,
@@ -3996,7 +4000,7 @@ while not done:
                     training_restart_button.draw(screen, (0, 0, 0))
                 pygame.display.update()
 
-                if game_status != 'pvp':
+                if tutorial_event == 'hard_game_over':
                     # 이벤트 두개 모두 실행되었는지 확인
                     if training_event_happened['hard_3line'] == True and training_event_happened['hard_10sec'] == True:
                         draw_image(screen, training_completed_image, board_width * 0.5, board_height * 0.5,
@@ -4026,7 +4030,7 @@ while not done:
                 pygame.display.update()
 
             elif event.type == pygame.MOUSEBUTTONDOWN:
-                if game_status == 'pvp':
+                if training_event == 'multi_game_over':
                     if training_restart_button.isOver_2(pos):
                         ui_variables.click_sound.play()
                         set_initial_values()
@@ -4039,7 +4043,7 @@ while not done:
                         pvp = True
                         pygame.mixer.music.play(-1)
 
-                if game_status != 'pvp':
+                if training_event == 'hard_game_over':
                     if training_hard_start_button.isOver_2(pos):
                         ui_variables.click_sound.play()
                         set_initial_values()
