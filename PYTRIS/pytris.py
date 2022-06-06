@@ -43,7 +43,7 @@ pygame.init()
 clock = pygame.time.Clock()
 screen = pygame.display.set_mode((board_width, board_height), pygame.RESIZABLE)
 pygame.time.set_timer(pygame.USEREVENT, framerate * 10)
-pygame.display.set_caption("PYTRIS™")
+pygame.display.set_caption("FG_TETRIS")
 
 initialize = True  # Start Screen 에서 set_initial_values()로 초기화할지 여부를 boolean으로 저장
 
@@ -2361,16 +2361,7 @@ while not done:
                 done = True
 
             elif event.type == USEREVENT:
-                # Set speed
-                if not game_over:
-                    keys_pressed = pygame.key.get_pressed()
-                    if keys_pressed[key1['softDrop']]:  # 프레임만큼의 시간으로 소프트드롭 되도록 함
-                        pygame.time.set_timer(pygame.USEREVENT, framerate)
-                    if keys_pressed[key2['softDrop']]:  # 프레임만큼의 시간으로 소프트드롭 되도록 함
-                        pygame.time.set_timer(pygame.USEREVENT, framerate_2P)
-                    else:
-                        # pygame.time.set_timer(pygame.USEREVENT, game_speed)  # 기본 게임속도
-                        pygame.time.set_timer(pygame.USEREVENT, game_speed_2P)
+                pygame.time.set_timer(pygame.USEREVENT, game_speed)  # 기본 게임속도 
 
                 # Draw a mino
                 draw_mino(dx, dy, mino, rotation, matrix)
@@ -2788,6 +2779,23 @@ while not done:
                     draw_mino(dx, dy, mino, rotation, matrix)
                     draw_multiboard(next_mino1, hold_mino, next_mino1_2P,
                                     hold_mino_2P, current_key, current_key_2P)
+
+                # Soft drop (1P)
+                elif event.key == key1['softDrop']:
+                    if not is_bottom(dx, dy, mino, rotation, matrix):
+                        dy = dy + 1
+                    draw_mino(dx, dy, mino, rotation, matrix)
+                    draw_mino(dx_2P, dy_2P, mino_2P, rotation_2P, matrix_2P)
+                    draw_multiboard(next_mino1, hold_mino, next_mino1_2P, hold_mino_2P,
+                                    current_key, current_key_2P)
+                # Soft drop (2P)
+                elif event.key == key2['softDrop']:
+                    if not is_bottom(dx_2P, dy_2P, mino_2P, rotation_2P, matrix_2P):
+                        dy_2P = dy_2P + 1
+                    draw_mino(dx_2P, dy_2P, mino_2P, rotation_2P, matrix_2P)
+                    draw_mino(dx, dy, mino, rotation, matrix)
+                    draw_multiboard(next_mino1, hold_mino, next_mino1_2P, hold_mino_2P,
+                                    current_key, current_key_2P)
 
             elif event.type == VIDEORESIZE:
                 board_width = event.w
