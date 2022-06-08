@@ -346,6 +346,8 @@ menu_button2 = button(board_width, board_height, 0.5,
                       0.43, 0.17, 0.2, menu_button_image)
 help_button = button(board_width, board_height, 0.5,
                      0.63, 0.17, 0.2, help_button_image)
+training_help_button = button(board_width, board_height, 0.68,
+                     0.6, 0.17, 0.2, help_button_image)
 
 pause_quit_button = button(board_width, board_height,
                            0.5, 0.83, 0.17, 0.2, quit_button_image)
@@ -427,6 +429,8 @@ BGM2_sound_on_button = button(
     board_width, board_height, 0.67, 0.63, 0.08, 0.15, backgroundmusic_select_image)
 BGM3_sound_on_button = button(
     board_width, board_height, 0.67, 0.83, 0.08, 0.15, backgroundmusic_select_image)
+
+
 
 
 # 게임 중 버튼 생성하기위한 버튼객체 리스트 (버튼 전체)
@@ -4342,6 +4346,21 @@ while not done:
 
             draw_image(screen, multi_training_start_image, board_width * 0.5, board_height *
                        0.5, board_width, board_height)  # (window, 이미지주소, x좌표, y좌표, 너비, 높이)
+        
+        if help_status == True:
+            # pause_surface = screen.convert_alpha()  # 투명 가능하도록
+            # pause_surface.fill((0, 0, 0, 0))  # 투명한 검정색으로 덮기
+            # pygame.draw.rect(pause_surface, (ui_variables.black_pause), [0, 0, int(
+            #     board_width), int(board_height)])  # (screen, 색깔, 위치 x, y좌표, 너비, 높이)
+
+            draw_image(screen, help_board_image, board_width * 0.5, board_height * 0.5,
+                       int(board_width * 0.8), int(board_height * 0.9))  # (window, 이미지주소, x좌표, y좌표, 너비, 높이)
+            back_button2.draw(screen, (0, 0, 0))
+        
+        # if help_status == False:
+
+        
+        training_help_button.draw(screen, (0,0,0))
 
         pygame.display.update()
 
@@ -4362,6 +4381,16 @@ while not done:
                         ui_variables.click_sound.play()
                         training_status = False
                         multi_training = True
+            
+            elif event.type == pygame.MOUSEMOTION:
+                if training_help_button.isOver_2(pos):
+                    training_help_button.image = clicked_help_button_image
+                else:
+                    training_help_button.image = help_button_image
+            elif event.type == pygame.MOUSEBUTTONDOWN:
+                if training_help_button.isOver_2(pos):
+                    ui_variables.click_sound.play()
+                    help_status = True
 
             elif event.type == VIDEORESIZE:
                 board_width = event.w
