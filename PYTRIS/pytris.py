@@ -442,7 +442,7 @@ button_list = [
     leaderboard_icon, mute_button, default_button, restart_button, back_button, ok_button, effect_plus_button, effect_minus_button,
     sound_plus_button, sound_minus_button, mute_check_button, background1_check_button, background2_check_button, background3_check_button,
     volume_icon, screen_icon, effect_sound_off_button, music_sound_off_button, effect_sound_on_button, music_sound_on_button,
-    BGM1_sound_on_button, BGM2_sound_on_button, BGM3_sound_on_button]
+    BGM1_sound_on_button, BGM2_sound_on_button, BGM3_sound_on_button, multi_restart_button, multi_menu_button]
 
 
 def set_volume():
@@ -3988,7 +3988,7 @@ while not done:
 
                 pygame.time.set_timer(pygame.USEREVENT, 300)  # 0.3초
 
-                if tutorial_event == 'multi_game_over':
+                if training_event == 'multi_game_over':
                     # 이벤트 두개 모두 실행되었는지 확인
                     if training_event_happened['multi_1P_break'] == True and training_event_happened['multi_2P_break'] == True:
                         draw_image(screen, training_completed_image, board_width * 0.5, board_height * 0.5,
@@ -4000,7 +4000,7 @@ while not done:
                     training_restart_button.draw(screen, (0, 0, 0))
                 pygame.display.update()
 
-                if tutorial_event == 'hard_game_over':
+                if training_event == 'hard_game_over':
                     # 이벤트 두개 모두 실행되었는지 확인
                     if training_event_happened['hard_3line'] == True and training_event_happened['hard_10sec'] == True:
                         draw_image(screen, training_completed_image, board_width * 0.5, board_height * 0.5,
