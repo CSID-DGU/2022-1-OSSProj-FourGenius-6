@@ -3873,7 +3873,7 @@ while not done:
                     pygame.time.set_timer(pygame.USEREVENT, 1)
 
             elif event.type == pygame.MOUSEMOTION:
-                if resume_button.isOver_2(pos):
+                if menu_button2.isOver_2(pos):
                     menu_button2.image = clicked_menu_button_image
                 else:
                     menu_button2.image = menu_button_image
@@ -4040,6 +4040,7 @@ while not done:
                         ui_variables.click_sound.play()
                         set_initial_values()
                         multi_training_info = True
+                        training_status = True
                         pygame.mixer.music.play(-1)
                     if training_multi_start_button.isOver_2(pos):
                         ui_variables.click_sound.play()
@@ -4347,7 +4348,22 @@ while not done:
 
             draw_image(screen, multi_training_start_image, board_width * 0.5, board_height *
                        0.5, board_width, board_height)  # (window, 이미지주소, x좌표, y좌표, 너비, 높이)
+
+        if help_status == True:
+            # pause_surface = screen.convert_alpha()  # 투명 가능하도록
+            # pause_surface.fill((0, 0, 0, 0))  # 투명한 검정색으로 덮기
+            # pygame.draw.rect(pause_surface, (ui_variables.black_pause), [0, 0, int(
+            #     board_width), int(board_height)])  # (screen, 색깔, 위치 x, y좌표, 너비, 높이)
+
+            draw_image(screen, help_board_image, board_width * 0.5, board_height * 0.5,
+                       int(board_width * 0.8), int(board_height * 0.9))  # (window, 이미지주소, x좌표, y좌표, 너비, 높이)
+            back_button2.draw(screen, (0, 0, 0))
         
+        # if help_status == False:
+
+        
+        # training_help_button.draw(screen, (0,0,0))
+
 
         pygame.display.update()
 
