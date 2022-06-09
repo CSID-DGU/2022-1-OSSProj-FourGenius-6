@@ -3872,7 +3872,7 @@ while not done:
                     pygame.time.set_timer(pygame.USEREVENT, 1)
 
             elif event.type == pygame.MOUSEMOTION:
-                if resume_button.isOver_2(pos):
+                if menu_button2.isOver_2(pos):
                     menu_button2.image = clicked_menu_button_image
                 else:
                     menu_button2.image = menu_button_image
@@ -4039,6 +4039,7 @@ while not done:
                         ui_variables.click_sound.play()
                         set_initial_values()
                         multi_training_info = True
+                        training_status = True
                         pygame.mixer.music.play(-1)
                     if training_multi_start_button.isOver_2(pos):
                         ui_variables.click_sound.play()
@@ -4360,7 +4361,7 @@ while not done:
         # if help_status == False:
 
         
-        training_help_button.draw(screen, (0,0,0))
+        # training_help_button.draw(screen, (0,0,0))
 
         pygame.display.update()
 
