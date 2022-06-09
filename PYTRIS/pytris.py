@@ -430,7 +430,8 @@ BGM2_sound_on_button = button(
 BGM3_sound_on_button = button(
     board_width, board_height, 0.67, 0.83, 0.08, 0.15, backgroundmusic_select_image)
 
-
+# 선택된 BGM
+selected_bgm = "assets/sounds/BGM1.wav"
 
 
 # 게임 중 버튼 생성하기위한 버튼객체 리스트 (버튼 전체)
@@ -446,7 +447,7 @@ button_list = [
     leaderboard_icon, mute_button, default_button, restart_button, back_button, ok_button, effect_plus_button, effect_minus_button,
     sound_plus_button, sound_minus_button, mute_check_button, background1_check_button, background2_check_button, background3_check_button,
     volume_icon, screen_icon, effect_sound_off_button, music_sound_off_button, effect_sound_on_button, music_sound_on_button,
-    BGM1_sound_on_button, BGM2_sound_on_button, BGM3_sound_on_button, multi_restart_button, multi_menu_button, back_button2, training_help_button]
+    BGM1_sound_on_button, BGM2_sound_on_button, BGM3_sound_on_button, multi_restart_button, multi_menu_button, back_button2, training_restart_button, training_multi_start_button, training_hard_start_button]
 
 
 def set_volume():
@@ -1452,7 +1453,7 @@ def set_initial_values():
         effect_volume / 10)  # 소리 설정 부분도 set_volume 함수에 넣으면 됨
 
     game_status = ''
-    pygame.mixer.music.load("assets/sounds/BGM1.wav")
+    pygame.mixer.music.load(selected_bgm)
 
 
 set_initial_values()
@@ -4347,20 +4348,6 @@ while not done:
             draw_image(screen, multi_training_start_image, board_width * 0.5, board_height *
                        0.5, board_width, board_height)  # (window, 이미지주소, x좌표, y좌표, 너비, 높이)
         
-        if help_status == True:
-            # pause_surface = screen.convert_alpha()  # 투명 가능하도록
-            # pause_surface.fill((0, 0, 0, 0))  # 투명한 검정색으로 덮기
-            # pygame.draw.rect(pause_surface, (ui_variables.black_pause), [0, 0, int(
-            #     board_width), int(board_height)])  # (screen, 색깔, 위치 x, y좌표, 너비, 높이)
-
-            draw_image(screen, help_board_image, board_width * 0.5, board_height * 0.5,
-                       int(board_width * 0.8), int(board_height * 0.9))  # (window, 이미지주소, x좌표, y좌표, 너비, 높이)
-            back_button2.draw(screen, (0, 0, 0))
-        
-        # if help_status == False:
-
-        
-        training_help_button.draw(screen, (0,0,0))
 
         pygame.display.update()
 
@@ -4382,15 +4369,6 @@ while not done:
                         training_status = False
                         multi_training = True
             
-            elif event.type == pygame.MOUSEMOTION:
-                if training_help_button.isOver_2(pos):
-                    training_help_button.image = clicked_help_button_image
-                else:
-                    training_help_button.image = help_button_image
-            elif event.type == pygame.MOUSEBUTTONDOWN:
-                if training_help_button.isOver_2(pos):
-                    ui_variables.click_sound.play()
-                    help_status = True
 
             elif event.type == VIDEORESIZE:
                 board_width = event.w
@@ -4703,7 +4681,8 @@ while not done:
                     BGM1_sound_on_button.image = clicked_backgroundmusic_select_image
                     ui_variables.intro_sound.stop()
                     pygame.mixer.music.stop()
-                    pygame.mixer.music.load("assets/sounds/BGM1.wav")
+                    selected_bgm = "assets/sounds/BGM1.wav"
+                    pygame.mixer.music.load(selected_bgm)
                     pygame.mixer.music.play()
                 if BGM2_sound_on_button.isOver(pos):
                     #ui_variables.intro_sound.("assets/sounds/BGM2.wav")#
@@ -4713,7 +4692,8 @@ while not done:
                     BGM2_sound_on_button.image = clicked_backgroundmusic_select_image
                     ui_variables.intro_sound.stop()
                     pygame.mixer.music.stop()
-                    pygame.mixer.music.load("assets/sounds/BGM2.wav")
+                    selected_bgm = "assets/sounds/BGM2.wav"
+                    pygame.mixer.music.load(selected_bgm)
                     pygame.mixer.music.play()
                 if BGM3_sound_on_button.isOver(pos):
                     #ui_variables.intro_sound.("assets/sounds/BGM2.wav")#
@@ -4723,7 +4703,8 @@ while not done:
                     BGM3_sound_on_button.image = clicked_backgroundmusic_select_image
                     ui_variables.intro_sound.stop()
                     pygame.mixer.music.stop()
-                    pygame.mixer.music.load("assets/sounds/BGM3.wav")
+                    selected_bgm = "assets/sounds/BGM3.wav"
+                    pygame.mixer.music.load(selected_bgm)
                     pygame.mixer.music.play()
 
                 #음소거 추가#
@@ -4917,7 +4898,6 @@ while not done:
                     ui_variables.click_sound.play()
                     previous_time = pygame.time.get_ticks()
                     select_mode = True
-                    # start = True
                     initialize = True
                     # #pygame.mixer.music.play(-1) #play(-1) = 노래 반복재생
                     # #ui_variables.intro_sound.stop()
