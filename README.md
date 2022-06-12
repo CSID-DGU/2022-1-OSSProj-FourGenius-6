@@ -52,6 +52,7 @@ __테트리스 게임 Pytris에 다양한 모드, 이벤트, 스킨(이미지/�
 ## TO RUN THIS GAME
 ```
 sudo apt install python3-pip
+pip3 install pygame
 cd 2022-1-OSSProj-FourGenius-6/FG_TETRIS
 python FG_TETRIS.py
 ```
