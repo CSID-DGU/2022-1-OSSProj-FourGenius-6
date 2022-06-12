@@ -4363,8 +4363,7 @@ while not done:
 
         
         # training_help_button.draw(screen, (0,0,0))
-
-
+        
         pygame.display.update()
 
         for event in pygame.event.get():
